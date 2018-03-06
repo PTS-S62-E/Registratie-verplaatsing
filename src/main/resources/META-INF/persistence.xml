@@ -1,7 +1,6 @@
 <!--TODO: ADD NAMES AND CORRECT DRIVERS-->
 <persistence>
-    <persistence-unit name="kwetterDB" transaction-type="JTA">
-        <jta-data-source>java:/KwetterDB</jta-data-source>
+    <persistence-unit name="kwetterDB">
         <properties>
             <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="hbm2ddl.auto" value="update"/>

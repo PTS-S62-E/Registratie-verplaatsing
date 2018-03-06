@@ -4,5 +4,6 @@ import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
 @ApplicationPath("api")
-public class RegistratieVerplaatsingApplication extends Application {
+public class
+RegistratieVerplaatsingApplication extends Application {
 }
