@@ -11,7 +11,7 @@ public class MyResource {
 	@Path("/helloWorld")
 	public Response helloWorld(){
 		try{
-			return Response.ok("Hello Jules' scheet!").build();
+			return Response.ok("Hello Jenkins!").build();
 		}
 		catch(Exception e){
 			return Response.serverError().build();
