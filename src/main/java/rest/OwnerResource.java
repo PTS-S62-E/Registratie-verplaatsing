@@ -19,8 +19,8 @@ public class OwnerResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response create(Owner owner){
 		try{
-			return Response.ok(
-					ownerService.createOwner(owner);
+			ownerService.createOwner(owner);
+			return Response.ok().build();
 		}
 		catch(Exception e){
 			return Response.serverError().build();

@@ -15,12 +15,12 @@ public class TranslocationServiceImpl implements TranslocationService{
 
 	@Override
 	public List<Translocation> getTranslocationsByVehicleId(long id) {
-		translocationDao.getTranslocationsByVehicleId(id);
+		return translocationDao.getTranslocationsByVehicleId(id);
 	}
 
 	@Override
 	public Translocation getTranslocation(long id) {
-		translocationDao.getTranslocation(id);
+		return translocationDao.getTranslocation(id);
 	}
 
 	@Override

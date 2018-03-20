@@ -14,7 +14,7 @@ public class OwnerServiceImpl implements OwnerService {
 
 	@Override
 	public Owner getOwner(long id) {
-		ownerDao.getOwner(id);
+		return ownerDao.getOwner(id);
 	}
 
 	@Override

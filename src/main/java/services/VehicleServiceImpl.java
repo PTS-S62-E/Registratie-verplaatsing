@@ -14,7 +14,7 @@ public class VehicleServiceImpl implements VehicleService {
 
 	@Override
 	public Vehicle getVehicle(long id) {
-		vehicleDao.getVehicle(id);
+		return vehicleDao.getVehicle(id);
 	}
 
 	@Override

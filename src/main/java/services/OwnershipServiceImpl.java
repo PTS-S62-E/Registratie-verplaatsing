@@ -14,11 +14,11 @@ public class OwnershipServiceImpl implements OwnershipService {
 
 	@Override
 	public Ownership getOwnershipByVehicleId(long id) {
-		ownershipDao.getOwnershipByVehicleId(id);
+		return ownershipDao.getOwnershipByVehicleId(id);
 	}
 
 	@Override
 	public Ownership getOwnershipByOwnerId(long id) {
-		ownershipDao.getOwnershipByOwnerId(id);
+		return ownershipDao.getOwnershipByOwnerId(id);
 	}
 }

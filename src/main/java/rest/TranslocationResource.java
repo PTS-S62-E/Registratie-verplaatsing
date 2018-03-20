@@ -19,8 +19,8 @@ public class TranslocationResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response create(Translocation translocation){
 		try{
-			return Response.ok(
-					translocationService.createTranslocation(translocation);
+			translocationService.createTranslocation(translocation);
+			return Response.ok().build();
 		}
 		catch(Exception e){
 			return Response.serverError().build();

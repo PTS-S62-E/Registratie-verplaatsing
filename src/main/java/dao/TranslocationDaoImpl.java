@@ -23,7 +23,7 @@ public class TranslocationDaoImpl implements TranslocationDao {
 
 	@Override
 	public Translocation getTranslocation(long id) {
-		em.find(Translocation.class, id);
+		return em.find(Translocation.class, id);
 	}
 
 	@Override
