@@ -1,12 +1,16 @@
 package rest;
 
+import dto.TranslocationDto;
 import entities.Translocation;
 import services.TranslocationService;
+import util.LocalDateTimeParser;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Path("/translocation")
 public class TranslocationResource {
@@ -14,12 +18,25 @@ public class TranslocationResource {
 	@Inject
 	TranslocationService translocationService;
 
+	@GET
+	@Path("/test")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response test(){
+		try{
+			return Response.ok(
+					"hello translocation").build();
+		}
+		catch(Exception e){
+			return Response.serverError().build();
+		}
+	}
+
 	@POST
 	@Path("/create")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response create(Translocation translocation){
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response create(TranslocationDto translocationDto){
 		try{
-			translocationService.createTranslocation(translocation);
+			translocationService.createTranslocation(translocationDto);
 			return Response.ok().build();
 		}
 		catch(Exception e){
@@ -41,6 +58,24 @@ public class TranslocationResource {
 	}
 
 	@GET
+	@Path("/get/{licenseplate}/{startdate}/{enddate}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getByLicensePlateAndTimePeriod(@PathParam("licenseplate") String licensePlate,
+												   @PathParam("startdate") String startDate,
+												   @PathParam("enddate") String endDate){
+		try{
+			return Response.ok(
+					translocationService.getTranslocations(
+							licensePlate,
+							LocalDateTimeParser.stringToLocalDateTime(startDate),
+							LocalDateTimeParser.stringToLocalDateTime(endDate))).build();
+		}
+		catch(Exception e){
+			return Response.serverError().build();
+		}
+	}
+
+	@GET
 	@Path("/get/byVehicleId/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getByVehicleId(@PathParam("id") long id){
@@ -55,7 +90,7 @@ public class TranslocationResource {
 
 	@PUT
 	@Path("/update")
-	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
 	public Response update(Translocation translocation){
 		try{
 			translocationService.updateTranslocation(translocation);

@@ -1,12 +1,14 @@
 package entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
+@NamedQueries({
+		@NamedQuery(name = "Owner.getOwners",
+				query = "SELECT o FROM Owner o WHERE id IN :ids"),
+})
 public class Owner implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -15,11 +17,21 @@ public class Owner implements Serializable{
 	private String password;
 	private String address;
 	private String city;
+	@OneToMany(mappedBy = "owner")
+	private List<Ownership> ownership;
 
 	public Owner(){}
 
 	public long getId() {
 		return id;
+	}
+
+	public List<Ownership> getOwnership() {
+		return ownership;
+	}
+
+	public void setOwnership(List<Ownership> ownership) {
+		this.ownership = ownership;
 	}
 
 	public void setId(long id) {

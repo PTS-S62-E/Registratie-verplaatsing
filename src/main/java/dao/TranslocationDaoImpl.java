@@ -6,6 +6,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Stateless
@@ -19,6 +20,15 @@ public class TranslocationDaoImpl implements TranslocationDao {
 		TypedQuery<Translocation> query =
 				em.createNamedQuery("Translocation.getTranslocationsByVehicleId", Translocation.class);
 		return query.setParameter("vehicleId", id).getResultList();
+	}
+
+	@Override
+	public List<Translocation> getTranslocations(String licensePlate, LocalDateTime startTime, LocalDateTime endTime) {
+		TypedQuery<Translocation> query =
+				em.createNamedQuery("Translocation.getTranslocationsByLicensePlateAndTimePeriod", Translocation.class);
+		return query.setParameter("licensePlate", licensePlate)
+				.setParameter("startDate", startTime)
+				.setParameter("endDate", endTime).getResultList();
 	}
 
 	@Override

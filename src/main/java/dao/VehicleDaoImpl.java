@@ -18,12 +18,16 @@ public class VehicleDaoImpl implements VehicleDao {
 	}
 
 	@Override
+	public Vehicle getVehicle(String licensePlate) {
+		return null;
+	}
+
+	@Override
 	public void createVehicle(Vehicle vehicle) {
 		em.persist(vehicle);
 	}
 
 	@Override
-	public void updateVehicle(Vehicle vehicle) {
-		em.merge(vehicle);
+	public void updateVehicle(Vehicle vehicle){
 	}
 }

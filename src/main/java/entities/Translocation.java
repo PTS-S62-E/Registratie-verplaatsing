@@ -1,13 +1,20 @@
 package entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @NamedQueries({
 		@NamedQuery(name="Translocation.getTranslocationsByVehicleId",
 				query="SELECT t FROM Translocation t WHERE vehicle_id = :vehicleId"),
+		@NamedQuery(name="Translocation.getTranslocationsByLicensePlateAndTimePeriod",
+				query="SELECT t FROM Translocation t WHERE vehicle_id IS " +
+						"(SELECT id FROM Vehicle v WHERE licensePlate = :licensePlate)" +
+						"AND timestamp BETWEEN :startDate AND :endDate"),
 })
 public class Translocation implements Serializable {
 
@@ -16,11 +23,27 @@ public class Translocation implements Serializable {
 	private long id;
 	@ManyToOne
 	@JoinColumn(name = "vehicle_id")
+	@JsonManagedReference
 	private Vehicle vehicle;
 	private double latitude;
-	private double longtitude;
-	@Temporal(TemporalType.TIMESTAMP)
-	private Timestamp timestamp;
+
+	public Translocation(Vehicle vehicle, double latitude, double longitude, LocalDateTime timestamp) {
+		this.vehicle = vehicle;
+		this.latitude = latitude;
+		this.longitude = longitude;
+		this.timestamp = timestamp;
+	}
+
+	public double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
+	}
+
+	private double longitude;
+	private LocalDateTime timestamp;
 
 	public Translocation() {}
 
@@ -49,18 +72,18 @@ public class Translocation implements Serializable {
 	}
 
 	public double getLongtitude() {
-		return longtitude;
+		return longitude;
 	}
 
 	public void setLongtitude(double longtitude) {
-		this.longtitude = longtitude;
+		this.longitude = longtitude;
 	}
 
-	public Timestamp getTimestamp() {
+	public LocalDateTime getTimestamp() {
 		return timestamp;
 	}
 
-	public void setTimestamp(Timestamp timestamp) {
+	public void setTimestamp(LocalDateTime localDateTime) {
 		this.timestamp = timestamp;
 	}
 }

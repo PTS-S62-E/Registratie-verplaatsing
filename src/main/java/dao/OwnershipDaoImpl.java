@@ -1,13 +1,11 @@
 package dao;
 
 import entities.Ownership;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
-import java.util.List;
 
 @Stateless
 public class OwnershipDaoImpl implements OwnershipDao {
@@ -16,13 +14,18 @@ public class OwnershipDaoImpl implements OwnershipDao {
 	EntityManager em;
 
 	@Override
+	public void createOwnership(Ownership ownership) {
+		em.persist(ownership);
+	}
+
+	@Override
 	public Ownership getOwnershipByVehicleId(long vehicleId) {
 		/**
 		TypedQuery<Ownership> query =
 				em.createNamedQuery("Ownership.getOwnershipByVehicleId", Ownership.class);
 		return query.setParameter("vehicleId", vehicleId).getResultList();
 		 **/
-		return null;
+		throw new NotImplementedException();
 	}
 
 	@Override
@@ -32,6 +35,6 @@ public class OwnershipDaoImpl implements OwnershipDao {
 				em.createNamedQuery("Ownership.getOwnershipByOwnerId", Ownership.class);
 		return query.setParameter("ownerId", ownerId).getResultList();
 		 **/
-		return null;
+		throw new NotImplementedException();
 	}
 }

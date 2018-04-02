@@ -1,6 +1,7 @@
 package services;
 
 import dao.OwnerDao;
+import dao.VehicleDao;
 import entities.Owner;
 
 import javax.ejb.Stateless;

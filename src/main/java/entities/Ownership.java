@@ -1,47 +1,79 @@
 package entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import dao.OwnerDao;
+import dao.VehicleDao;
+import dto.OwnershipDto;
+
+import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
-@NamedQueries({
-		@NamedQuery(name="Ownership.getOwnershipByVehicleId",
-				query="SELECT o FROM Ownership o WHERE o.id.vehicleId = :vehicleId"),
-		@NamedQuery(name="Ownership.getOwnershipByOwnerId",
-				query="SELECT o FROM Ownership o WHERE o.id.ownerId = :ownerId"),
-})
 public class Ownership implements Serializable {
-	@EmbeddedId
-	private OwnershipId id;
-	@Temporal(TemporalType.TIMESTAMP)
-	private Timestamp from;
-	@Temporal(TemporalType.TIMESTAMP)
-	private Timestamp to;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private long id;
+	@ManyToOne
+	@JoinColumn(name = "owner_id")
+	@JsonManagedReference
+	private Owner owner;
+	@ManyToOne
+	@JoinColumn(name = "vehicle_id")
+	@JsonManagedReference
+	private Vehicle vehicle;
+	private LocalDateTime fromDate;
+	private LocalDateTime toDate;
 
 	public Ownership(){}
 
-	public OwnershipId getId() {
+	public Ownership(Owner owner, Vehicle vehicle, LocalDateTime fromDate, LocalDateTime toDate) {
+		this.owner = owner;
+		this.vehicle = vehicle;
+		this.fromDate = fromDate;
+		this.toDate = toDate;
+	}
+
+	public long getId() {
 		return id;
 	}
 
-	public void setId(OwnershipId id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
-	public Timestamp getFrom() {
-		return from;
+	public Owner getOwner() {
+		return owner;
 	}
 
-	public void setFrom(Timestamp from) {
-		this.from = from;
+	public void setOwner(Owner owner) {
+		this.owner = owner;
 	}
 
-	public Timestamp getTo() {
-		return to;
+	public Vehicle getVehicle() {
+		return vehicle;
 	}
 
-	public void setTo(Timestamp to) {
-		this.to = to;
+	public void setVehicle(Vehicle vehicle) {
+		this.vehicle = vehicle;
+	}
+
+	public LocalDateTime getFromDate() {
+		return fromDate;
+	}
+
+	public void setFrom(LocalDateTime fromDate) {
+		this.fromDate = fromDate;
+	}
+
+	public LocalDateTime getToDate() {
+		return toDate;
+	}
+
+	public void setToDate (LocalDateTime toDate) {
+		this.toDate = toDate;
 	}
 }
