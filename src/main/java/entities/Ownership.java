@@ -19,11 +19,9 @@ public class Ownership implements Serializable {
 	private long id;
 	@ManyToOne
 	@JoinColumn(name = "owner_id")
-	@JsonManagedReference
 	private Owner owner;
 	@ManyToOne
 	@JoinColumn(name = "vehicle_id")
-	@JsonManagedReference
 	private Vehicle vehicle;
 	private LocalDateTime fromDate;
 	private LocalDateTime toDate;

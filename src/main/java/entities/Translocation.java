@@ -1,5 +1,6 @@
 package entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.json.bind.annotation.JsonbTransient;
@@ -23,7 +24,7 @@ public class Translocation implements Serializable {
 	private long id;
 	@ManyToOne
 	@JoinColumn(name = "vehicle_id")
-	@JsonManagedReference
+	@JsonBackReference
 	private Vehicle vehicle;
 	private double latitude;
 

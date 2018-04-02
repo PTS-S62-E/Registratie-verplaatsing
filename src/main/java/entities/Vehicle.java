@@ -1,6 +1,7 @@
 package entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import dao.OwnerDao;
 import dao.OwnershipDao;
 
@@ -25,7 +26,7 @@ public class Vehicle implements Serializable {
 	private List<Ownership> owners;
 
 	@OneToMany(mappedBy = "vehicle")
-	@JsonBackReference
+	@JsonManagedReference
 	private List<Translocation> translocations;
 	private String hardwareSN;
 
