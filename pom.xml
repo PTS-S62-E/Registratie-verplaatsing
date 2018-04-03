@@ -33,9 +33,9 @@
     <!-- Used Dependencies -->
     <dependencies>
         <dependency>
-            <groupId>com.pts6</groupId>
-            <artifactId>common</artifactId>
-            <version>2.0.0</version>
+            <groupId>com.github.PTS-S62-E</groupId>
+            <artifactId>Osake</artifactId>
+            <version>3.1.0</version>
         </dependency>
         <!--Junit-->
         <dependency>
@@ -195,6 +195,14 @@
             <id>snapshots</id>
             <name>libs-snapshot</name>
             <url>http://85.144.215.28:8082/artifactory/libs-snapshot</url>
+        </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+        <repository>
+            <id>maven-central</id>
+            <url>http://central.maven.org/maven2/</url>
         </repository>
     </repositories>
     <pluginRepositories>
