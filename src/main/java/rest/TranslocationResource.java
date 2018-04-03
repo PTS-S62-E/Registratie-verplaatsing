@@ -50,7 +50,7 @@ public class TranslocationResource {
 		try{
 			return Response.ok(
 					translocationService.getTranslocations(
-							licensePlate,
+							Long.parseLong(licensePlate),
 							LocalDateTimeParser.stringToLocalDateTime(startDate),
 							LocalDateTimeParser.stringToLocalDateTime(endDate))).build();
 		}

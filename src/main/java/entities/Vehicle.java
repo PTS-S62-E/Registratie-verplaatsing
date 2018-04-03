@@ -1,8 +1,6 @@
 package entities;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.pts62.common.europe.IVehicle;
-import com.pts62.common.europe.facades.IVehicleFacade;
 
 import javax.persistence.*;
 import java.io.Serializable;

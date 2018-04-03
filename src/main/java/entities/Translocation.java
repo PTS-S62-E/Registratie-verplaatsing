@@ -1,7 +1,6 @@
 package entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.pts62.common.europe.ITransLocation;
 
 import javax.persistence.*;
 import java.io.Serializable;
