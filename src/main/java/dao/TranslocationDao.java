@@ -1,14 +1,29 @@
 package dao;
 
 import entities.Translocation;
-
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
+
 	public interface TranslocationDao {
-	List<Translocation> getTranslocations(String licensePlate, LocalDateTime startDate, LocalDateTime endDate);
-	List<Translocation> getTranslocationsByVehicleId(long id);
+		/**
+		 * Get translocations by vehicleId, starting time, and end time.
+		 * @param vehicleId
+		 * @param startDate
+		 * @param endDate
+		 * @return list of translocations
+		 */
+	List<Translocation> getTranslocations(long vehicleId, LocalDateTime startDate, LocalDateTime endDate);
+
+		/**
+		 * get translocation by id
+		 * @param id
+		 * @return translocation
+		 */
 	Translocation getTranslocation(long id);
+
+		/**
+		 * create a new translocation
+		 * @param translocation
+		 */
 	void createTranslocation(Translocation translocation);
-	void updateTranslocation(Translocation translocation);
 }

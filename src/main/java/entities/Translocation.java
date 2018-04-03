@@ -7,12 +7,8 @@ import java.time.LocalDateTime;
 
 @Entity
 @NamedQueries({
-		@NamedQuery(name="Translocation.getTranslocationsByVehicleId",
-				query="SELECT t FROM Translocation t WHERE vehicle_id = :vehicleId"),
-		@NamedQuery(name="Translocation.getTranslocationsByLicensePlateAndTimePeriod",
-				query="SELECT t FROM Translocation t WHERE vehicle_id IS " +
-						"(SELECT id FROM Vehicle v WHERE licensePlate = :licensePlate)" +
-						"AND timestamp BETWEEN :startDate AND :endDate"),
+		@NamedQuery(name="Translocation.getTranslocationsByVehicleIdAndTimePeriod",
+				query="SELECT t FROM Translocation t WHERE vehicle_id = :vehicleId AND timestamp BETWEEN :startDate AND :endDate"),
 })
 public class Translocation implements Serializable {
 
@@ -24,6 +20,9 @@ public class Translocation implements Serializable {
 	@JsonBackReference
 	private Vehicle vehicle;
 	private double latitude;
+	private double longitude;
+	private LocalDateTime timestamp;
+	private String countryCode;
 
 	public Translocation(Vehicle vehicle, double latitude, double longitude, LocalDateTime timestamp) {
 		this.vehicle = vehicle;
@@ -39,9 +38,6 @@ public class Translocation implements Serializable {
 	public void setLongitude(double longitude) {
 		this.longitude = longitude;
 	}
-
-	private double longitude;
-	private LocalDateTime timestamp;
 
 	public Translocation() {}
 
@@ -83,5 +79,13 @@ public class Translocation implements Serializable {
 
 	public void setTimestamp(LocalDateTime localDateTime) {
 		this.timestamp = timestamp;
+	}
+
+	public String getCountryCode() {
+		return countryCode;
+	}
+
+	public void setCountryCode(String countryCode) {
+		this.countryCode = countryCode;
 	}
 }
