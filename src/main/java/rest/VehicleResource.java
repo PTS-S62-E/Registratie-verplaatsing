@@ -2,29 +2,16 @@ package rest;
 
 import entities.Vehicle;
 import services.VehicleService;
-
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
 @Path("/vehicle")
 public class VehicleResource {
 
 	@Inject
 	VehicleService vehicleService;
-
-	@GET
-	@Path("/test")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response test(){
-		try{
-			return Response.ok(
-					"hello vehicle").build();
-		}
-		catch(Exception e){
-			return Response.serverError().build();
-		}
-	}
 
 	@POST
 	@Path("/create")

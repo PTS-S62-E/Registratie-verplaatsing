@@ -1,7 +1,6 @@
 package dao;
 
 import entities.Vehicle;
-
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,11 +14,6 @@ public class VehicleDaoImpl implements VehicleDao {
 	@Override
 	public Vehicle getVehicle(long id) {
 		return em.find(Vehicle.class, id);
-	}
-
-	@Override
-	public Vehicle getVehicle(String licensePlate) {
-		return null;
 	}
 
 	@Override

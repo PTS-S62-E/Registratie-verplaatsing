@@ -21,13 +21,8 @@ public class TranslocationServiceImpl implements TranslocationService{
 	VehicleDao vehicleDao;
 
 	@Override
-	public List<Translocation> getTranslocationsByVehicleId(long id) {
-		return translocationDao.getTranslocationsByVehicleId(id);
-	}
-
-	@Override
-	public List<Translocation> getTranslocations(String licensePlate, LocalDateTime startDate, LocalDateTime endDate) {
-		return translocationDao.getTranslocations(licensePlate, startDate, endDate);
+	public List<Translocation> getTranslocations(long vehicleId, LocalDateTime startDate, LocalDateTime endDate) {
+		return translocationDao.getTranslocations(vehicleId, startDate, endDate);
 	}
 
 	@Override
@@ -44,10 +39,5 @@ public class TranslocationServiceImpl implements TranslocationService{
 				LocalDateTimeParser.stringToLocalDateTime(translocationDto.getTimestamp())
 		);
 		translocationDao.createTranslocation(translocation);
-	}
-
-	@Override
-	public void updateTranslocation(Translocation translocation) {
-		translocationDao.updateTranslocation(translocation);
 	}
 }

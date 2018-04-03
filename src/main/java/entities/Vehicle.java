@@ -1,10 +1,14 @@
 package entities;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.pts62.common.europe.IVehicle;
+import com.pts62.common.europe.facades.IVehicleFacade;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
+//ToDo:
 @Entity
 public class Vehicle implements Serializable {
 	@Id
@@ -18,12 +22,9 @@ public class Vehicle implements Serializable {
 	private String category;
 
 	@OneToMany(mappedBy = "vehicle")
-	private List<Ownership> owners;
-
-	@OneToMany(mappedBy = "vehicle")
 	@JsonManagedReference
 	private List<Translocation> translocations;
-	private String hardwareSN;
+	private String hardwareSn;
 
 	public Vehicle(){}
 
@@ -67,14 +68,6 @@ public class Vehicle implements Serializable {
 		this.category = categorie;
 	}
 
-	public List<Ownership> getOwners() {
-		return owners;
-	}
-
-	public void setOwners(List<Ownership> owners) {
-		this.owners = owners;
-	}
-
 	public List<Translocation> getTranslocations() {
 		return translocations;
 	}
@@ -84,10 +77,10 @@ public class Vehicle implements Serializable {
 	}
 
 	public String getHardwareSN() {
-		return hardwareSN;
+		return hardwareSn;
 	}
 
 	public void setHardwareSN(String hardwareSN) {
-		this.hardwareSN = hardwareSN;
+		this.hardwareSn = hardwareSN;
 	}
 }
