@@ -5,11 +5,10 @@ import dao.OwnershipDao;
 import dao.VehicleDao;
 import dto.OwnershipDto;
 import entities.Ownership;
+import util.LocalDateTimeParser;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Stateless
 public class OwnershipServiceImpl implements OwnershipService {
@@ -28,8 +27,8 @@ public class OwnershipServiceImpl implements OwnershipService {
 		Ownership ownership = new Ownership(
 				ownerDao.getOwner(ownershipDto.getOwnerId()),
 				vehicleDao.getVehicle(ownershipDto.getVehicleId()),
-				stringToLocalDateTime(ownershipDto.getFromDate()),
-				stringToLocalDateTime(ownershipDto.getToDate()));
+				LocalDateTimeParser.stringToLocalDateTime(ownershipDto.getFromDate()),
+				LocalDateTimeParser.stringToLocalDateTime(ownershipDto.getToDate()));
 
 		ownershipDao.createOwnership(ownership);
 	}
@@ -42,11 +41,5 @@ public class OwnershipServiceImpl implements OwnershipService {
 	@Override
 	public Ownership getOwnershipByOwnerId(long id) {
 		return ownershipDao.getOwnershipByOwnerId(id);
-	}
-
-	//TODO: make date agreements
-	private LocalDateTime stringToLocalDateTime(String date){
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-		return LocalDateTime.parse(date, formatter);
 	}
 }

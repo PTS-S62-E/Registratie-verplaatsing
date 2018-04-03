@@ -29,5 +29,6 @@ public class VehicleDaoImpl implements VehicleDao {
 
 	@Override
 	public void updateVehicle(Vehicle vehicle){
+		em.merge(vehicle);
 	}
 }

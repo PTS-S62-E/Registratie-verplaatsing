@@ -1,11 +1,6 @@
 package entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import dao.OwnerDao;
-import dao.OwnershipDao;
-
-import javax.inject.Inject;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;

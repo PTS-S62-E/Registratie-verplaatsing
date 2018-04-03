@@ -1,16 +1,8 @@
 package entities;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import dao.OwnerDao;
-import dao.VehicleDao;
-import dto.OwnershipDto;
-
-import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Entity
 public class Ownership implements Serializable {
