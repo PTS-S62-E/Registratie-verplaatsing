@@ -1,7 +1,7 @@
 package entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.pts62.common.europe.ITransLocation;
+import com.rekeningrijden.europe.interfaces.ITransLocation;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -24,6 +24,7 @@ public class Translocation implements Serializable {
 	private double latitude;
 	private double longitude;
 	private LocalDateTime timestamp;
+	private String countryCode;
 
 	public Translocation(Vehicle vehicle, double latitude, double longitude, LocalDateTime timestamp) {
 		this.vehicle = vehicle;
@@ -80,5 +81,13 @@ public class Translocation implements Serializable {
 
 	public void setTimestamp(LocalDateTime localDateTime) {
 		this.timestamp = timestamp;
+	}
+
+	public String getCountryCode() {
+		return countryCode;
+	}
+
+	public void setCountryCode(String countryCode) {
+		this.countryCode = countryCode;
 	}
 }

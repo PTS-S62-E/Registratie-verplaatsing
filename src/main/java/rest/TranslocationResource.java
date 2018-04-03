@@ -3,7 +3,6 @@ package rest;
 import dto.TranslocationDto;
 import services.TranslocationService;
 import util.LocalDateTimeParser;
-
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -42,15 +41,15 @@ public class TranslocationResource {
 	}
 
 	@GET
-	@Path("/get/{licenseplate}/{startdate}/{enddate}")
+	@Path("/get/{id}/{startdate}/{enddate}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getByLicensePlateAndTimePeriod(@PathParam("licenseplate") String licensePlate,
+	public Response getByLicensePlateAndTimePeriod(@PathParam("id") long id,
 												   @PathParam("startdate") String startDate,
 												   @PathParam("enddate") String endDate){
 		try{
 			return Response.ok(
 					translocationService.getTranslocations(
-							licensePlate,
+							id,
 							LocalDateTimeParser.stringToLocalDateTime(startDate),
 							LocalDateTimeParser.stringToLocalDateTime(endDate))).build();
 		}

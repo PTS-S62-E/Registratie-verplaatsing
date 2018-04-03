@@ -1,9 +1,6 @@
 package entities;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.pts62.common.europe.IVehicle;
-import com.pts62.common.europe.facades.IVehicleFacade;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -20,6 +17,7 @@ public class Vehicle implements Serializable {
 	private String brand;
 	private String type;
 	private String category;
+	private String serialNumber;
 
 	@OneToMany(mappedBy = "vehicle")
 	@JsonManagedReference
