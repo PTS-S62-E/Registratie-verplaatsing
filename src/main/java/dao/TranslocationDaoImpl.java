@@ -1,7 +1,6 @@
 package dao;
 
 import entities.Translocation;
-
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -16,17 +15,10 @@ public class TranslocationDaoImpl implements TranslocationDao {
 	EntityManager em;
 
 	@Override
-	public List<Translocation> getTranslocationsByVehicleId(long id) {
-		TypedQuery<Translocation> query =
-				em.createNamedQuery("Translocation.getTranslocationsByVehicleId", Translocation.class);
-		return query.setParameter("vehicleId", id).getResultList();
-	}
-
-	@Override
-	public List<Translocation> getTranslocations(String licensePlate, LocalDateTime startTime, LocalDateTime endTime) {
+	public List<Translocation> getTranslocations(long vehicleId, LocalDateTime startTime, LocalDateTime endTime) {
 		TypedQuery<Translocation> query =
 				em.createNamedQuery("Translocation.getTranslocationsByLicensePlateAndTimePeriod", Translocation.class);
-		return query.setParameter("licensePlate", licensePlate)
+		return query.setParameter("vehicleId", vehicleId)
 				.setParameter("startDate", startTime)
 				.setParameter("endDate", endTime).getResultList();
 	}
@@ -39,10 +31,5 @@ public class TranslocationDaoImpl implements TranslocationDao {
 	@Override
 	public void createTranslocation(Translocation translocation) {
 		em.persist(translocation);
-	}
-
-	@Override
-	public void updateTranslocation(Translocation translocation) {
-		em.merge(translocation);
 	}
 }
