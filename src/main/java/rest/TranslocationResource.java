@@ -49,11 +49,7 @@ public class TranslocationResource {
 		try{
 			return Response.ok(
 					translocationService.getTranslocations(
-<<<<<<< HEAD
 							id,
-=======
-							Long.parseLong(licensePlate),
->>>>>>> 4704b088eb57a251e21852415d4317e5ae437869
 							LocalDateTimeParser.stringToLocalDateTime(startDate),
 							LocalDateTimeParser.stringToLocalDateTime(endDate))).build();
 		}

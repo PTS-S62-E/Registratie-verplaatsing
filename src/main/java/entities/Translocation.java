@@ -1,11 +1,6 @@
 package entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-<<<<<<< HEAD
-import com.rekeningrijden.europe.interfaces.ITransLocation;
-=======
->>>>>>> 4704b088eb57a251e21852415d4317e5ae437869
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
