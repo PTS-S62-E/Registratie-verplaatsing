@@ -28,7 +28,6 @@ public class TranslocationServiceImpl implements TranslocationService{
 	//to consider the next translocation the start of a new journey.
 	private final int minuteThreshold = 20;
 
-	@Override
 	public List<Translocation> getTranslocations(long vehicleId, LocalDateTime startDate, LocalDateTime endDate) {
 		return translocationDao.getTranslocations(vehicleId, startDate, endDate);
 	}
@@ -63,10 +62,14 @@ public class TranslocationServiceImpl implements TranslocationService{
 	 */
 	private AdministrationDto divideTranslocationsIntoJourneys(List<Translocation> translocations){
 
+		List<Journey> journeys = new ArrayList<>();
+
+		if (translocations == null || translocations.size() == 0) {
+			return new AdministrationDto(journeys);
+		}
+
 		//Set first journey as previous journey.
 		Translocation previousTranslocation = translocations.get(0);
-
-		List<Journey> journeys = new ArrayList<>();
 
 		//Initialize the first journey
 		int currentJourney = 0;

@@ -53,7 +53,7 @@ public class TranslocationServiceTest {
 	}
 
 	@Test
-	public void testdivideTranslocationsIntoJourneys(){
+	public void testGetAdministratorDto(){
 
 		for(Translocation t : translocationsToDivide){
 			System.out.println(t.getTimestamp());
