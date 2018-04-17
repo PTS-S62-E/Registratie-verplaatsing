@@ -32,6 +32,21 @@
 
     <!-- Used Dependencies -->
     <dependencies>
+
+        <!-- https://mvnrepository.com/artifact/org.jongo/jongo -->
+        <dependency>
+            <groupId>org.jongo</groupId>
+            <artifactId>jongo</artifactId>
+            <version>1.4.0</version>
+        </dependency>
+
+        <!--MongoDb-->
+            <dependency>
+                <groupId>org.mongodb</groupId>
+                <artifactId>mongo-java-driver</artifactId>
+                <version>3.6.3</version>
+            </dependency>
+
         <dependency>
             <groupId>com.github.PTS-S62-E</groupId>
             <artifactId>Osake</artifactId>
@@ -144,6 +159,11 @@
                                 <exclude>**/integrationtests/*</exclude>
                             </excludes>
                         </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.wildfly.plugins</groupId>
+                        <artifactId>wildfly-maven-plugin</artifactId>
+                        <version>1.2.1.Final</version>
                     </plugin>
                 </plugins>
             </build>

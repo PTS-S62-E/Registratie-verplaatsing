@@ -18,8 +18,6 @@ public class Vehicle implements Serializable {
 	private String brand;
 	private String type;
 	private String category;
-	private String serialNumber;
-
 	@OneToMany(mappedBy = "vehicle")
 	@JsonManagedReference
 	private List<Translocation> translocations;

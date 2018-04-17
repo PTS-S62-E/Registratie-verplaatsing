@@ -36,8 +36,13 @@ public class TranslocationServiceImpl implements TranslocationService{
 				vehicleDao.getVehicle(translocationDto.getVehicleId()),
 				translocationDto.getLatitude(),
 				translocationDto.getLongitude(),
-				LocalDateTimeParser.stringToLocalDateTime(translocationDto.getTimestamp())
-		);
+				LocalDateTimeParser.stringToLocalDateTime(translocationDto.getTimestamp()),
+				translocationDto.getCountryCode());
+
 		translocationDao.createTranslocation(translocation);
+	}
+
+	private void divideTranslocationsIntoJourneys(){
+
 	}
 }
