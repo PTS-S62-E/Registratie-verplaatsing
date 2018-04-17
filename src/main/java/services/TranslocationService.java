@@ -1,5 +1,6 @@
 package services;
 
+import dto.AdministrationDto;
 import dto.TranslocationDto;
 import entities.Translocation;
 
@@ -28,4 +29,13 @@ public interface TranslocationService {
 	 * @param translocationDto
 	 */
 	void createTranslocation(TranslocationDto translocationDto);
+
+	/**
+	 * Get AdministratorDTO object
+	 * @param vehicleId
+	 * @param startDate
+	 * @param endDate
+	 * @return a DTO object that contains Journeys, that contain Translocations.
+	 */
+	public AdministrationDto getAdministrationDto(long vehicleId, LocalDateTime startDate, LocalDateTime endDate);
 }
