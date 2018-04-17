@@ -41,4 +41,8 @@ public class TranslocationServiceImpl implements TranslocationService{
 
 		translocationDao.createTranslocation(translocation);
 	}
+
+	private void divideTranslocationsIntoJourneys(){
+
+	}
 }
