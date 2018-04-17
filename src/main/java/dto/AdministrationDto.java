@@ -7,7 +7,9 @@ import java.util.List;
 public class AdministrationDto {
 	List<Journey> journeys;
 
-	public AdministrationDto(){}
+	public AdministrationDto(List<Journey> journeys){
+		this.journeys = journeys;
+	}
 
 	public List<Journey> getJourneys() {
 		return journeys;

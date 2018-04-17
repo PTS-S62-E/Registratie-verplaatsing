@@ -1,6 +1,7 @@
 package rest;
 
 import dto.TranslocationDto;
+import io.sentry.Sentry;
 import services.TranslocationService;
 import util.LocalDateTimeParser;
 import javax.inject.Inject;
@@ -48,12 +49,14 @@ public class TranslocationResource {
 												   @PathParam("enddate") String endDate){
 		try{
 			return Response.ok(
-					translocationService.getTranslocations(
+					translocationService.getAdministrationDto(
 							id,
 							LocalDateTimeParser.stringToLocalDateTime(startDate),
 							LocalDateTimeParser.stringToLocalDateTime(endDate))).build();
 		}
 		catch(Exception e){
+			e.printStackTrace();
+			Sentry.capture(e);
 			return Response.serverError().build();
 		}
 	}
