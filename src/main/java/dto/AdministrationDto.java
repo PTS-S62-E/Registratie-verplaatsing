@@ -1,21 +1,19 @@
 package dto;
 
-import model.Journey;
-
 import java.util.List;
 
 public class AdministrationDto {
-	List<Journey> journeys;
+	List<JourneyDto> journeys;
 
-	public AdministrationDto(List<Journey> journeys){
+	public AdministrationDto(List<JourneyDto> journeys){
 		this.journeys = journeys;
 	}
 
-	public List<Journey> getJourneys() {
+	public List<JourneyDto> getJourneys() {
 		return journeys;
 	}
 
-	public void setJourneys(List<Journey> journeys) {
+	public void setJourneys(List<JourneyDto> journeys) {
 		this.journeys = journeys;
 	}
 }

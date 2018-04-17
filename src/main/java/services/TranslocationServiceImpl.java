@@ -1,11 +1,13 @@
 package services;
 
+import com.pts62.common.europe.facades.ITranslocationFacade;
 import dao.TranslocationDao;
 import dao.VehicleDao;
 import dto.AdministrationDto;
+import dto.CreateTranslocationDto;
 import dto.TranslocationDto;
 import entities.Translocation;
-import model.Journey;
+import dto.JourneyDto;
 import util.LocalDateTimeParser;
 
 import javax.ejb.Stateless;
@@ -38,13 +40,13 @@ public class TranslocationServiceImpl implements TranslocationService{
 	}
 
 	@Override
-	public void createTranslocation(TranslocationDto translocationDto) {
+	public void createTranslocation(CreateTranslocationDto createTranslocationDto) {
 		Translocation translocation = new Translocation(
-				vehicleDao.getVehicle(translocationDto.getVehicleId()),
-				translocationDto.getLatitude(),
-				translocationDto.getLongitude(),
-				LocalDateTimeParser.stringToLocalDateTime(translocationDto.getTimestamp()),
-				translocationDto.getCountryCode());
+				vehicleDao.getVehicle(createTranslocationDto.getVehicleId()),
+				createTranslocationDto.getLatitude(),
+				createTranslocationDto.getLongitude(),
+				LocalDateTimeParser.stringToLocalDateTime(createTranslocationDto.getTimestamp()),
+				createTranslocationDto.getCountryCode());
 
 		translocationDao.createTranslocation(translocation);
 	}
@@ -56,53 +58,69 @@ public class TranslocationServiceImpl implements TranslocationService{
 
 	/**
 	 * Divides a list of translocations into Journeys.
-	 * This method uses the isTranslocationJourneyStart function to decide if a translocation is the start of a new Journey.
+	 * This method uses the isTranslocationJourneyStart function to decide if a translocation is the start of a new JourneyDto.
+	 * NOTE: This method also converts your translocations into translocationDto Objects.
 	 * @param translocations
 	 * @return an AdinistrationDto object that contains a list of Journeys.
 	 */
 	private AdministrationDto divideTranslocationsIntoJourneys(List<Translocation> translocations){
 
-		List<Journey> journeys = new ArrayList<>();
+		List<JourneyDto> journeys = new ArrayList<>();
 
 		if (translocations == null || translocations.size() == 0) {
 			return new AdministrationDto(journeys);
 		}
 
-		//Set first journey as previous journey.
-		Translocation previousTranslocation = translocations.get(0);
-
 		//Initialize the first journey
 		int currentJourney = 0;
-		Journey initialJourney = new Journey();
+		JourneyDto initialJourney = new JourneyDto();
 		journeys.add(initialJourney);
 
-		for (Translocation translocation : translocations){
-			if (isTranslocationJourneyStart(translocation, previousTranslocation)){
-				//New Journey
-				Journey journey = new Journey();
-				journey.addTranslocation(translocation);
-				journeys.add(journey);
+		List<TranslocationDto> translocationDtos = convertTranslocationToDto(translocations);
+
+		//Set first journey as previous journey.
+		TranslocationDto previousTranslocationDto = translocationDtos.get(0);
+
+		for (TranslocationDto translocationDto : translocationDtos){
+			if (isTranslocationJourneyStart(translocationDto, previousTranslocationDto)){
+				//New JourneyDto
+				JourneyDto journeyDto = new JourneyDto();
+				journeyDto.addTranslocation(translocationDto);
+				journeys.add(journeyDto);
 				currentJourney++;
 			}
 			else{
 				//Current journey
-				journeys.get(currentJourney).addTranslocation(translocation);
+				journeys.get(currentJourney).addTranslocation(translocationDto);
 			}
-			previousTranslocation = translocation;
+			previousTranslocationDto = translocationDto;
 		}
 
 		return new AdministrationDto(journeys);
 	}
 
+	private List<TranslocationDto> convertTranslocationToDto(List<Translocation> translocations){
+		List<TranslocationDto> translocationDtos = new ArrayList<>();
+
+		for (Translocation translocation : translocations){
+			TranslocationDto translocationDto = new TranslocationDto(translocation);
+			translocationDtos.add(translocationDto);
+		}
+
+		return translocationDtos;
+	}
+
 	/**
 	 * Checks if the given translocation is more that #minuteTreshold minutes away from the previous translocation.
 	 * minuteTreshold is defined as an int at the top of this class.
-	 * @param translocation
-	 * @param previousTranslocation
+	 * @param translocationDto
+	 * @param previousTranslocationDto
 	 * @return TRUE if the the given translocation is more that #minuteTreshold minutes away from the previous translocation.
 	 */
-	private boolean isTranslocationJourneyStart(Translocation translocation, Translocation previousTranslocation){
-		if(Duration.between(previousTranslocation.getTimestamp(), translocation.getTimestamp()).toMinutes() < minuteThreshold){
+	private boolean isTranslocationJourneyStart(TranslocationDto translocationDto, TranslocationDto previousTranslocationDto){
+		LocalDateTime previous =  LocalDateTimeParser.stringToLocalDateTime(previousTranslocationDto.getTimestamp());
+		LocalDateTime now = LocalDateTimeParser.stringToLocalDateTime(translocationDto.getTimestamp());
+		if(Duration.between(previous, now).toMinutes() < minuteThreshold){
 			return false;
 		}
 		else return true;

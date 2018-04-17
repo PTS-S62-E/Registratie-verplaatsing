@@ -3,20 +3,20 @@ package dto;
 import entities.Translocation;
 import util.LocalDateTimeParser;
 
-import java.io.Serializable;
+public class CreateTranslocationDto {
 
-public class TranslocationDto implements Serializable {
-
-	private long id;
+	private long vehicleId;
+	private String licensePlate;
 	private double latitude;
 	private double longitude;
 	private String timestamp;
 	private String countryCode;
 
-	public TranslocationDto(){}
+	public CreateTranslocationDto(){}
 
-	public TranslocationDto(Translocation translocation){
-		this.id = translocation.getId();
+	public CreateTranslocationDto(Translocation translocation){
+		this.vehicleId = translocation.getVehicle().getId();
+		this.licensePlate = translocation.getVehicle().getLicensePlate();
 		this.latitude = translocation.getLatitude();
 		this.longitude = translocation.getLongitude();
 		this.timestamp = LocalDateTimeParser.localDateTimeToString(translocation.getTimestamp());
@@ -39,6 +39,14 @@ public class TranslocationDto implements Serializable {
 		this.longitude = longitude;
 	}
 
+	public long getVehicleId() {
+		return vehicleId;
+	}
+
+	public void setVehicleId(long vehicleId) {
+		this.vehicleId = vehicleId;
+	}
+
 	public String getTimestamp() {
 		return timestamp;
 	}
@@ -47,19 +55,19 @@ public class TranslocationDto implements Serializable {
 		this.timestamp = timestamp;
 	}
 
+	public String getLicensePlate() {
+		return licensePlate;
+	}
+
+	public void setLicensePlate(String licensePlate) {
+		this.licensePlate = licensePlate;
+	}
+
 	public String getCountryCode() {
 		return countryCode;
 	}
 
 	public void setCountryCode(String countryCode) {
 		this.countryCode = countryCode;
-	}
-
-	public long getTranslocationId() {
-		return id;
-	}
-
-	public void setTranslocationId(long id) {
-		this.id = id;
 	}
 }
