@@ -1,6 +1,7 @@
 package entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.rekeningrijden.europe.interfaces.ITransLocation;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -10,7 +11,7 @@ import java.time.LocalDateTime;
 		@NamedQuery(name="Translocation.getTranslocationsByVehicleIdAndTimePeriod",
 				query="SELECT t FROM Translocation t WHERE vehicle_id = :vehicleId AND timestamp BETWEEN :startDate AND :endDate"),
 })
-public class Translocation implements Serializable {
+public class Translocation implements ITransLocation, Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,19 +25,12 @@ public class Translocation implements Serializable {
 	private LocalDateTime timestamp;
 	private String countryCode;
 
-	public Translocation(Vehicle vehicle, double latitude, double longitude, LocalDateTime timestamp) {
+	public Translocation(Vehicle vehicle, double latitude, double longitude, LocalDateTime timestamp, String countryCode) {
 		this.vehicle = vehicle;
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.timestamp = timestamp;
-	}
-
-	public double getLongitude() {
-		return longitude;
-	}
-
-	public void setLongitude(double longitude) {
-		this.longitude = longitude;
+		this.countryCode = countryCode;
 	}
 
 	public Translocation() {}
@@ -79,6 +73,34 @@ public class Translocation implements Serializable {
 
 	public void setTimestamp(LocalDateTime localDateTime) {
 		this.timestamp = timestamp;
+	}
+
+	public double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
+	}
+
+	@Override
+	public Double getLat() {
+		return latitude;
+	}
+
+	@Override
+	public Double getLon() {
+		return longitude;
+	}
+
+	@Override
+	public String getDateTime() {
+		return null;
+	}
+
+	@Override
+	public String getSerialNumber() {
+		return null;
 	}
 
 	public String getCountryCode() {

@@ -9,6 +9,7 @@ public class TranslocationDto implements Serializable {
 	private double latitude;
 	private double longitude;
 	private String timestamp;
+	private String countryCode;
 
 	public TranslocationDto(){}
 
@@ -50,5 +51,13 @@ public class TranslocationDto implements Serializable {
 
 	public void setLicensePlate(String licensePlate) {
 		this.licensePlate = licensePlate;
+	}
+
+	public String getCountryCode() {
+		return countryCode;
+	}
+
+	public void setCountryCode(String countryCode) {
+		this.countryCode = countryCode;
 	}
 }
