@@ -1,6 +1,7 @@
 package entities;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import services.TranslocationService;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -24,6 +25,15 @@ public class Vehicle implements Serializable {
 	private String hardwareSn;
 
 	public Vehicle(){}
+
+	public Vehicle(String licensePlate, String brand, String type, String category, List<Translocation> translocations, String hardwareSn ){
+		this.licensePlate = licensePlate;
+		this.brand = brand;
+		this.type = type;
+		this.category = category;
+		this.translocations = translocations;
+		this.hardwareSn = hardwareSn;
+	}
 
 	public long getId() {
 		return id;

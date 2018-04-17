@@ -1,5 +1,6 @@
 package rest;
 
+import dto.CreateTranslocationDto;
 import dto.TranslocationDto;
 import io.sentry.Sentry;
 import services.TranslocationService;
@@ -18,9 +19,9 @@ public class TranslocationResource {
 	@POST
 	@Path("/create")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response create(TranslocationDto translocationDto){
+	public Response create(CreateTranslocationDto createTranslocationDto){
 		try{
-			translocationService.createTranslocation(translocationDto);
+			translocationService.createTranslocation(createTranslocationDto);
 			return Response.ok().build();
 		}
 		catch(Exception e){

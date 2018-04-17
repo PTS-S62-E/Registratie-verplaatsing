@@ -1,6 +1,7 @@
 package services;
 
 import dto.AdministrationDto;
+import dto.CreateTranslocationDto;
 import dto.TranslocationDto;
 import entities.Translocation;
 
@@ -26,9 +27,9 @@ public interface TranslocationService {
 
 	/**
 	 * create a new translocation
-	 * @param translocationDto
+	 * @param createTranslocationDto
 	 */
-	void createTranslocation(TranslocationDto translocationDto);
+	void createTranslocation(CreateTranslocationDto createTranslocationDto);
 
 	/**
 	 * Get AdministratorDTO object
