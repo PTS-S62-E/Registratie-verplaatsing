@@ -54,13 +54,14 @@ public class TranslocationServiceTest {
 
 	@Test
 	public void testGetAdministratorDto(){
-
-		for(Translocation t : translocationsToDivide){
-			System.out.println(t.getTimestamp());
-		}
-
+		//Check if works with values
 		when(translocationService.getTranslocations(1, null, null)).thenReturn(translocationsToDivide);
 		AdministrationDto administrationDto = translocationService.getAdministrationDto(1, null, null);
 		Assert.assertEquals(administrationDto.getJourneys().size(),2);
+
+		//Check if works when translocationsToDivide is empty
+		when(translocationService.getTranslocations(2, null, null)).thenReturn(new ArrayList<>());
+		administrationDto = translocationService.getAdministrationDto(2, null, null);
+		Assert.assertEquals(administrationDto.getJourneys().size(),0);
 	}
 }
