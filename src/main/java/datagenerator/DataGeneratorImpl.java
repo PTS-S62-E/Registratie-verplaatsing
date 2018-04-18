@@ -38,7 +38,7 @@ public class DataGeneratorImpl implements DataGenerator {
 				minutesToAdd = 30;
 			}
 
-			timestamp.plusMinutes(minutesToAdd);
+			timestamp = timestamp.plusMinutes(minutesToAdd);
 			Translocation translocation = new Translocation(vehicle, i, i, timestamp, "FI");
 			translocationDao.createTranslocation(translocation);
 		}
