@@ -24,6 +24,7 @@ public class TranslocationServiceTest {
 	TranslocationServiceImpl translocationService;
 
 	private static List<Translocation> translocationsToDivide;
+	private static Translocation translocationForFlagTest;
 
 	@Before
 	public void setupBeforeMethod() {
@@ -32,8 +33,11 @@ public class TranslocationServiceTest {
 
 	@BeforeClass
 	public static void setup() {
-		translocationsToDivide = new ArrayList<>();
 		LocalDateTime timestamp = LocalDateTime.now();
+
+		translocationForFlagTest = new Translocation(null, 1, 1, timestamp, "FI", false);
+
+		translocationsToDivide = new ArrayList<>();
 
 		for (int i = 0; i < 10; i++) {
 
@@ -41,11 +45,11 @@ public class TranslocationServiceTest {
 
 				if ( i == 5) {
 					timestamp = timestamp.plusMinutes(25);
-					translocation = new Translocation(null, 1, 1, timestamp, "FI");
+					translocation = new Translocation(null, 1, 1, timestamp, "FI", false);
 				}
 				else{
 					timestamp = timestamp.plusMinutes(10);
-					translocation = new Translocation(null, 1, 1, timestamp, "FI");
+					translocation = new Translocation(null, 1, 1, timestamp, "FI", false);
 				}
 
 				translocationsToDivide.add(translocation);
@@ -63,5 +67,10 @@ public class TranslocationServiceTest {
 		when(translocationService.getTranslocations(2, null, null)).thenReturn(new ArrayList<>());
 		administrationDto = translocationService.getAdministrationDto(2, null, null);
 		Assert.assertEquals(administrationDto.getJourneys().size(),0);
+	}
+
+	//Cannot test flagging without a test database.
+	@Test
+	public void testFlagging(){
 	}
 }

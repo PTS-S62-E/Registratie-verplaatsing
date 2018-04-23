@@ -39,7 +39,7 @@ public class DataGeneratorImpl implements DataGenerator {
 			}
 
 			timestamp = timestamp.plusMinutes(minutesToAdd);
-			Translocation translocation = new Translocation(vehicle, i, i, timestamp, "FI");
+			Translocation translocation = new Translocation(vehicle, i, i, timestamp, "FI", false);
 			translocationDao.createTranslocation(translocation);
 		}
 	}
