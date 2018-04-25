@@ -82,7 +82,7 @@ public class Vehicle implements Serializable {
 	public void setTranslocations(List<Translocation> translocations) {
 		this.translocations = translocations;
 	}
-	
+
 	public String getHardwareSn() {
 		return hardwareSn;
 	}
