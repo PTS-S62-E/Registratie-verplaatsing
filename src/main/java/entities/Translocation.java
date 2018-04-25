@@ -10,6 +10,8 @@ import java.time.LocalDateTime;
 @NamedQueries({
 		@NamedQuery(name="Translocation.getTranslocationsByVehicleIdAndTimePeriod",
 				query="SELECT t FROM Translocation t WHERE vehicle_id = :vehicleId AND timestamp BETWEEN :startDate AND :endDate"),
+				@NamedQuery(name="Translocation.getTranslocationsByVehicleId",
+						query="SELECT t FROM Translocation t WHERE vehicle_id = :vehicleId ORDER BY t.id DESC"),
 })
 public class Translocation implements ITransLocation, Serializable {
 
@@ -24,13 +26,15 @@ public class Translocation implements ITransLocation, Serializable {
 	private double longitude;
 	private LocalDateTime timestamp;
 	private String countryCode;
+	private boolean flagged;
 
-	public Translocation(Vehicle vehicle, double latitude, double longitude, LocalDateTime timestamp, String countryCode) {
+	public Translocation(Vehicle vehicle, double latitude, double longitude, LocalDateTime timestamp, String countryCode, boolean flagged) {
 		this.vehicle = vehicle;
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.timestamp = timestamp;
 		this.countryCode = countryCode;
+		this.flagged = flagged;
 	}
 
 	public Translocation() {}
@@ -109,5 +113,13 @@ public class Translocation implements ITransLocation, Serializable {
 
 	public void setCountryCode(String countryCode) {
 		this.countryCode = countryCode;
+	}
+
+	public boolean isFlagged() {
+		return flagged;
+	}
+
+	public void setFlagged(boolean flagged) {
+		this.flagged = flagged;
 	}
 }
