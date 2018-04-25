@@ -1,5 +1,6 @@
 package dao;
 
+import dto.VehicleDto;
 import entities.Vehicle;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;

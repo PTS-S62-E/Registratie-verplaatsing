@@ -35,8 +35,8 @@ public class TranslocationServiceImpl implements TranslocationService{
 	}
 
 	@Override
-	public Translocation getTranslocation(long id) {
-		return translocationDao.getTranslocation(id);
+	public TranslocationDto getTranslocation(long id) {
+		return new TranslocationDto(translocationDao.getTranslocation(id));
 	}
 
 	@Override

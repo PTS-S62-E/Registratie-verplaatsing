@@ -118,7 +118,7 @@
 
     <!-- Default build settings -->
     <build>
-        <finalName>Registratie-verplaatsing</finalName>
+        <finalName>registratie-verplaatsing</finalName>
         <plugins>
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>
@@ -194,7 +194,7 @@
         <profile>
             <id>development</id>
             <build>
-                <finalName>registratie-verplaatsing-development</finalName>
+                <finalName>registratie-verplaatsing</finalName>
                 <plugins>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
@@ -254,7 +254,7 @@
         <profile>
             <id>staging</id>
             <build>
-                <finalName>registratie-verplaatsing-staging</finalName>
+                <finalName>registratie-verplaatsing</finalName>
                 <plugins>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>

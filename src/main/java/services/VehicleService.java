@@ -1,5 +1,6 @@
 package services;
 
+import dto.VehicleDto;
 import entities.Vehicle;
 
 public interface VehicleService {
@@ -8,7 +9,7 @@ public interface VehicleService {
 	 * @param id
 	 * @return vehicle
 	 */
-	Vehicle getVehicle(long id);
+	VehicleDto getVehicle(long id);
 
 	/**
 	 * create a new vehicle.

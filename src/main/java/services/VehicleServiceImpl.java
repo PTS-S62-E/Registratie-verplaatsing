@@ -1,6 +1,7 @@
 package services;
 
 import dao.VehicleDao;
+import dto.VehicleDto;
 import entities.Vehicle;
 
 import javax.ejb.Stateless;
@@ -13,8 +14,8 @@ public class VehicleServiceImpl implements VehicleService {
 	VehicleDao vehicleDao;
 
 	@Override
-	public Vehicle getVehicle(long id) {
-		return vehicleDao.getVehicle(id);
+	public VehicleDto getVehicle(long id) {
+		return new VehicleDto(vehicleDao.getVehicle(id));
 	}
 
 	@Override

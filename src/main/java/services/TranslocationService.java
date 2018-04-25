@@ -23,7 +23,7 @@ public interface TranslocationService {
 	 * @param id
 	 * @return translocation
 	 */
-	Translocation getTranslocation(long id);
+	TranslocationDto getTranslocation(long id);
 
 	/**
 	 * create a new translocation
