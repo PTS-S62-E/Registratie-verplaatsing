@@ -24,6 +24,14 @@ public class TranslocationDaoImpl implements TranslocationDao {
 	}
 
 	@Override
+	public Translocation getLatestTranslocationByVehicleId(long vehicleId) {
+		TypedQuery<Translocation> query =
+				em.createNamedQuery("Translocation.getTranslocationsByVehicleId", Translocation.class);
+		List<Translocation> translocations = query.setParameter("vehicleId", vehicleId).setMaxResults(1).getResultList();
+		return translocations.get(0);
+	}
+
+	@Override
 	public Translocation getTranslocation(long id) {
 		return em.find(Translocation.class, id);
 	}

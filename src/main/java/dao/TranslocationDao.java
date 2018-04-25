@@ -6,6 +6,13 @@ import java.util.List;
 
 	public interface TranslocationDao {
 		/**
+		 * Get latest translocation of a vehicle.
+		 * @param vehicleId
+		 * @return
+		 */
+		Translocation getLatestTranslocationByVehicleId(long vehicleId);
+
+		/**
 		 * Get translocations by vehicleId, starting time, and end time.
 		 * @param vehicleId
 		 * @param startDate
