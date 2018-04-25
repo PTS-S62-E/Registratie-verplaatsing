@@ -35,13 +35,12 @@ public class TranslocationServiceImpl implements TranslocationService{
 	}
 
 	@Override
-	public Translocation getTranslocation(long id) {
-		return translocationDao.getTranslocation(id);
+	public TranslocationDto getTranslocation(long id) {
+		return new TranslocationDto(translocationDao.getTranslocation(id));
 	}
 
 	@Override
 	public void createTranslocation(CreateTranslocationDto createTranslocationDto) {
-		/*
 		Translocation translocation = new Translocation(
 				vehicleDao.getVehicle(createTranslocationDto.getVehicleId()),
 				createTranslocationDto.getLatitude(),
@@ -50,7 +49,6 @@ public class TranslocationServiceImpl implements TranslocationService{
 				createTranslocationDto.getCountryCode());
 
 		translocationDao.createTranslocation(translocation);
-		*/
 	}
 
 	public AdministrationDto getAdministrationDto(long vehicleId, LocalDateTime startDate, LocalDateTime endDate){
