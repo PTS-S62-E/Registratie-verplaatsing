@@ -23,6 +23,12 @@ public class JsonExceptionMapper {
 		config.put("javax.json.stream.JsonGenerator.prettyPrinting", Boolean.valueOf(true));
 	}
 
+	/**
+	 * Creates the JSONObject.
+	 * @param status
+	 * @param message
+	 * @return
+	 */
 	private static JsonObject mapObject(Response.Status status, String message){
 		JsonBuilderFactory factory = Json.createBuilderFactory(config);
 		JsonObject jsonObject = factory.createObjectBuilder()
@@ -35,6 +41,12 @@ public class JsonExceptionMapper {
 		return jsonObject;
 	}
 
+	/**
+	 * Creates a WebApplicationException that has a JSONObject that portrays an exception with HttpCode, HttpStatus and a message.
+	 * @param status
+	 * @param message
+	 * @return
+	 */
 	public static WebApplicationException mapException(Response.Status status, String message){
 		return new WebApplicationException(Response.status(status)
 				.entity(mapObject(status, message))
