@@ -8,6 +8,7 @@ import dto.CreateTranslocationDto;
 import dto.TranslocationDto;
 import entities.Translocation;
 import dto.JourneyDto;
+import exceptions.VehicleException;
 import util.LocalDateTimeParser;
 
 import javax.ejb.Stateless;
@@ -44,7 +45,7 @@ public class TranslocationServiceImpl implements TranslocationService{
 	}
 
 	@Override
-	public void createTranslocation(CreateTranslocationDto createTranslocationDto) {
+	public void createTranslocation(CreateTranslocationDto createTranslocationDto) throws VehicleException {
 		Translocation translocation = new Translocation(
 				vehicleDao.getVehicle(createTranslocationDto.getVehicleId()),
 				createTranslocationDto.getLatitude(),

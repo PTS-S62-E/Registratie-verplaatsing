@@ -10,7 +10,7 @@ public interface VehicleService {
 	 * @param id
 	 * @return vehicle
 	 */
-	VehicleDto getVehicle(long id);
+	VehicleDto getVehicle(long id) throws VehicleException;
 
 	/**
 	 * create a new vehicle.

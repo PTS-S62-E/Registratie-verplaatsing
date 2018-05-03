@@ -15,7 +15,7 @@ public class VehicleServiceImpl implements VehicleService {
 	VehicleDao vehicleDao;
 
 	@Override
-	public VehicleDto getVehicle(long id) {
+	public VehicleDto getVehicle(long id) throws VehicleException {
 		return new VehicleDto(vehicleDao.getVehicle(id));
 	}
 

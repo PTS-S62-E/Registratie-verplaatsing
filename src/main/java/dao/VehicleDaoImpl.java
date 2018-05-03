@@ -2,8 +2,6 @@ package dao;
 
 import entities.Vehicle;
 import exceptions.VehicleException;
-import io.sentry.Sentry;
-
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -17,8 +15,18 @@ public class VehicleDaoImpl implements VehicleDao {
 	EntityManager em;
 
 	@Override
-	public Vehicle getVehicle(long id) {
-		return em.find(Vehicle.class, id);
+	public Vehicle getVehicle(long id) throws VehicleException {
+		Vehicle vehicle =  em.find(Vehicle.class, id);
+
+		if (vehicle == null){
+			StringBuilder builder = new StringBuilder();
+			builder.append("Could not find a vehicle with id ");
+			builder.append(Long.toString(id));
+			builder.append(".");
+			throw new VehicleException(builder.toString());
+		}
+
+		else return vehicle;
 	}
 
 
