@@ -3,6 +3,7 @@ package services;
 import dao.VehicleDao;
 import dto.VehicleDto;
 import entities.Vehicle;
+import exceptions.VehicleException;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -19,8 +20,14 @@ public class VehicleServiceImpl implements VehicleService {
 	}
 
 	@Override
-	public void createVehicle(Vehicle vehicle) {
+	public void createVehicle(Vehicle vehicle) throws VehicleException {
+
+		if (vehicleDao.getVehicleByLicensPlate(vehicle.getLicensePlate()) != null){
+			throw new VehicleException("There's already a vehicle registered with this license plate.");
+		}
+
 		vehicleDao.createVehicle(vehicle);
+
 	}
 
 	@Override
