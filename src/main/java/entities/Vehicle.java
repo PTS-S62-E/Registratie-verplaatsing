@@ -7,8 +7,11 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
-//ToDo:
 @Entity
+@NamedQueries({
+		@NamedQuery(name="Vehicle.getVehicleByLicensePlate",
+				query="SELECT v FROM Vehicle v WHERE licensePlate = :licensePlate"),
+})
 public class Vehicle implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
