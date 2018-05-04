@@ -30,9 +30,6 @@ public class TranslocationResource {
 		catch(VehicleException ve){
 			throw new WebApplicationException(Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(ve.getMessage()).build());
 		}
-		catch(TranslocationException te){
-			throw new WebApplicationException(Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(te.getMessage()).build());
-		}
 		catch(Exception e){
 			return Response.serverError().build();
 		}

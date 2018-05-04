@@ -31,7 +31,7 @@ public interface TranslocationService {
 	 * create a new translocation
 	 * @param createTranslocationDto
 	 */
-	void createTranslocation(CreateTranslocationDto createTranslocationDto) throws VehicleException, TranslocationException;
+	void createTranslocation(CreateTranslocationDto createTranslocationDto) throws VehicleException;
 
 	/**
 	 * Get AdministratorDTO object

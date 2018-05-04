@@ -34,5 +34,5 @@ import java.util.List;
 		 * create a new translocation
 		 * @param translocation
 		 */
-	void createTranslocation(Translocation translocation) throws TranslocationException;
+	void createTranslocation(Translocation translocation);
 }

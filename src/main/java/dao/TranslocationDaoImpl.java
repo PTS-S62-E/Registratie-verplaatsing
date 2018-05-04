@@ -49,12 +49,7 @@ public class TranslocationDaoImpl implements TranslocationDao {
 	}
 
 	@Override
-	public void createTranslocation(Translocation translocation) throws TranslocationException {
-		try {
-			em.persist(translocation);
-		}
-		catch(Exception e){
-			throw new TranslocationException("Could not create translocation.");
-		}
+	public void createTranslocation(Translocation translocation) {
+		em.persist(translocation);
 	}
 }

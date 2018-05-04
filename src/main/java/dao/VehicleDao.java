@@ -22,11 +22,11 @@ public interface VehicleDao {
 	 * create a new vehicle.
 	 * @param vehicle
 	 */
-	void createVehicle(Vehicle vehicle) throws VehicleException;
+	void createVehicle(Vehicle vehicle);
 
 	/**
 	 * update a vehicle.
 	 * @param vehicle
 	 */
-	void updateVehicle(Vehicle vehicle) throws VehicleException;
+	void updateVehicle(Vehicle vehicle);
 }

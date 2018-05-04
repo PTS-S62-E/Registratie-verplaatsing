@@ -46,7 +46,7 @@ public class TranslocationServiceImpl implements TranslocationService{
 	}
 
 	@Override
-	public void createTranslocation(CreateTranslocationDto createTranslocationDto) throws VehicleException, TranslocationException {
+	public void createTranslocation(CreateTranslocationDto createTranslocationDto) throws VehicleException {
 		Translocation translocation = new Translocation(
 				vehicleDao.getVehicle(createTranslocationDto.getVehicleId()),
 				createTranslocationDto.getLatitude(),
