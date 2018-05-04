@@ -22,6 +22,7 @@ public class CategoryServiceImpl implements CategoryService {
 			builder.append("Category: ");
 			builder.append(category.getCategoryName());
 			builder.append(" already exists.");
+			throw new CategoryException(builder.toString());
 		}
 
 		category.setCategoryName(category.getCategoryName().toUpperCase());
@@ -29,11 +30,11 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public boolean checkIfCategoryExists(String category) throws CategoryException {
+	public boolean checkIfCategoryExists(String categoryName) {
 		List<Category> categories = categoryDao.getCategories();
 
 		for(Category c : categories){
-			if(c.getCategoryName().equals(category)){
+			if(c.getCategoryName().equals(categoryName)){
 				return true;
 			}
 		}
