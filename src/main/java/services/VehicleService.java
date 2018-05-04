@@ -1,8 +1,7 @@
 package services;
 
-import dto.CreateVehicleDto;
 import dto.VehicleDto;
-import entities.Vehicle;
+import exceptions.CategoryException;
 import exceptions.VehicleException;
 
 public interface VehicleService {
@@ -15,13 +14,13 @@ public interface VehicleService {
 
 	/**
 	 * create a new vehicle.
-	 * @param vehicle
+	 * @param vehicleDto
 	 */
-	void createVehicle(CreateVehicleDto createVehicleDto) throws VehicleException;
+	void createVehicle(VehicleDto vehicleDto) throws VehicleException, CategoryException;
 
 	/**
 	 * update a vehicle.
-	 * @param vehicle
+	 * @param vehicleDto
 	 */
-	void updateVehicle(CreateVehicleDto createVehicleDto);
+	void updateVehicle(VehicleDto vehicleDto) throws VehicleException, CategoryException;
 }

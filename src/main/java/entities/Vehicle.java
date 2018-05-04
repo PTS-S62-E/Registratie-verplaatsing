@@ -1,8 +1,6 @@
 package entities;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import dto.CreateVehicleDto;
-import services.TranslocationService;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -12,6 +10,8 @@ import java.util.List;
 @NamedQueries({
 		@NamedQuery(name="Vehicle.getVehicleByLicensePlate",
 				query="SELECT v FROM Vehicle v WHERE licensePlate = :licensePlate"),
+		@NamedQuery(name="Vehicle.checkIfLicensePlateAlreadyExists",
+				query="SELECT v FROM Vehicle v WHERE licensePlate = :licensePlate AND id != :id"),
 })
 public class Vehicle implements Serializable {
 	@Id
@@ -31,7 +31,8 @@ public class Vehicle implements Serializable {
 
 	public Vehicle(){}
 
-	public Vehicle(String licensePlate, String brand, String type, Category category, List<Translocation> translocations, String hardwareSn ){
+	public Vehicle(long id, String licensePlate, String brand, String type, Category category, List<Translocation> translocations, String hardwareSn ){
+		this.id = id;
 		this.licensePlate = licensePlate;
 		this.brand = brand;
 		this.type = type;
