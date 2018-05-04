@@ -1,6 +1,7 @@
 package entities;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import dto.CreateVehicleDto;
 import services.TranslocationService;
 
 import javax.persistence.*;
@@ -21,7 +22,8 @@ public class Vehicle implements Serializable {
 	private String licensePlate;
 	private String brand;
 	private String type;
-	private String category;
+	@OneToOne
+	private Category category;
 	@OneToMany(mappedBy = "vehicle")
 	@JsonManagedReference
 	private List<Translocation> translocations;
@@ -29,7 +31,7 @@ public class Vehicle implements Serializable {
 
 	public Vehicle(){}
 
-	public Vehicle(String licensePlate, String brand, String type, String category, List<Translocation> translocations, String hardwareSn ){
+	public Vehicle(String licensePlate, String brand, String type, Category category, List<Translocation> translocations, String hardwareSn ){
 		this.licensePlate = licensePlate;
 		this.brand = brand;
 		this.type = type;
@@ -70,12 +72,12 @@ public class Vehicle implements Serializable {
 		this.type = type;
 	}
 
-	public String getCategory() {
+	public Category getCategory() {
 		return category;
 	}
 
-	public void setCategory(String categorie) {
-		this.category = categorie;
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 
 	public List<Translocation> getTranslocations() {

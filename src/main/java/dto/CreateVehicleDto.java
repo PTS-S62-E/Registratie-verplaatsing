@@ -1,35 +1,16 @@
 package dto;
 
-import entities.Vehicle;
-
 import java.io.Serializable;
 
-public class VehicleDto implements Serializable {
+public class CreateVehicleDto implements Serializable {
 
-	private long id;
 	private String licensePlate;
 	private String brand;
 	private String type;
 	private String category;
 	private String hardwareSn;
 
-	public VehicleDto(){}
-
-	public VehicleDto(Vehicle vehicle){
-		this.id = vehicle.getId();
-		this.licensePlate = vehicle.getLicensePlate();
-		this.brand = vehicle.getBrand();
-		this.type = vehicle.getType();
-		this.category = vehicle.getCategory().getCategoryName();
-		this.hardwareSn = vehicle.getHardwareSn();
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
+	public CreateVehicleDto() {
 	}
 
 	public String getLicensePlate() {

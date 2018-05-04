@@ -1,5 +1,6 @@
 package rest;
 
+import dto.CreateVehicleDto;
 import entities.Vehicle;
 import exceptions.VehicleException;
 import services.VehicleService;
@@ -20,9 +21,9 @@ public class VehicleResource {
 	@POST
 	@Path("/create")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response create(Vehicle vehicle){
+	public Response create(CreateVehicleDto createVehicleDto){
 		try{
-			vehicleService.createVehicle(vehicle);
+			vehicleService.createVehicle(createVehicleDto);
 			return Response.ok().build();
 		}
 		catch(VehicleException e){
@@ -46,9 +47,9 @@ public class VehicleResource {
 	@PUT
 	@Path("/update")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response update(Vehicle vehicle){
+	public Response update(CreateVehicleDto createVehicleDto){
 		try{
-			vehicleService.updateVehicle(vehicle);
+			vehicleService.updateVehicle(createVehicleDto);
 			return Response.ok().build();
 		}
 		catch(Exception e){
