@@ -9,7 +9,7 @@ public interface VehicleDao {
 	 * @param id
 	 * @return vehicle
 	 */
-	Vehicle getVehicle(long id);
+	Vehicle getVehicle(long id) throws VehicleException;
 
 	/**
 	 * Get vehicle by license plate.

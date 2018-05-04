@@ -3,7 +3,10 @@ package rest;
 import entities.Vehicle;
 import exceptions.VehicleException;
 import services.VehicleService;
+import util.JsonExceptionMapper;
+
 import javax.inject.Inject;
+import javax.json.JsonObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -35,8 +38,8 @@ public class VehicleResource {
 			return Response.ok(
 					vehicleService.getVehicle(id)).build();
 		}
-		catch(Exception e){
-			return Response.serverError().build();
+		catch(VehicleException e){
+			throw JsonExceptionMapper.mapException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
 		}
 	}
 
