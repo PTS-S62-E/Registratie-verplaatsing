@@ -8,6 +8,7 @@ import dto.CreateTranslocationDto;
 import dto.TranslocationDto;
 import entities.Translocation;
 import dto.JourneyDto;
+import exceptions.TranslocationException;
 import exceptions.VehicleException;
 import util.LocalDateTimeParser;
 
@@ -40,12 +41,12 @@ public class TranslocationServiceImpl implements TranslocationService{
 	}
 
 	@Override
-	public TranslocationDto getTranslocation(long id) {
+	public TranslocationDto getTranslocation(long id) throws TranslocationException {
 		return new TranslocationDto(translocationDao.getTranslocation(id));
 	}
 
 	@Override
-	public void createTranslocation(CreateTranslocationDto createTranslocationDto) throws VehicleException {
+	public void createTranslocation(CreateTranslocationDto createTranslocationDto) throws VehicleException, TranslocationException {
 		Translocation translocation = new Translocation(
 				vehicleDao.getVehicle(createTranslocationDto.getVehicleId()),
 				createTranslocationDto.getLatitude(),
@@ -190,7 +191,6 @@ public class TranslocationServiceImpl implements TranslocationService{
 
 		distance = Math.pow(distance, 2) + Math.pow(height, 2);
 
-		System.out.println("DISTANCE: " + Double.toString(Math.sqrt(distance)));
 		return Math.sqrt(distance);
 	}
 

@@ -31,7 +31,7 @@ public class VehicleServiceImpl implements VehicleService {
 	}
 
 	@Override
-	public void updateVehicle(Vehicle vehicle) {
+	public void updateVehicle(Vehicle vehicle) throws VehicleException {
 		vehicleDao.updateVehicle(vehicle);
 	}
 }

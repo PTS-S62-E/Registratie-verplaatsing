@@ -53,12 +53,23 @@ public class VehicleDaoImpl implements VehicleDao {
 	}
 
 	@Override
-	public void createVehicle(Vehicle vehicle) {
-		em.persist(vehicle);
+	public void createVehicle(Vehicle vehicle) throws VehicleException {
+		try {
+			em.persist(vehicle);
+		}
+		catch(Exception e){
+			throw new VehicleException("Could not create vehicle.");
+		}
 	}
 
 	@Override
-	public void updateVehicle(Vehicle vehicle){
-		em.merge(vehicle);
+	public void updateVehicle(Vehicle vehicle) throws VehicleException {
+
+		try{
+			em.merge(vehicle);
+		}
+		catch(Exception e){
+			throw new VehicleException("Could not update vehicle data.");
+		}
 	}
 }

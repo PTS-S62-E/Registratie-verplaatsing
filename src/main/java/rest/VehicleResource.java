@@ -25,8 +25,11 @@ public class VehicleResource {
 			vehicleService.createVehicle(vehicle);
 			return Response.ok().build();
 		}
-		catch(VehicleException e){
-			throw new WebApplicationException(Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build());
+		catch(VehicleException ve){
+			throw new WebApplicationException(Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(ve.getMessage()).build());
+		}
+		catch(Exception e){
+			return Response.serverError().build();
 		}
 	}
 
@@ -38,7 +41,10 @@ public class VehicleResource {
 			return Response.ok(
 					vehicleService.getVehicle(id)).build();
 		}
-		catch(VehicleException e){
+		catch(VehicleException ve){
+			throw JsonExceptionMapper.mapException(Response.Status.INTERNAL_SERVER_ERROR, ve.getMessage());
+		}
+		catch(Exception e){
 			throw JsonExceptionMapper.mapException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
 		}
 	}

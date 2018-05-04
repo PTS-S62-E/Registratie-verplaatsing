@@ -1,6 +1,8 @@
 package dao;
 
 import entities.Translocation;
+import exceptions.TranslocationException;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -26,11 +28,11 @@ import java.util.List;
 		 * @param id
 		 * @return translocation
 		 */
-	Translocation getTranslocation(long id);
+	Translocation getTranslocation(long id) throws TranslocationException;
 
 		/**
 		 * create a new translocation
 		 * @param translocation
 		 */
-	void createTranslocation(Translocation translocation);
+	void createTranslocation(Translocation translocation) throws TranslocationException;
 }

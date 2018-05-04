@@ -22,5 +22,5 @@ public interface VehicleService {
 	 * update a vehicle.
 	 * @param vehicle
 	 */
-	void updateVehicle(Vehicle vehicle);
+	void updateVehicle(Vehicle vehicle) throws VehicleException;
 }

@@ -4,6 +4,7 @@ import dto.AdministrationDto;
 import dto.CreateTranslocationDto;
 import dto.TranslocationDto;
 import entities.Translocation;
+import exceptions.TranslocationException;
 import exceptions.VehicleException;
 
 import java.time.LocalDateTime;
@@ -24,13 +25,13 @@ public interface TranslocationService {
 	 * @param id
 	 * @return translocation
 	 */
-	TranslocationDto getTranslocation(long id);
+	TranslocationDto getTranslocation(long id) throws TranslocationException;
 
 	/**
 	 * create a new translocation
 	 * @param createTranslocationDto
 	 */
-	void createTranslocation(CreateTranslocationDto createTranslocationDto) throws VehicleException;
+	void createTranslocation(CreateTranslocationDto createTranslocationDto) throws VehicleException, TranslocationException;
 
 	/**
 	 * Get AdministratorDTO object

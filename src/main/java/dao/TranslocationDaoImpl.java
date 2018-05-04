@@ -1,6 +1,8 @@
 package dao;
 
 import entities.Translocation;
+import exceptions.TranslocationException;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -32,12 +34,27 @@ public class TranslocationDaoImpl implements TranslocationDao {
 	}
 
 	@Override
-	public Translocation getTranslocation(long id) {
-		return em.find(Translocation.class, id);
+	public Translocation getTranslocation(long id) throws TranslocationException {
+		Translocation translocation = em.find(Translocation.class, id);
+
+		if (translocation == null){
+			StringBuilder builder = new StringBuilder();
+			builder.append("Could not find a translocation with id ");
+			builder.append(Long.toString(id));
+			builder.append(".");
+			throw new TranslocationException(builder.toString());
+		}
+
+		else return translocation;
 	}
 
 	@Override
-	public void createTranslocation(Translocation translocation) {
-		em.persist(translocation);
+	public void createTranslocation(Translocation translocation) throws TranslocationException {
+		try {
+			em.persist(translocation);
+		}
+		catch(Exception e){
+			throw new TranslocationException("Could not create translocation.");
+		}
 	}
 }

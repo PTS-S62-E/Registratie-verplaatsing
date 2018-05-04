@@ -2,8 +2,11 @@ package rest;
 
 import dto.CreateTranslocationDto;
 import dto.TranslocationDto;
+import exceptions.TranslocationException;
+import exceptions.VehicleException;
 import io.sentry.Sentry;
 import services.TranslocationService;
+import util.JsonExceptionMapper;
 import util.LocalDateTimeParser;
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -24,6 +27,12 @@ public class TranslocationResource {
 			translocationService.createTranslocation(createTranslocationDto);
 			return Response.ok().build();
 		}
+		catch(VehicleException ve){
+			throw new WebApplicationException(Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(ve.getMessage()).build());
+		}
+		catch(TranslocationException te){
+			throw new WebApplicationException(Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(te.getMessage()).build());
+		}
 		catch(Exception e){
 			return Response.serverError().build();
 		}
@@ -37,8 +46,11 @@ public class TranslocationResource {
 			return Response.ok(
 					translocationService.getTranslocation(id)).build();
 		}
+		catch(TranslocationException te){
+			throw JsonExceptionMapper.mapException(Response.Status.INTERNAL_SERVER_ERROR, te.getMessage());
+		}
 		catch(Exception e){
-			return Response.serverError().build();
+			throw JsonExceptionMapper.mapException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
 		}
 	}
 
@@ -56,8 +68,6 @@ public class TranslocationResource {
 							LocalDateTimeParser.stringToLocalDateTime(endDate))).build();
 		}
 		catch(Exception e){
-			e.printStackTrace();
-			Sentry.capture(e);
 			return Response.serverError().build();
 		}
 	}
