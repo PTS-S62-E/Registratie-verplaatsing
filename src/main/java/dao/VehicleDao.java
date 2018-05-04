@@ -29,4 +29,12 @@ public interface VehicleDao {
 	 * @param vehicle
 	 */
 	void updateVehicle(Vehicle vehicle);
+
+	/**
+	 * check if a licensplate already exists in the database, excludes the license plate passed as a parameter.
+	 * @param vehicleId
+	 * @param licensePlate
+	 * @return false if it doesn't exist already.
+	 */
+	boolean checkIfLicensePlateAlreadyExists(long vehicleId, String licensePlate) throws VehicleException;
 }

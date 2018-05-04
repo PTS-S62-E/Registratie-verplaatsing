@@ -21,17 +21,16 @@ public class VehicleServiceImpl implements VehicleService {
 
 	@Override
 	public void createVehicle(Vehicle vehicle) throws VehicleException {
-
 		if (vehicleDao.getVehicleByLicensPlate(vehicle.getLicensePlate()) != null){
 			throw new VehicleException("There's already a vehicle registered with this license plate.");
 		}
-
 		vehicleDao.createVehicle(vehicle);
-
 	}
 
 	@Override
 	public void updateVehicle(Vehicle vehicle) throws VehicleException {
-		vehicleDao.updateVehicle(vehicle);
+		if (!vehicleDao.checkIfLicensePlateAlreadyExists(vehicle.getId(), vehicle.getLicensePlate())){
+			vehicleDao.updateVehicle(vehicle);
+		}
 	}
 }

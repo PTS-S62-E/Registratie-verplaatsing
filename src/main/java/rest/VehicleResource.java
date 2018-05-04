@@ -51,11 +51,14 @@ public class VehicleResource {
 
 	@PUT
 	@Path("/update")
-	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
 	public Response update(Vehicle vehicle){
 		try{
 			vehicleService.updateVehicle(vehicle);
 			return Response.ok().build();
+		}
+		catch(VehicleException ve){
+			throw new WebApplicationException(Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(ve.getMessage()).build());
 		}
 		catch(Exception e){
 			return Response.serverError().build();

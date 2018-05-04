@@ -11,6 +11,8 @@ import java.util.List;
 @NamedQueries({
 		@NamedQuery(name="Vehicle.getVehicleByLicensePlate",
 				query="SELECT v FROM Vehicle v WHERE licensePlate = :licensePlate"),
+		@NamedQuery(name="Vehicle.checkIfLicensePlateAlreadyExists",
+				query="SELECT v FROM Vehicle v WHERE licensePlate = :licensePlate AND id != :id"),
 })
 public class Vehicle implements Serializable {
 	@Id
