@@ -1,6 +1,7 @@
 package dao;
 
 import entities.Vehicle;
+import exceptions.VehicleException;
 
 public interface VehicleDao {
 	/**
@@ -9,6 +10,13 @@ public interface VehicleDao {
 	 * @return vehicle
 	 */
 	Vehicle getVehicle(long id);
+
+	/**
+	 * Get vehicle by license plate.
+	 * @param licensePlate
+	 * @return
+	 */
+	Vehicle getVehicleByLicensPlate(String licensePlate) throws VehicleException;
 
 	/**
 	 * create a new vehicle.

@@ -1,6 +1,7 @@
 package rest;
 
 import entities.Vehicle;
+import exceptions.VehicleException;
 import services.VehicleService;
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -21,8 +22,8 @@ public class VehicleResource {
 			vehicleService.createVehicle(vehicle);
 			return Response.ok().build();
 		}
-		catch(Exception e){
-			return Response.serverError().build();
+		catch(VehicleException e){
+			throw new WebApplicationException(Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build());
 		}
 	}
 
