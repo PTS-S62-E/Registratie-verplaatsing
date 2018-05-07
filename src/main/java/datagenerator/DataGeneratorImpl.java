@@ -4,6 +4,8 @@ import dao.TranslocationDao;
 import dao.VehicleDao;
 import entities.Translocation;
 import entities.Vehicle;
+import exceptions.TranslocationException;
+import exceptions.VehicleException;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -21,7 +23,7 @@ public class DataGeneratorImpl implements DataGenerator {
 	TranslocationDao translocationDao;
 
 	@Override
-	public void generateTestData(){
+	public void generateTestData() throws VehicleException, TranslocationException {
 
 		List<Translocation> translocations = new ArrayList<>();
 
