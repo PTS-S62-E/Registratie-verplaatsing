@@ -150,6 +150,12 @@ public class TranslocationServiceImpl implements TranslocationService{
 	 */
 	private boolean shouldTranslocationbeFlagged(double lat, double lon, long id){
 		Translocation previousTranslocation = translocationDao.getLatestTranslocationByVehicleId(id);
+
+		//Maybe it's the first translocation ever.
+		if (previousTranslocation == null){
+			return false;
+		}
+
 		double distance = calculateDistance(lat, previousTranslocation.getLat(), lon, previousTranslocation.getLon(), 0, 0);
 		System.out.println("Long, Lat, Id: " + Double.toString(lon) + ", " + Double.toString(lat) + ", " + Double.toString(id));
 		System.out.println("Prev Long, Lat, Id: " +

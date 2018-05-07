@@ -3,7 +3,6 @@ package services;
 import dao.CategoryDao;
 import entities.Category;
 import exceptions.CategoryException;
-import exceptions.VehicleException;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -16,16 +15,21 @@ public class CategoryServiceImpl implements CategoryService {
 	CategoryDao categoryDao;
 
 	@Override
+	public List<Category> getCategories() {
+		return categoryDao.getCategories();
+	}
+
+	@Override
 	public void createCategory(Category category) throws CategoryException {
-		if (checkIfCategoryExists(category.getCategoryName())){
+		if (checkIfCategoryExists(category.getName())){
 			StringBuilder builder = new StringBuilder();
 			builder.append("Category: ");
-			builder.append(category.getCategoryName());
+			builder.append(category.getName());
 			builder.append(" already exists.");
 			throw new CategoryException(builder.toString());
 		}
 
-		category.setCategoryName(category.getCategoryName().toUpperCase());
+		category.setName(category.getName().toUpperCase());
 		categoryDao.createCategory(category);
 	}
 
@@ -34,7 +38,7 @@ public class CategoryServiceImpl implements CategoryService {
 		List<Category> categories = categoryDao.getCategories();
 
 		for(Category c : categories){
-			if(c.getCategoryName().equals(categoryName)){
+			if(c.getName().equals(categoryName)){
 				return true;
 			}
 		}

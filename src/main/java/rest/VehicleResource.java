@@ -18,7 +18,7 @@ public class VehicleResource {
 	VehicleService vehicleService;
 
 	@POST
-	@Path("/create")
+	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response create(VehicleDto vehicleDto){
 		try{
@@ -37,7 +37,7 @@ public class VehicleResource {
 	}
 
 	@GET
-	@Path("/get/{id}")
+	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response get(@PathParam("id") long id){
 		try{
@@ -53,7 +53,7 @@ public class VehicleResource {
 	}
 
 	@PUT
-	@Path("/update")
+	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response update(VehicleDto vehicleDto){
 		try{

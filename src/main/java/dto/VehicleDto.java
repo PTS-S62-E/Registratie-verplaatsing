@@ -20,7 +20,7 @@ public class VehicleDto implements Serializable {
 		this.licensePlate = vehicle.getLicensePlate();
 		this.brand = vehicle.getBrand();
 		this.type = vehicle.getType();
-		this.category = vehicle.getCategory().getCategoryName();
+		this.category = vehicle.getCategory().getName();
 		this.hardwareSn = vehicle.getHardwareSn();
 	}
 

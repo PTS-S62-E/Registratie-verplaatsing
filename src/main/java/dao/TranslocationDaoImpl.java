@@ -30,6 +30,11 @@ public class TranslocationDaoImpl implements TranslocationDao {
 		TypedQuery<Translocation> query =
 				em.createNamedQuery("Translocation.getTranslocationsByVehicleId", Translocation.class);
 		List<Translocation> translocations = query.setParameter("vehicleId", vehicleId).setMaxResults(1).getResultList();
+
+		if (translocations == null || translocations.size() == 0){
+			return null;
+		}
+
 		return translocations.get(0);
 	}
 

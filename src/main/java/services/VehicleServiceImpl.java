@@ -42,10 +42,19 @@ public class VehicleServiceImpl implements VehicleService {
 		if (vehicleDto.getType() == null || vehicleDto.getType().equals("")){
 			throw new VehicleException("Type is empty, please provide a type.");
 		}
+		if (vehicleDto.getHardwareSn() == null || vehicleDto.getHardwareSn().equals("")){
+			throw new VehicleException("Hardware serial number is empty, please provide a hardware serial number.");
+		}
 	}
 
 	@Override
 	public void updateVehicle(VehicleDto vehicleDto) throws VehicleException, CategoryException {
+
+		//Check if the vehicleDao can find exactly one vehicle belonging to this id.
+		//It will throw an exception if it can't find a vehicle.
+		vehicleDao.getVehicle(vehicleDto.getId());
+
+		checkForRequiredFields(vehicleDto);
 		vehicleDao.updateVehicle(convertCreateVehicleDtoToVehicle(vehicleDto));
 	}
 

@@ -3,6 +3,7 @@ package entities;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
 
@@ -17,17 +18,22 @@ public class Vehicle implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	@Column(unique = true,
-			nullable = false)
+	@Column(unique = true)
 	private String licensePlate;
+	@Column(nullable = false)
+	@Size(min=1)
 	private String brand;
+	@Column(nullable = false)
+	@Size(min=1)
 	private String type;
+	@Column(nullable = false)
+	@Size(min=1)
+	private String hardwareSn;
 	@OneToOne
 	private Category category;
 	@OneToMany(mappedBy = "vehicle")
 	@JsonManagedReference
 	private List<Translocation> translocations;
-	private String hardwareSn;
 
 	public Vehicle(){}
 
