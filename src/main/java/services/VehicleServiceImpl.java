@@ -25,8 +25,23 @@ public class VehicleServiceImpl implements VehicleService {
 
 	@Override
 	public void createVehicle(VehicleDto vehicleDto) throws VehicleException, CategoryException {
+		checkForRequiredFields(vehicleDto);
 		vehicleDao.createVehicle(convertCreateVehicleDtoToVehicle(vehicleDto));
+	}
 
+	private void checkForRequiredFields(VehicleDto vehicleDto) throws VehicleException, CategoryException {
+		if (vehicleDto == null){
+			throw new VehicleException("Vehicle is null, please provide a vehicle.");
+		}
+		if (vehicleDto.getBrand() == null || vehicleDto.getBrand().equals("")){
+			throw new VehicleException("Brand is empty, please provide a brand.");
+		}
+		if (vehicleDto.getCategory() == null || vehicleDto.getCategory().equals("")){
+			throw new CategoryException("Category is empty, please provide a category.");
+		}
+		if (vehicleDto.getType() == null || vehicleDto.getType().equals("")){
+			throw new VehicleException("Type is empty, please provide a type.");
+		}
 	}
 
 	@Override
