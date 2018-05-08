@@ -18,17 +18,7 @@ public class VehicleDaoImpl implements VehicleDao {
 
 	@Override
 	public Vehicle getVehicle(long id) throws VehicleException {
-		Vehicle vehicle =  em.find(Vehicle.class, id);
-
-		if (vehicle == null){
-			StringBuilder builder = new StringBuilder();
-			builder.append("Could not find a vehicle with id ");
-			builder.append(Long.toString(id));
-			builder.append(".");
-			throw new VehicleException(builder.toString());
-		}
-
-		else return vehicle;
+		return em.find(Vehicle.class, id);
 	}
 
 

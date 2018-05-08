@@ -1,7 +1,6 @@
 package dto;
 
 import entities.Vehicle;
-
 import java.io.Serializable;
 
 public class VehicleDto implements Serializable {
