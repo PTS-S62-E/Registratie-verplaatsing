@@ -31,7 +31,7 @@ public interface VehicleDao {
 	void updateVehicle(Vehicle vehicle);
 
 	/**
-	 * check if a licensplate already exists in the database, excludes the license plate passed as a parameter.
+	 * check if a licenseplate already exists in the database, excludes the license plate passed as a parameter.
 	 * @param vehicleId
 	 * @param licensePlate
 	 * @return false if it doesn't exist already.

@@ -1,5 +1,6 @@
 package services;
 
+import dao.CategoryDao;
 import dao.VehicleDao;
 import dto.VehicleDto;
 import entities.Category;
@@ -16,7 +17,7 @@ public class VehicleServiceImpl implements VehicleService {
 	VehicleDao vehicleDao;
 
 	@Inject
-	CategoryService categoryService;
+	CategoryDao categoryDao;
 
 	@Override
 	public VehicleDto getVehicle(long id) throws VehicleException {
@@ -45,14 +46,21 @@ public class VehicleServiceImpl implements VehicleService {
 		if (vehicleDto.getHardwareSn() == null || vehicleDto.getHardwareSn().equals("")){
 			throw new VehicleException("Hardware serial number is empty, please provide a hardware serial number.");
 		}
+		if (vehicleDto.getLicensePlate() == null || vehicleDto.getLicensePlate().equals("")){
+			throw new VehicleException("License plate is empty, please provide a license plate.");
+		}
 	}
 
 	@Override
 	public void updateVehicle(VehicleDto vehicleDto) throws VehicleException, CategoryException {
 
-		//Check if the vehicleDao can find exactly one vehicle belonging to this id.
-		//It will throw an exception if it can't find a vehicle.
-		vehicleDao.getVehicle(vehicleDto.getId());
+		if (vehicleDao.getVehicle(vehicleDto.getId()) == null){
+			StringBuilder builder = new StringBuilder();
+			builder.append("Could not find vehicle with id: ");
+			builder.append(Long.toString(vehicleDto.getId()));
+			builder.append(".");
+			throw new VehicleException(builder.toString());
+		}
 
 		checkForRequiredFields(vehicleDto);
 		vehicleDao.updateVehicle(convertCreateVehicleDtoToVehicle(vehicleDto));
@@ -67,7 +75,7 @@ public class VehicleServiceImpl implements VehicleService {
 			throw new VehicleException("There's already a vehicle registered with this license plate.");
 		}
 
-		if(!categoryService.checkIfCategoryExists(vehicleDto.getCategory())){
+		if(categoryDao.getCategory(vehicleDto.getCategory()) == null){
 			StringBuilder builder = new StringBuilder();
 			builder.append("Category: ");
 			builder.append(vehicleDto.getCategory());
