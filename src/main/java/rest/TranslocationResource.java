@@ -20,7 +20,7 @@ public class TranslocationResource {
 	TranslocationService translocationService;
 
 	@POST
-	@Path("/create")
+	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response create(CreateTranslocationDto createTranslocationDto){
 		try{
@@ -36,7 +36,7 @@ public class TranslocationResource {
 	}
 
 	@GET
-	@Path("/get/{id}")
+	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response get(@PathParam("id") long id){
 		try{
@@ -52,7 +52,7 @@ public class TranslocationResource {
 	}
 
 	@GET
-	@Path("/get/{id}/{startdate}/{enddate}")
+	@Path("/{id}/{startdate}/{enddate}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getByLicensePlateAndTimePeriod(@PathParam("id") long id,
 												   @PathParam("startdate") String startDate,
@@ -65,7 +65,7 @@ public class TranslocationResource {
 							LocalDateTimeParser.stringToLocalDateTime(endDate))).build();
 		}
 		catch(Exception e){
-			return Response.serverError().build();
+			throw JsonExceptionMapper.mapException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
 		}
 	}
 }

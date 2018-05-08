@@ -2,10 +2,13 @@ package datagenerator;
 
 import dao.TranslocationDao;
 import dao.VehicleDao;
+import entities.Category;
 import entities.Translocation;
 import entities.Vehicle;
+import exceptions.CategoryException;
 import exceptions.TranslocationException;
 import exceptions.VehicleException;
+import services.CategoryService;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -22,15 +25,20 @@ public class DataGeneratorImpl implements DataGenerator {
 	@Inject
 	TranslocationDao translocationDao;
 
+	@Inject
+	CategoryService categoryService;
+
 	@Override
-	public void generateTestData() throws VehicleException, TranslocationException {
+	public void generateTestData() throws VehicleException, TranslocationException, CategoryException {
 
 		List<Translocation> translocations = new ArrayList<>();
 
 		LocalDateTime timestamp = LocalDateTime.now();
 
+		Category category = new Category("TRUCK");
+		categoryService.createCategory(category);
 
-		Vehicle vehicle = new Vehicle("LICENSPLATE", "MERCEDES", "VRACHTWAGEN", "DIKKE BAK", translocations, "HARDWARESN");
+		Vehicle vehicle = new Vehicle(0, "LICENSPLATE", "MERCEDES", "VRACHTWAGEN", category, translocations, "HARDWARESN");
 		vehicleDao.createVehicle(vehicle);
 
 		for (int i = 0; i <= 100; i++ ){

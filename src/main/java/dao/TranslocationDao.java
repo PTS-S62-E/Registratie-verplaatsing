@@ -8,7 +8,7 @@ import java.util.List;
 
 	public interface TranslocationDao {
 		/**
-		 * Get latest translocation of a vehicle.
+		 * Get latest translocation of a vehicle, returns null if no translocation is found.
 		 * @param vehicleId
 		 * @return
 		 */

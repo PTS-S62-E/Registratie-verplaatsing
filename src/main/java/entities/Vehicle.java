@@ -1,9 +1,9 @@
 package entities;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import services.TranslocationService;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
 
@@ -18,20 +18,27 @@ public class Vehicle implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	@Column(unique = true,
-			nullable = false)
+	@Column(unique = true)
 	private String licensePlate;
+	@Column(nullable = false)
+	@Size(min=1)
 	private String brand;
+	@Column(nullable = false)
+	@Size(min=1)
 	private String type;
-	private String category;
+	@Column(nullable = false)
+	@Size(min=1)
+	private String hardwareSn;
+	@OneToOne
+	private Category category;
 	@OneToMany(mappedBy = "vehicle")
 	@JsonManagedReference
 	private List<Translocation> translocations;
-	private String hardwareSn;
 
 	public Vehicle(){}
 
-	public Vehicle(String licensePlate, String brand, String type, String category, List<Translocation> translocations, String hardwareSn ){
+	public Vehicle(long id, String licensePlate, String brand, String type, Category category, List<Translocation> translocations, String hardwareSn ){
+		this.id = id;
 		this.licensePlate = licensePlate;
 		this.brand = brand;
 		this.type = type;
@@ -72,12 +79,12 @@ public class Vehicle implements Serializable {
 		this.type = type;
 	}
 
-	public String getCategory() {
+	public Category getCategory() {
 		return category;
 	}
 
-	public void setCategory(String categorie) {
-		this.category = categorie;
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 
 	public List<Translocation> getTranslocations() {

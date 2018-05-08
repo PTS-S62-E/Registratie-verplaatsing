@@ -1,12 +1,12 @@
 package rest;
 
-import entities.Vehicle;
+import dto.VehicleDto;
+import exceptions.CategoryException;
 import exceptions.VehicleException;
 import services.VehicleService;
 import util.JsonExceptionMapper;
 
 import javax.inject.Inject;
-import javax.json.JsonObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -18,15 +18,18 @@ public class VehicleResource {
 	VehicleService vehicleService;
 
 	@POST
-	@Path("/create")
+	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response create(Vehicle vehicle){
+	public Response create(VehicleDto vehicleDto){
 		try{
-			vehicleService.createVehicle(vehicle);
+			vehicleService.createVehicle(vehicleDto);
 			return Response.ok().build();
 		}
 		catch(VehicleException ve){
 			throw new WebApplicationException(Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(ve.getMessage()).build());
+		}
+		catch(CategoryException ce){
+			throw new WebApplicationException(Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(ce.getMessage()).build());
 		}
 		catch(Exception e){
 			return Response.serverError().build();
@@ -34,7 +37,7 @@ public class VehicleResource {
 	}
 
 	@GET
-	@Path("/get/{id}")
+	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response get(@PathParam("id") long id){
 		try{
@@ -50,15 +53,18 @@ public class VehicleResource {
 	}
 
 	@PUT
-	@Path("/update")
+	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response update(Vehicle vehicle){
+	public Response update(VehicleDto vehicleDto){
 		try{
-			vehicleService.updateVehicle(vehicle);
+			vehicleService.updateVehicle(vehicleDto);
 			return Response.ok().build();
 		}
 		catch(VehicleException ve){
 			throw new WebApplicationException(Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(ve.getMessage()).build());
+		}
+		catch(CategoryException ce){
+			throw new WebApplicationException(Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(ce.getMessage()).build());
 		}
 		catch(Exception e){
 			return Response.serverError().build();
