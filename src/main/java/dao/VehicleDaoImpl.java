@@ -17,7 +17,7 @@ public class VehicleDaoImpl implements VehicleDao {
 	EntityManager em;
 
 	@Override
-	public Vehicle getVehicle(long id) throws VehicleException {
+	public Vehicle getVehicle(long id) {
 		return em.find(Vehicle.class, id);
 	}
 

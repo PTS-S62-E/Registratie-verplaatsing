@@ -18,9 +18,21 @@ public class CategoryResource {
 	@GET
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response get(){
+	public Response getAll(){
 		try{
 			return Response.ok(categoryService.getCategories()).build();
+		}
+		catch(Exception e){
+			throw JsonExceptionMapper.mapException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
+		}
+	}
+
+	@GET
+	@Path("/{name}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response get(@PathParam("name") String name){
+		try{
+			return Response.ok(categoryService.getCategory(name)).build();
 		}
 		catch(Exception e){
 			throw JsonExceptionMapper.mapException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());

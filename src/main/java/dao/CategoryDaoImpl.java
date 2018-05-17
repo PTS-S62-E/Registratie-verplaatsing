@@ -28,6 +28,6 @@ public class CategoryDaoImpl implements CategoryDao{
 
 	@Override
 	public Category getCategory(String name){
-		return em.find(Category.class, name.toUpperCase());
+		return em.find(Category.class, name);
 	}
 }
