@@ -13,6 +13,14 @@ public interface VehicleService {
 	VehicleDto getVehicle(long id) throws VehicleException;
 
 	/**
+	 * Get vehicle by licenseplate
+	 * @param licensePlate
+	 * @return
+	 * @throws VehicleException
+	 */
+	VehicleDto getVehicle(String licensePlate) throws VehicleException;
+
+	/**
 	 * create a new vehicle.
 	 * @param vehicleDto
 	 */

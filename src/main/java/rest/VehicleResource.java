@@ -37,12 +37,28 @@ public class VehicleResource {
 	}
 
 	@GET
-	@Path("/{id}")
+	@Path("/id/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response get(@PathParam("id") long id){
 		try{
 			return Response.ok(
 					vehicleService.getVehicle(id)).build();
+		}
+		catch(VehicleException ve){
+			throw JsonExceptionMapper.mapException(Response.Status.INTERNAL_SERVER_ERROR, ve.getMessage());
+		}
+		catch(Exception e){
+			throw JsonExceptionMapper.mapException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
+		}
+	}
+
+	@GET
+	@Path("/licensePlate/{licensePlate}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getByVehicleId(@PathParam("licensePlate") String licensePlate){
+		try{
+			return Response.ok(
+					vehicleService.getVehicle(licensePlate)).build();
 		}
 		catch(VehicleException ve){
 			throw JsonExceptionMapper.mapException(Response.Status.INTERNAL_SERVER_ERROR, ve.getMessage());

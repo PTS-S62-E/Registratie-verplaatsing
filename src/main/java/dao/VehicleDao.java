@@ -12,11 +12,12 @@ public interface VehicleDao {
 	Vehicle getVehicle(long id) throws VehicleException;
 
 	/**
-	 * Get vehicle by license plate.
+	 * Get vehicle by licenseplate
 	 * @param licensePlate
 	 * @return
+	 * @throws VehicleException
 	 */
-	Vehicle getVehicleByLicensPlate(String licensePlate) throws VehicleException;
+	Vehicle getVehicle(String licensePlate) throws VehicleException;
 
 	/**
 	 * create a new vehicle.
