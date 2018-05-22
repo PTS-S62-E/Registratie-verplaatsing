@@ -38,7 +38,7 @@ public class DataGeneratorImpl implements DataGenerator {
 		Category category = new Category("TRUCK");
 		categoryService.createCategory(category);
 
-		Vehicle vehicle = new Vehicle(0, "LICENSPLATE", "MERCEDES", "VRACHTWAGEN", category, translocations, "HARDWARESN");
+		Vehicle vehicle = new Vehicle(0, "LICENSPLATE", "MERCEDES", "VRACHTWAGEN", category, translocations, "HARDWARESN", "NL");
 		vehicleDao.createVehicle(vehicle);
 
 		for (int i = 0; i <= 100; i++ ){

@@ -1,14 +1,23 @@
 package services;
 
 import dao.CategoryDao;
+import dao.TranslocationDao;
 import dao.VehicleDao;
+import dto.AdministrationDto;
+import dto.ForeignVehicleDto;
+import dto.TranslocationDto;
 import dto.VehicleDto;
 import entities.Category;
+import entities.Translocation;
 import entities.Vehicle;
 import exceptions.CategoryException;
+import exceptions.DateException;
 import exceptions.VehicleException;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Stateless
 public class VehicleServiceImpl implements VehicleService {
@@ -18,6 +27,9 @@ public class VehicleServiceImpl implements VehicleService {
 
 	@Inject
 	CategoryDao categoryDao;
+
+	@Inject
+	TranslocationService translocationService;
 
 	@Override
 	public VehicleDto getVehicle(long id) throws VehicleException {
@@ -33,6 +45,27 @@ public class VehicleServiceImpl implements VehicleService {
 	public void createVehicle(VehicleDto vehicleDto) throws VehicleException, CategoryException {
 		checkForRequiredFields(vehicleDto);
 		vehicleDao.createVehicle(convertCreateVehicleDtoToVehicle(vehicleDto));
+	}
+
+	@Override
+	public List<ForeignVehicleDto> getForeignVehiclesAndTranslocations(LocalDateTime startDate, LocalDateTime endDate) throws DateException {
+
+		if (endDate.isBefore(startDate)){
+			throw new DateException("enddate cannot be before startdate.");
+		}
+
+		List<Vehicle> vehicles = vehicleDao.getAllVehiclesFromOtherCountry();
+		List<ForeignVehicleDto> vehiclesThatHaveDriven = new ArrayList<>();
+
+		for(Vehicle vehicle : vehicles){
+			AdministrationDto administrationDto = translocationService.getAdministrationDto(vehicle.getId(), startDate, endDate);
+
+			if(administrationDto.getJourneys() != null && administrationDto.getJourneys().size() > 0){
+				vehiclesThatHaveDriven.add(new ForeignVehicleDto(vehicle, administrationDto.getJourneys()));
+			}
+		}
+
+		return vehiclesThatHaveDriven;
 	}
 
 	private void checkForRequiredFields(VehicleDto vehicleDto) throws VehicleException, CategoryException {
@@ -53,6 +86,9 @@ public class VehicleServiceImpl implements VehicleService {
 		}
 		if (vehicleDto.getLicensePlate() == null || vehicleDto.getLicensePlate().equals("")){
 			throw new VehicleException("License plate is empty, please provide a license plate.");
+		}
+		if (vehicleDto.getCountryCode() == null || vehicleDto.getCountryCode().equals("")){
+			throw new VehicleException("Country code is empty, please provide a country code.");
 		}
 	}
 
@@ -97,7 +133,8 @@ public class VehicleServiceImpl implements VehicleService {
 				vehicleDto.getType(),
 				category,
 				null,
-				vehicleDto.getHardwareSn());
+				vehicleDto.getHardwareSn(),
+				vehicleDto.getCountryCode());
 
 		return vehicle;
 	}

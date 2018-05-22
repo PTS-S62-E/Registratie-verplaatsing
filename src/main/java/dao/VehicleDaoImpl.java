@@ -29,6 +29,14 @@ public class VehicleDaoImpl implements VehicleDao {
 		return vehicle;
 	}
 
+	@Override
+	public List<Vehicle> getAllVehiclesFromOtherCountry() {
+		TypedQuery<Vehicle> query =
+				em.createNamedQuery("Vehicle.getAllVehiclesFromOtherCountries", Vehicle.class);
+		List<Vehicle> vehicles = query.setParameter("countryCode", "FI").getResultList();
+		return vehicles;
+	}
+
 	/**
 	 * Get vehicle by license plate, returns null if there's no vehicle with that license plate found.
 	 * @param licensePlate
@@ -59,6 +67,8 @@ public class VehicleDaoImpl implements VehicleDao {
 
 		return vehicles.get(0);
 	}
+
+
 
 	/**
 	 * check if a licensplate already exists in the database, excludes the license plate passed as a parameter.
