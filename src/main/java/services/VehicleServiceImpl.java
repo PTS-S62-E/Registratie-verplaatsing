@@ -25,6 +25,11 @@ public class VehicleServiceImpl implements VehicleService {
 	}
 
 	@Override
+	public VehicleDto getVehicle(String licensePlate) throws VehicleException {
+		return new VehicleDto(vehicleDao.getVehicle(licensePlate));
+	}
+
+	@Override
 	public void createVehicle(VehicleDto vehicleDto) throws VehicleException, CategoryException {
 		checkForRequiredFields(vehicleDto);
 		vehicleDao.createVehicle(convertCreateVehicleDtoToVehicle(vehicleDto));
@@ -71,7 +76,7 @@ public class VehicleServiceImpl implements VehicleService {
 
 		vehicleDto.setCategory(vehicleDto.getCategory().toUpperCase());
 
-		if(vehicleDao.getVehicleByLicensPlate(vehicleDto.getLicensePlate()) != null){
+		if(vehicleDao.checkIfLicensePlateAlreadyExists(-1, vehicleDto.getLicensePlate())){
 			throw new VehicleException("There's already a vehicle registered with this license plate.");
 		}
 

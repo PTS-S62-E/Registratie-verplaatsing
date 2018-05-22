@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.validation.constraints.Size;
 
 @Entity
 @NamedQueries({
@@ -13,6 +14,7 @@ import javax.persistence.NamedQuery;
 public class Category {
 
 	@Id
+	@Size(min = 1)
 	String name;
 	String description;
 

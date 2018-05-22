@@ -14,6 +14,15 @@ public class CategoryServiceImpl implements CategoryService {
 	@Inject
 	CategoryDao categoryDao;
 
+	public Category getCategory(String name) throws CategoryException {
+
+		if(name.isEmpty()){
+			throw new CategoryException("name cannot be empty");
+		}
+
+		return categoryDao.getCategory(name.toUpperCase());
+	}
+
 	@Override
 	public List<Category> getCategories() {
 		return categoryDao.getCategories();
