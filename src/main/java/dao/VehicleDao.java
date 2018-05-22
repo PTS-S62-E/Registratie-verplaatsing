@@ -3,6 +3,8 @@ package dao;
 import entities.Vehicle;
 import exceptions.VehicleException;
 
+import java.util.List;
+
 public interface VehicleDao {
 	/**
 	 * Get vehicle by id.
@@ -10,6 +12,13 @@ public interface VehicleDao {
 	 * @return vehicle
 	 */
 	Vehicle getVehicle(long id) throws VehicleException;
+
+	/**
+	 * Get vehicle by id.
+	 * @param id
+	 * @return vehicle
+	 */
+	List<Vehicle> getAllVehiclesFromOtherCountry();
 
 	/**
 	 * Get vehicle by licenseplate

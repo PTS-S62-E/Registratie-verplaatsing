@@ -2,27 +2,39 @@ package dto;
 
 import entities.Vehicle;
 import java.io.Serializable;
+import java.util.List;
 
-public class VehicleDto implements Serializable {
+public class ForeignVehicleDto implements Serializable {
 
 	private long id;
-	private String countryCode;
 	private String licensePlate;
 	private String brand;
 	private String type;
 	private String category;
 	private String hardwareSn;
 
-	public VehicleDto(){}
+	private String countryCode;
+	private List<JourneyDto> journeys;
 
-	public VehicleDto(Vehicle vehicle){
+	public ForeignVehicleDto(){}
+
+	public ForeignVehicleDto(Vehicle vehicle, List<JourneyDto> journeys){
 		this.id = vehicle.getId();
 		this.licensePlate = vehicle.getLicensePlate();
 		this.brand = vehicle.getBrand();
 		this.type = vehicle.getType();
 		this.category = vehicle.getCategory().getName();
 		this.hardwareSn = vehicle.getHardwareSn();
+		this.journeys = journeys;
 		this.countryCode = vehicle.getCountryCode();
+	}
+
+	public List<JourneyDto> getJourneys() {
+		return journeys;
+	}
+
+	public void setJourneys(List<JourneyDto>journeys) {
+		this.journeys = journeys;
 	}
 
 	public long getId() {

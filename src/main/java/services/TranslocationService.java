@@ -40,5 +40,5 @@ public interface TranslocationService {
 	 * @param endDate
 	 * @return a DTO object that contains Journeys, that contain Translocations.
 	 */
-	public AdministrationDto getAdministrationDto(long vehicleId, LocalDateTime startDate, LocalDateTime endDate);
+	AdministrationDto getAdministrationDto(long vehicleId, LocalDateTime startDate, LocalDateTime endDate);
 }
