@@ -5,10 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pts62.common.finland.communication.CommunicationBuilder;
 import com.pts62.common.finland.communication.QueueConnector;
 import dto.TrackingInfoDto;
-import entities.Tracking;
 import io.sentry.Sentry;
-
-import java.util.List;
 
 public class QueueMessageSender {
 
@@ -27,22 +24,20 @@ public class QueueMessageSender {
 		if(_instance == null) {
 			new QueueMessageSender();
 		}
-
 		return _instance;
 	}
 
 	public void sendTrackersToPolice(TrackingInfoDto trackingInfoDto) {
-
-		//TODO: Setup the message queue correctly so that the actual invoice will be sent
-
+		//TODO: Setup the message queue correctly so that the actual tracking info will be sent
 		this.builder.setCountry("FI");
 		this.builder.setApplication("PLEASE_REPLACE_THIS");
 		this.builder.setMessage("PLEASE_REPLACE_THIS");
 
 		ObjectMapper mapper = new ObjectMapper();
+
 		try {
 			String invoiceAsJsonString = mapper.writeValueAsString(trackingInfoDto);
-//           this.connector.publishMessage(this.builder.build(), invoiceAsJsonString);
+			this.connector.publishMessage(this.builder.build(), invoiceAsJsonString);
 		} catch (JsonProcessingException e) {
 			Sentry.capture(e);
 		}
