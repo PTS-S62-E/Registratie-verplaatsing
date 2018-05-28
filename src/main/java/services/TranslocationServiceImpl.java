@@ -1,13 +1,11 @@
 package services;
 
-import com.pts62.common.europe.facades.ITranslocationFacade;
+import Communication.QueueMessageSender;
 import dao.TranslocationDao;
 import dao.VehicleDao;
-import dto.AdministrationDto;
-import dto.CreateTranslocationDto;
-import dto.TranslocationDto;
+import dto.*;
+import entities.Tracking;
 import entities.Translocation;
-import dto.JourneyDto;
 import exceptions.TranslocationException;
 import exceptions.VehicleException;
 import util.LocalDateTimeParser;
@@ -27,6 +25,9 @@ public class TranslocationServiceImpl implements TranslocationService{
 
 	@Inject
 	VehicleDao vehicleDao;
+
+	@Inject
+	TrackingService trackingService;
 
 	//The amount of minutes that need to have passed since the previous Translocation,
 	//to consider the next translocation the start of a new journey.
@@ -57,7 +58,22 @@ public class TranslocationServiceImpl implements TranslocationService{
 						createTranslocationDto.getLongitude(),
 						createTranslocationDto.getVehicleId()));
 
+
 		translocationDao.createTranslocation(translocation);
+
+		List<Tracking> trackings = trackingService.findTrackings(createTranslocationDto.getLicensePlate());
+
+		if(trackings != null && trackings.size() != 0){
+			sendTrackingsToPolice(trackings, translocation);
+		}
+	}
+
+	private void sendTrackingsToPolice(List<Tracking> trackings, Translocation translocation){
+		TranslocationDto translocationDto = new TranslocationDto(translocation);
+		List<TrackingDto> trackingDtos = trackingService.convertToDto(trackings);
+		TrackingInfoDto trackingInfoDto = new TrackingInfoDto(trackingDtos, translocationDto);
+		QueueMessageSender queueMessageSender = QueueMessageSender.getInstance();
+		queueMessageSender.sendTrackersToPolice(trackingInfoDto);
 	}
 
 	public AdministrationDto getAdministrationDto(long vehicleId, LocalDateTime startDate, LocalDateTime endDate){
