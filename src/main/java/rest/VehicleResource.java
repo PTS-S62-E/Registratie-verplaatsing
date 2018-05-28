@@ -5,6 +5,7 @@ import exceptions.CategoryException;
 import exceptions.VehicleException;
 import services.VehicleService;
 import util.JsonExceptionMapper;
+import util.LocalDateTimeParser;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -25,19 +26,13 @@ public class VehicleResource {
 			vehicleService.createVehicle(vehicleDto);
 			return Response.ok().build();
 		}
-		catch(VehicleException ve){
-			throw new WebApplicationException(Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(ve.getMessage()).build());
-		}
-		catch(CategoryException ce){
-			throw new WebApplicationException(Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(ce.getMessage()).build());
-		}
 		catch(Exception e){
-			return Response.serverError().build();
+			throw new WebApplicationException(Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build());
 		}
 	}
 
 	@GET
-	@Path("/{id}")
+	@Path("/id/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response get(@PathParam("id") long id){
 		try{
@@ -46,6 +41,38 @@ public class VehicleResource {
 		}
 		catch(VehicleException ve){
 			throw JsonExceptionMapper.mapException(Response.Status.INTERNAL_SERVER_ERROR, ve.getMessage());
+		}
+		catch(Exception e){
+			throw JsonExceptionMapper.mapException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
+		}
+	}
+
+	@GET
+	@Path("/licensePlate/{licensePlate}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getByLicensePlate(@PathParam("licensePlate") String licensePlate){
+		try{
+			return Response.ok(
+					vehicleService.getVehicle(licensePlate)).build();
+		}
+		catch(VehicleException ve){
+			throw JsonExceptionMapper.mapException(Response.Status.INTERNAL_SERVER_ERROR, ve.getMessage());
+		}
+		catch(Exception e){
+			throw JsonExceptionMapper.mapException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
+		}
+	}
+
+	@GET
+	@Path("foreignVehicles/{startdate}/{enddate}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getForeignVehiclesAndTranslocations(@PathParam("startdate") String startDate,
+												   @PathParam("enddate") String endDate){
+		try{
+			return Response.ok(
+					vehicleService.getForeignVehiclesAndTranslocations(
+							LocalDateTimeParser.stringToLocalDateTime(startDate),
+							LocalDateTimeParser.stringToLocalDateTime(endDate))).build();
 		}
 		catch(Exception e){
 			throw JsonExceptionMapper.mapException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());

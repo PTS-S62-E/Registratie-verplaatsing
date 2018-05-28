@@ -13,6 +13,8 @@ import java.util.List;
 				query="SELECT v FROM Vehicle v WHERE licensePlate = :licensePlate"),
 		@NamedQuery(name="Vehicle.checkIfLicensePlateAlreadyExists",
 				query="SELECT v FROM Vehicle v WHERE licensePlate = :licensePlate AND id != :id"),
+		@NamedQuery(name="Vehicle.getAllVehiclesFromOtherCountries",
+				query="SELECT v FROM Vehicle v WHERE countryCode != :countryCode"),
 })
 public class Vehicle implements Serializable {
 	@Id
@@ -31,13 +33,16 @@ public class Vehicle implements Serializable {
 	private String hardwareSn;
 	@OneToOne
 	private Category category;
+	@Column(nullable = false)
+	@Size(min=1)
+	private String countryCode;
 	@OneToMany(mappedBy = "vehicle")
 	@JsonManagedReference
 	private List<Translocation> translocations;
 
 	public Vehicle(){}
 
-	public Vehicle(long id, String licensePlate, String brand, String type, Category category, List<Translocation> translocations, String hardwareSn ){
+	public Vehicle(long id, String licensePlate, String brand, String type, Category category, List<Translocation> translocations, String hardwareSn, String countryCode){
 		this.id = id;
 		this.licensePlate = licensePlate;
 		this.brand = brand;
@@ -45,6 +50,15 @@ public class Vehicle implements Serializable {
 		this.category = category;
 		this.translocations = translocations;
 		this.hardwareSn = hardwareSn;
+		this.countryCode = countryCode;
+	}
+
+	public String getCountryCode() {
+		return countryCode;
+	}
+
+	public void setCountryCode(String countryCode) {
+		this.countryCode = countryCode;
 	}
 
 	public long getId() {

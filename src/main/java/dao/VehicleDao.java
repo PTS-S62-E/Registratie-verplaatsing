@@ -3,6 +3,8 @@ package dao;
 import entities.Vehicle;
 import exceptions.VehicleException;
 
+import java.util.List;
+
 public interface VehicleDao {
 	/**
 	 * Get vehicle by id.
@@ -12,11 +14,19 @@ public interface VehicleDao {
 	Vehicle getVehicle(long id) throws VehicleException;
 
 	/**
-	 * Get vehicle by license plate.
+	 * Get vehicle by id.
+	 * @param id
+	 * @return vehicle
+	 */
+	List<Vehicle> getAllVehiclesFromOtherCountry();
+
+	/**
+	 * Get vehicle by licenseplate
 	 * @param licensePlate
 	 * @return
+	 * @throws VehicleException
 	 */
-	Vehicle getVehicleByLicensPlate(String licensePlate) throws VehicleException;
+	Vehicle getVehicle(String licensePlate) throws VehicleException;
 
 	/**
 	 * create a new vehicle.
@@ -31,7 +41,7 @@ public interface VehicleDao {
 	void updateVehicle(Vehicle vehicle);
 
 	/**
-	 * check if a licensplate already exists in the database, excludes the license plate passed as a parameter.
+	 * check if a licenseplate already exists in the database, excludes the license plate passed as a parameter.
 	 * @param vehicleId
 	 * @param licensePlate
 	 * @return false if it doesn't exist already.

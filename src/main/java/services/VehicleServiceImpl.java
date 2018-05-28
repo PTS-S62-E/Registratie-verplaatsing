@@ -1,13 +1,23 @@
 package services;
 
+import dao.CategoryDao;
+import dao.TranslocationDao;
 import dao.VehicleDao;
+import dto.AdministrationDto;
+import dto.ForeignVehicleDto;
+import dto.TranslocationDto;
 import dto.VehicleDto;
 import entities.Category;
+import entities.Translocation;
 import entities.Vehicle;
 import exceptions.CategoryException;
+import exceptions.DateException;
 import exceptions.VehicleException;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Stateless
 public class VehicleServiceImpl implements VehicleService {
@@ -16,7 +26,10 @@ public class VehicleServiceImpl implements VehicleService {
 	VehicleDao vehicleDao;
 
 	@Inject
-	CategoryService categoryService;
+	CategoryDao categoryDao;
+
+	@Inject
+	TranslocationService translocationService;
 
 	@Override
 	public VehicleDto getVehicle(long id) throws VehicleException {
@@ -24,9 +37,35 @@ public class VehicleServiceImpl implements VehicleService {
 	}
 
 	@Override
+	public VehicleDto getVehicle(String licensePlate) throws VehicleException {
+		return new VehicleDto(vehicleDao.getVehicle(licensePlate));
+	}
+
+	@Override
 	public void createVehicle(VehicleDto vehicleDto) throws VehicleException, CategoryException {
 		checkForRequiredFields(vehicleDto);
 		vehicleDao.createVehicle(convertCreateVehicleDtoToVehicle(vehicleDto));
+	}
+
+	@Override
+	public List<ForeignVehicleDto> getForeignVehiclesAndTranslocations(LocalDateTime startDate, LocalDateTime endDate) throws DateException {
+
+		if (endDate.isBefore(startDate)){
+			throw new DateException("enddate cannot be before startdate.");
+		}
+
+		List<Vehicle> vehicles = vehicleDao.getAllVehiclesFromOtherCountry();
+		List<ForeignVehicleDto> vehiclesThatHaveDriven = new ArrayList<>();
+
+		for(Vehicle vehicle : vehicles){
+			AdministrationDto administrationDto = translocationService.getAdministrationDto(vehicle.getId(), startDate, endDate);
+
+			if(administrationDto.getJourneys() != null && administrationDto.getJourneys().size() > 0){
+				vehiclesThatHaveDriven.add(new ForeignVehicleDto(vehicle, administrationDto.getJourneys()));
+			}
+		}
+
+		return vehiclesThatHaveDriven;
 	}
 
 	private void checkForRequiredFields(VehicleDto vehicleDto) throws VehicleException, CategoryException {
@@ -45,14 +84,24 @@ public class VehicleServiceImpl implements VehicleService {
 		if (vehicleDto.getHardwareSn() == null || vehicleDto.getHardwareSn().equals("")){
 			throw new VehicleException("Hardware serial number is empty, please provide a hardware serial number.");
 		}
+		if (vehicleDto.getLicensePlate() == null || vehicleDto.getLicensePlate().equals("")){
+			throw new VehicleException("License plate is empty, please provide a license plate.");
+		}
+		if (vehicleDto.getCountryCode() == null || vehicleDto.getCountryCode().equals("")){
+			throw new VehicleException("Country code is empty, please provide a country code.");
+		}
 	}
 
 	@Override
 	public void updateVehicle(VehicleDto vehicleDto) throws VehicleException, CategoryException {
 
-		//Check if the vehicleDao can find exactly one vehicle belonging to this id.
-		//It will throw an exception if it can't find a vehicle.
-		vehicleDao.getVehicle(vehicleDto.getId());
+		if (vehicleDao.getVehicle(vehicleDto.getId()) == null){
+			StringBuilder builder = new StringBuilder();
+			builder.append("Could not find vehicle with id: ");
+			builder.append(Long.toString(vehicleDto.getId()));
+			builder.append(".");
+			throw new VehicleException(builder.toString());
+		}
 
 		checkForRequiredFields(vehicleDto);
 		vehicleDao.updateVehicle(convertCreateVehicleDtoToVehicle(vehicleDto));
@@ -63,11 +112,11 @@ public class VehicleServiceImpl implements VehicleService {
 
 		vehicleDto.setCategory(vehicleDto.getCategory().toUpperCase());
 
-		if(vehicleDao.getVehicleByLicensPlate(vehicleDto.getLicensePlate()) != null){
+		if(vehicleDao.checkIfLicensePlateAlreadyExists(-1, vehicleDto.getLicensePlate())){
 			throw new VehicleException("There's already a vehicle registered with this license plate.");
 		}
 
-		if(!categoryService.checkIfCategoryExists(vehicleDto.getCategory())){
+		if(categoryDao.getCategory(vehicleDto.getCategory()) == null){
 			StringBuilder builder = new StringBuilder();
 			builder.append("Category: ");
 			builder.append(vehicleDto.getCategory());
@@ -84,7 +133,8 @@ public class VehicleServiceImpl implements VehicleService {
 				vehicleDto.getType(),
 				category,
 				null,
-				vehicleDto.getHardwareSn());
+				vehicleDto.getHardwareSn(),
+				vehicleDto.getCountryCode());
 
 		return vehicle;
 	}

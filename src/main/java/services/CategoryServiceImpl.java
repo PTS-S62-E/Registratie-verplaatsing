@@ -14,6 +14,15 @@ public class CategoryServiceImpl implements CategoryService {
 	@Inject
 	CategoryDao categoryDao;
 
+	public Category getCategory(String name) throws CategoryException {
+
+		if(name.isEmpty()){
+			throw new CategoryException("name cannot be empty");
+		}
+
+		return categoryDao.getCategory(name.toUpperCase());
+	}
+
 	@Override
 	public List<Category> getCategories() {
 		return categoryDao.getCategories();
@@ -21,27 +30,14 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public void createCategory(Category category) throws CategoryException {
-		if (checkIfCategoryExists(category.getName())){
+		if (categoryDao.getCategory(category.getName()) != null){
 			StringBuilder builder = new StringBuilder();
 			builder.append("Category: ");
 			builder.append(category.getName());
 			builder.append(" already exists.");
 			throw new CategoryException(builder.toString());
 		}
-
 		category.setName(category.getName().toUpperCase());
 		categoryDao.createCategory(category);
-	}
-
-	@Override
-	public boolean checkIfCategoryExists(String categoryName) {
-		List<Category> categories = categoryDao.getCategories();
-
-		for(Category c : categories){
-			if(c.getName().equals(categoryName)){
-				return true;
-			}
-		}
-		return false;
 	}
 }

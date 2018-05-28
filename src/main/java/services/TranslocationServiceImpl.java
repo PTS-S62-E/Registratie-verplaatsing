@@ -113,7 +113,7 @@ public class TranslocationServiceImpl implements TranslocationService{
 	 * @param translocations
 	 * @return
 	 */
-	private List<TranslocationDto> convertTranslocationToDto(List<Translocation> translocations){
+	public List<TranslocationDto> convertTranslocationToDto(List<Translocation> translocations){
 		List<TranslocationDto> translocationDtos = new ArrayList<>();
 
 		for (Translocation translocation : translocations){
