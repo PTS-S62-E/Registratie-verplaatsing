@@ -15,7 +15,7 @@ public class TrackingResource {
 
 	@POST
 	@Path("/")
-	@Consumes(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.TEXT_PLAIN)
 	public Response create(String licensePlate){
 		try{
 			trackingService.createTracking(licensePlate);
@@ -27,9 +27,9 @@ public class TrackingResource {
 	}
 
 	@DELETE
-	@Path("/")
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response delete(String licensePlate){
+	@Path("/{licensePlate}")
+	@Consumes(MediaType.TEXT_PLAIN)
+	public Response delete(@PathParam("licensePlate") String licensePlate){
 		try{
 			trackingService.deleteTracking(licensePlate);
 			return Response.ok().build();

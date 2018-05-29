@@ -1,12 +1,9 @@
 package services;
 
 import dto.AdministrationDto;
-import dto.InternalTranslocationDto;
 import dto.TranslocationDto;
 import exceptions.VehicleException;
-
 import java.time.LocalDateTime;
-import java.util.List;
 
 public interface TranslocationService {
 	/**

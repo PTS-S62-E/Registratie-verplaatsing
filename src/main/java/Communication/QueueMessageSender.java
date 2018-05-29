@@ -29,12 +29,10 @@ public class QueueMessageSender {
 
 	public void sendTrackersToPolice(TrackingInfoDto trackingInfoDto) {
 		//TODO: Setup the message queue correctly so that the actual tracking info will be sent
-		this.builder.setCountry("FI");
-		this.builder.setApplication("PLEASE_REPLACE_THIS");
-		this.builder.setMessage("PLEASE_REPLACE_THIS");
-
+		this.builder.setCountry("fi");
+		this.builder.setApplication("police");
+		this.builder.setMessage("track.vehicle");
 		ObjectMapper mapper = new ObjectMapper();
-
 		try {
 			String invoiceAsJsonString = mapper.writeValueAsString(trackingInfoDto);
 			this.connector.publishMessage(this.builder.build(), invoiceAsJsonString);

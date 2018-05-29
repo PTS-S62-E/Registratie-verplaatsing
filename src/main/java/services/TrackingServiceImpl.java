@@ -1,8 +1,11 @@
 package services;
 
 import dao.TrackingDao;
+import dao.VehicleDao;
 import entities.Tracking;
 import exceptions.TrackingException;
+import exceptions.VehicleException;
+
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
@@ -12,7 +15,19 @@ public class TrackingServiceImpl implements TrackingService {
 	@Inject
 	TrackingDao trackingDao;
 
-	public void createTracking(String licensePlate){
+	@Inject
+	VehicleDao vehicleDao;
+
+	public void createTracking(String licensePlate) throws TrackingException, VehicleException {
+
+		if(!vehicleDao.checkIfLicensePlateAlreadyExists(-1, licensePlate)){
+			StringBuilder builder = new StringBuilder();
+			builder.append("licenseplate: ");
+			builder.append(licensePlate);
+			builder.append(" doesn't exist.");
+			throw new TrackingException(builder.toString());
+		}
+
 		Tracking tracking = new Tracking(licensePlate);
 		trackingDao.createTracking(tracking);
 	}

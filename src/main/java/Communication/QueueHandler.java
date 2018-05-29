@@ -5,7 +5,6 @@ import com.pts62.common.finland.communication.CommunicationBuilder;
 import com.pts62.common.finland.communication.IQueueSubscribeCallback;
 import com.pts62.common.finland.communication.QueueConnector;
 import dto.TranslocationDto;
-import exceptions.VehicleException;
 import io.sentry.Sentry;
 import io.sentry.event.BreadcrumbBuilder;
 import services.TranslocationService;
