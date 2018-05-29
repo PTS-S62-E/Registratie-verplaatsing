@@ -30,6 +30,32 @@ public class VehicleDaoImpl implements VehicleDao {
 	}
 
 	@Override
+	public Vehicle getVehicleBySerialNumber(String serialNumber) throws VehicleException {
+		TypedQuery<Vehicle> query =
+				em.createNamedQuery("Vehicle.getVehicleBySerialNumber", Vehicle.class);
+		List<Vehicle> vehicles = query.setParameter("serialNumber", serialNumber).getResultList();
+
+
+		if(vehicles.size() == 0){
+			StringBuilder builder = new StringBuilder();
+			builder.append("There's no vehicle registered with serialnumber: ");
+			builder.append(serialNumber);
+			builder.append(".");
+			throw new VehicleException(builder.toString());
+		}
+
+		if(vehicles.size() > 1){
+			StringBuilder builder = new StringBuilder();
+			builder.append("There's more than one vehicle registered with serialnumber: ");
+			builder.append(serialNumber);
+			builder.append(".");
+			throw new VehicleException(builder.toString());
+		}
+
+		return vehicles.get(0);
+	}
+
+	@Override
 	public List<Vehicle> getAllVehiclesFromOtherCountry() {
 		TypedQuery<Vehicle> query =
 				em.createNamedQuery("Vehicle.getAllVehiclesFromOtherCountries", Vehicle.class);

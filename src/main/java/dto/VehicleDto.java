@@ -11,7 +11,7 @@ public class VehicleDto implements Serializable {
 	private String brand;
 	private String type;
 	private String category;
-	private String hardwareSn;
+	private String serialNumber;
 
 	public VehicleDto(){}
 
@@ -21,7 +21,7 @@ public class VehicleDto implements Serializable {
 		this.brand = vehicle.getBrand();
 		this.type = vehicle.getType();
 		this.category = vehicle.getCategory().getName();
-		this.hardwareSn = vehicle.getHardwareSn();
+		this.serialNumber = vehicle.getSerialNumber();
 		this.countryCode = vehicle.getCountryCode();
 	}
 
@@ -65,12 +65,12 @@ public class VehicleDto implements Serializable {
 		this.category = category;
 	}
 
-	public String getHardwareSn() {
-		return hardwareSn;
+	public String getSerialNumber() {
+		return serialNumber;
 	}
 
-	public void setHardwareSn(String hardwareSn) {
-		this.hardwareSn = hardwareSn;
+	public void setSerialNumber(String serialNumber) {
+		this.serialNumber = serialNumber;
 	}
 
 	public String getCountryCode() {

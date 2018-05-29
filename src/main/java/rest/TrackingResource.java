@@ -1,10 +1,7 @@
 package rest;
 
-import dto.TrackingDto;
-import dto.VehicleDto;
-import entities.Tracking;
-import services.TrackingService;
 
+import services.TrackingService;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -19,9 +16,9 @@ public class TrackingResource {
 	@POST
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response create(TrackingDto trackingDto){
+	public Response create(String licensePlate){
 		try{
-			trackingService.createTracking(trackingDto);
+			trackingService.createTracking(licensePlate);
 			return Response.ok().build();
 		}
 		catch(Exception e){
@@ -32,9 +29,9 @@ public class TrackingResource {
 	@DELETE
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response delete(TrackingDto trackingdto){
+	public Response delete(String licensePlate){
 		try{
-			trackingService.deleteTracking(trackingdto.getSessionId(), trackingdto.getLicensePlate());
+			trackingService.deleteTracking(licensePlate);
 			return Response.ok().build();
 		}
 		catch(Exception e){

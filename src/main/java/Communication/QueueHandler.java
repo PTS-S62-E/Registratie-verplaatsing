@@ -1,13 +1,14 @@
 package Communication;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pts62.common.finland.communication.CommunicationBuilder;
 import com.pts62.common.finland.communication.IQueueSubscribeCallback;
 import com.pts62.common.finland.communication.QueueConnector;
+import dto.TranslocationDto;
 import exceptions.VehicleException;
 import io.sentry.Sentry;
 import io.sentry.event.BreadcrumbBuilder;
 import services.TranslocationService;
-
 import javax.annotation.PostConstruct;
 import javax.ejb.Startup;
 import javax.inject.Inject;
@@ -48,9 +49,10 @@ public class QueueHandler  {
 			@Override
 			public void onMessageReceived(String message) {
 				try {
-					//TODO: DESERIALIZE JSON MESSAGE TO TRANSLOCATION
+					ObjectMapper mapper = new ObjectMapper();
+					TranslocationDto translocationDto = mapper.readValue(message, TranslocationDto.class);
 					translocationService.createTranslocation(null);
-				} catch (VehicleException e) {
+				} catch (Exception e) {
 					Sentry.getContext().recordBreadcrumb(new BreadcrumbBuilder().setMessage("Error in generating invoices for foreign countries").build());
 					Sentry.capture(e);
 				}

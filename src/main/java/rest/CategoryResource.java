@@ -1,9 +1,9 @@
 package rest;
 
+import com.pts62.common.finland.util.JsonExceptionMapper;
 import entities.Category;
 import exceptions.CategoryException;
 import services.CategoryService;
-import util.JsonExceptionMapper;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;

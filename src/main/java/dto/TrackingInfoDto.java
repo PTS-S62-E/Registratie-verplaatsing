@@ -1,33 +1,40 @@
 package dto;
 
 import java.io.Serializable;
-import java.util.List;
 
 public class TrackingInfoDto implements Serializable {
 
-	List<TrackingDto> trackers;
-	TranslocationDto translocation;
+	String licensePlate;
+	InternalTranslocationDto internalTranslocationDto;
+
+	public TrackingInfoDto(String licensePlate, InternalTranslocationDto internalTranslocationDto){
+		this.licensePlate = licensePlate;
+		this.internalTranslocationDto = internalTranslocationDto;
+	}
+
+	public String getLicensePlate() {
+		return licensePlate;
+	}
+
+	public void setLicensePlate(String licensePlate) {
+		this.licensePlate = licensePlate;
+	}
+
+	public InternalTranslocationDto getTranslocation() {
+		return internalTranslocationDto;
+	}
+
+	public void setTranslocation(InternalTranslocationDto translocation) {
+		this.internalTranslocationDto = translocation;
+	}
+
+	public InternalTranslocationDto getTranslocationDto() {
+		return internalTranslocationDto;
+	}
+
+	public void setTranslocationDto(InternalTranslocationDto translocation) {
+		this.internalTranslocationDto = translocation;
+	}
 
 	public TrackingInfoDto(){}
-
-	public TrackingInfoDto(List<TrackingDto> trackers, TranslocationDto translocationDto){
-		this.trackers = trackers;
-		this.translocation = translocationDto;
-	}
-
-	public List<TrackingDto> getTracker() {
-		return trackers;
-	}
-
-	public void setTracker(List<TrackingDto> trackers) {
-		this.trackers = trackers;
-	}
-
-	public TranslocationDto getTranslocationDto() {
-		return translocation;
-	}
-
-	public void setTranslocationDto(TranslocationDto translocation) {
-		this.translocation = translocation;
-	}
 }

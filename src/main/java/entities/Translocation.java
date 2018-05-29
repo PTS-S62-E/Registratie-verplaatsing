@@ -10,8 +10,10 @@ import java.time.LocalDateTime;
 @NamedQueries({
 		@NamedQuery(name="Translocation.getTranslocationsByVehicleIdAndTimePeriod",
 				query="SELECT t FROM Translocation t WHERE vehicle_id = :vehicleId AND timestamp BETWEEN :startDate AND :endDate"),
-				@NamedQuery(name="Translocation.getTranslocationsByVehicleId",
-						query="SELECT t FROM Translocation t WHERE vehicle_id = :vehicleId ORDER BY t.id DESC"),
+		@NamedQuery(name="Translocation.getTranslocationsByVehicleId",
+				query="SELECT t FROM Translocation t WHERE vehicle_id = :vehicleId ORDER BY t.id DESC"),
+		@NamedQuery(name="Translocation.getTranslocationsBySerialNumber",
+				query="SELECT t FROM Translocation t WHERE serialNumber = :serialNumber ORDER BY t.id DESC"),
 })
 public class Translocation implements ITransLocation, Serializable {
 

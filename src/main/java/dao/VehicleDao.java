@@ -13,6 +13,8 @@ public interface VehicleDao {
 	 */
 	Vehicle getVehicle(long id) throws VehicleException;
 
+	Vehicle getVehicleBySerialNumber(String serialNumber) throws VehicleException;
+
 	/**
 	 * Get vehicle by id.
 	 * @param id

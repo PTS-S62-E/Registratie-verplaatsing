@@ -75,13 +75,14 @@ public class DataGeneratorImpl implements DataGenerator {
 		return licensePlate;
 	}
 
-	private Category getCategory(){
+	private Category getCategory() throws CategoryException {
 		Category category;
 
 		List<Category> categories = categoryService.getCategories();
 
 		if (categories == null || categories.size() == 0) {
 			category = new Category("TRUCK");
+			categoryService.createCategory(category);
 		}
 		else {
 			category = categories.get(0);

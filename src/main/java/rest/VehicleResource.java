@@ -1,10 +1,10 @@
 package rest;
 
+import com.pts62.common.finland.util.JsonExceptionMapper;
 import dto.VehicleDto;
 import exceptions.CategoryException;
 import exceptions.VehicleException;
 import services.VehicleService;
-import util.JsonExceptionMapper;
 import util.LocalDateTimeParser;
 
 import javax.inject.Inject;
