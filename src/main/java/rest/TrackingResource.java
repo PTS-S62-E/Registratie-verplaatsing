@@ -1,6 +1,7 @@
 package rest;
 
 
+import io.sentry.Sentry;
 import services.TrackingService;
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -22,6 +23,7 @@ public class TrackingResource {
 			return Response.ok().build();
 		}
 		catch(Exception e){
+			Sentry.capture(e.toString());
 			throw new WebApplicationException(Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build());
 		}
 	}
@@ -35,6 +37,7 @@ public class TrackingResource {
 			return Response.ok().build();
 		}
 		catch(Exception e){
+			Sentry.capture(e.toString());
 			throw new WebApplicationException(Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build());
 		}
 	}

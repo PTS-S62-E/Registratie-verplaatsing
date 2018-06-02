@@ -5,6 +5,7 @@ import dao.TranslocationDao;
 import dao.VehicleDao;
 import dto.*;
 import entities.Translocation;
+import entities.Vehicle;
 import exceptions.VehicleException;
 import util.LocalDateTimeParser;
 import javax.ejb.Stateless;
@@ -36,6 +37,7 @@ public class TranslocationServiceImpl implements TranslocationService{
 
 	@Override
 	public void createTranslocation(TranslocationDto translocationDto) throws VehicleException {
+		System.out.println("---CREATING TRANSLOCATION---");
 		Translocation translocation = new Translocation(
 				vehicleDao.getVehicleBySerialNumber(translocationDto.getSerialNumber()),
 				translocationDto.getLatitude(),
@@ -46,21 +48,28 @@ public class TranslocationServiceImpl implements TranslocationService{
 						translocationDto.getLongitude(),
 						translocationDto.getSerialNumber()));
 
-
 		translocationDao.createTranslocation(translocation);
 
 		String licensePlate = vehicleDao.getVehicleBySerialNumber(translocationDto.getSerialNumber()).getLicensePlate();
+		System.out.println("licensePlate =");
+		System.out.println(licensePlate);
 
 		if(trackingService.findTrackings(licensePlate)) {
+			System.out.println("---FOUND TRACKING---");
 			sendTrackingsToPolice(licensePlate, translocation);
 		}
 	}
 
 	private void sendTrackingsToPolice(String licensePlate, Translocation translocation){
-		InternalTranslocationDto internalTranslocationDto = new InternalTranslocationDto(translocation);
-		TrackingInfoDto trackingInfoDto = new TrackingInfoDto(licensePlate, internalTranslocationDto);
-		QueueMessageSender queueMessageSender = QueueMessageSender.getInstance();
-		queueMessageSender.sendTrackersToPolice(trackingInfoDto);
+		try {
+			InternalTranslocationDto internalTranslocationDto = new InternalTranslocationDto(translocation);
+			TrackingInfoDto trackingInfoDto = new TrackingInfoDto(licensePlate, internalTranslocationDto);
+			QueueMessageSender queueMessageSender = QueueMessageSender.getInstance();
+			queueMessageSender.sendTrackersToPolice(trackingInfoDto);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 
 	public AdministrationDto getAdministrationDto(long vehicleId, LocalDateTime startDate, LocalDateTime endDate){

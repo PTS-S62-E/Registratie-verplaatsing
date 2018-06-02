@@ -48,24 +48,10 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.jongo/jongo -->
-        <dependency>
-            <groupId>org.jongo</groupId>
-            <artifactId>jongo</artifactId>
-            <version>1.4.0</version>
-        </dependency>
-
-        <!--MongoDb-->
-            <dependency>
-                <groupId>org.mongodb</groupId>
-                <artifactId>mongo-java-driver</artifactId>
-                <version>3.6.3</version>
-            </dependency>
-
         <dependency>
             <groupId>com.github.PTS-S62-E</groupId>
             <artifactId>Osake</artifactId>
-            <version>3.4.2</version>
+            <version>4.0</version>
         </dependency>
 
         <dependency>

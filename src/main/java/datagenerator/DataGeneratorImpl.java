@@ -41,8 +41,8 @@ public class DataGeneratorImpl implements DataGenerator {
 			Category category = getCategory();
 			String licensePlate = getUniqueLicensePlate();
 
-			Vehicle vehicle = new Vehicle(0, licensePlate, "MERCEDES", "VRACHTWAGEN", category, translocations, "HARDWARESN", "NL");
-			Vehicle vehicle2 = new Vehicle(0, licensePlate + "2", "FERRARI", "VRACHTWAGEN", category, translocations, "HARDWARESN", "FI");
+			Vehicle vehicle = new Vehicle(0, licensePlate, "MERCEDES", "VRACHTWAGEN", category, translocations, "serialNumber", "NL");
+			Vehicle vehicle2 = new Vehicle(0, licensePlate + "2", "FERRARI", "VRACHTWAGEN", category, translocations, "serialNumber2", "FI");
 			vehicleDao.createVehicle(vehicle);
 			vehicleDao.createVehicle(vehicle2);
 

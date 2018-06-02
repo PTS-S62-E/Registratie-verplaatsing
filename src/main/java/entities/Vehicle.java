@@ -30,7 +30,7 @@ public class Vehicle implements Serializable {
 	@Column(nullable = false)
 	@Size(min=1)
 	private String type;
-	@Column(nullable = false)
+	@Column(nullable = false, unique = true)
 	@Size(min=1)
 	private String serialNumber;
 	@OneToOne

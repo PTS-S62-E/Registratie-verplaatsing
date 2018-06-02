@@ -28,14 +28,17 @@ public class QueueMessageSender {
 	}
 
 	public void sendTrackersToPolice(TrackingInfoDto trackingInfoDto) {
-		//TODO: Setup the message queue correctly so that the actual tracking info will be sent
+		System.out.println("sendTrackersToPolice");
+
+		//TODO: DIT WERKT BLIJKBAAR NIET (komt niet aan iig)
+
 		this.builder.setCountry("fi");
 		this.builder.setApplication("police");
 		this.builder.setMessage("track.vehicle");
 		ObjectMapper mapper = new ObjectMapper();
 		try {
-			String invoiceAsJsonString = mapper.writeValueAsString(trackingInfoDto);
-			this.connector.publishMessage(this.builder.build(), invoiceAsJsonString);
+			String tackingDtoAsJson = mapper.writeValueAsString(trackingInfoDto);
+			this.connector.publishMessage(this.builder.build(), tackingDtoAsJson);
 		} catch (JsonProcessingException e) {
 			Sentry.capture(e);
 		}
