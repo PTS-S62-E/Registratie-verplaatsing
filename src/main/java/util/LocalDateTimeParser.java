@@ -7,7 +7,8 @@ public class LocalDateTimeParser {
 	//TODO: make date agreements
 	public static LocalDateTime stringToLocalDateTime(String date){
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-		return LocalDateTime.parse(date, formatter);
+		String formatterDate = date.replace("Z", "");
+		return LocalDateTime.parse(formatterDate);
 	}
 
 	public static String localDateTimeToString(LocalDateTime timestamp){

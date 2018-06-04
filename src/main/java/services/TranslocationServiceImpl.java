@@ -50,14 +50,14 @@ public class TranslocationServiceImpl implements TranslocationService{
 
 		translocationDao.createTranslocation(translocation);
 
-		String licensePlate = vehicleDao.getVehicleBySerialNumber(translocationDto.getSerialNumber()).getLicensePlate();
-		System.out.println("licensePlate =");
-		System.out.println(licensePlate);
-
-		if(trackingService.findTrackings(licensePlate)) {
-			System.out.println("---FOUND TRACKING---");
-			sendTrackingsToPolice(licensePlate, translocation);
-		}
+//		String licensePlate = vehicleDao.getVehicleBySerialNumber(translocationDto.getSerialNumber()).getLicensePlate();
+//		System.out.println("licensePlate =");
+//		System.out.println(licensePlate);
+//
+//		if(trackingService.findTrackings(licensePlate)) {
+//			System.out.println("---FOUND TRACKING---");
+//			sendTrackingsToPolice(licensePlate, translocation);
+//		}
 	}
 
 	private void sendTrackingsToPolice(String licensePlate, Translocation translocation){
