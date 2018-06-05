@@ -9,11 +9,9 @@ public class LocalDateTimeParser {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 		String formattedDate = date;
 
-		if (formattedDate.contains("Z")) {
-			formattedDate = formattedDate.replace("Z", "");
-		}
+		formattedDate = formattedDate.replace("Z", "");
 
-		return LocalDateTime.parse(formattedDate, formatter);
+		return LocalDateTime.parse(formattedDate);
 	}
 
 	public static String localDateTimeToString(LocalDateTime timestamp){
