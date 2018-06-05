@@ -28,7 +28,6 @@ public class TrackingServiceImpl implements TrackingService {
 			throw new TrackingException(builder.toString());
 		}
 
-		System.out.println("TRYING TO CREATE TRACKING");
 		Tracking tracking = new Tracking(licensePlate);
 		trackingDao.createTracking(tracking);
 	}
