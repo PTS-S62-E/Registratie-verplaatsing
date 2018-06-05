@@ -1,13 +1,11 @@
 package services;
 
-import com.sun.org.apache.xpath.internal.SourceTree;
 import communication.QueueMessageSender;
 import dao.TranslocationDao;
 import dao.VehicleDao;
 import dto.*;
 import entities.Translocation;
 import exceptions.VehicleException;
-import io.sentry.Sentry;
 import util.LocalDateTimeParser;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
