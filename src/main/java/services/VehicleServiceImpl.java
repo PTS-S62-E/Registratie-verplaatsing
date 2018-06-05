@@ -65,6 +65,11 @@ public class VehicleServiceImpl implements VehicleService {
 		return vehiclesThatHaveDriven;
 	}
 
+	@Override
+	public VehicleDto getVehicleBySerialNumber(String serialNumber) throws VehicleException {
+		return new VehicleDto(vehicleDao.getVehicleBySerialNumber(serialNumber));
+	}
+
 	private void checkForRequiredFields(VehicleDto vehicleDto) throws VehicleException, CategoryException {
 		if (vehicleDto == null){
 			throw new VehicleException("Vehicle is null, please provide a vehicle.");

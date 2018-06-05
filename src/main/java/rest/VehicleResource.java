@@ -64,6 +64,22 @@ public class VehicleResource {
 	}
 
 	@GET
+	@Path("/serialNumber/{serialNumber}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getBySerialNumber(@PathParam("serialNumber") String serialNumber){
+		try{
+			return Response.ok(
+					vehicleService.getVehicleBySerialNumber(serialNumber)).build();
+		}
+		catch(VehicleException ve){
+			throw JsonExceptionMapper.mapException(Response.Status.INTERNAL_SERVER_ERROR, ve.getMessage());
+		}
+		catch(Exception e){
+			throw JsonExceptionMapper.mapException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
+		}
+	}
+
+	@GET
 	@Path("foreignVehicles/{startdate}/{enddate}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getForeignVehiclesAndTranslocations(@PathParam("startdate") String startDate,
