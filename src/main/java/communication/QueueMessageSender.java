@@ -28,13 +28,12 @@ public class QueueMessageSender {
 	}
 
 	public void sendTrackersToPolice(TrackingInfoDto trackingInfoDto) {
-		System.out.println("sendTrackersToPolice");
-
-		//TODO: DIT WERKT BLIJKBAAR NIET (komt niet aan iig)
+		System.out.println("--Sending TrackingInfo to Police");
 
 		this.builder.setCountry("fi");
 		this.builder.setApplication("police");
-		this.builder.setMessage("track.vehicle");
+		this.builder.setMessage("trackingUpdate");
+
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			String tackingDtoAsJson = mapper.writeValueAsString(trackingInfoDto);
