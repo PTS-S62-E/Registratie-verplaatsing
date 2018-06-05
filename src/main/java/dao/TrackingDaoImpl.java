@@ -23,7 +23,10 @@ public class TrackingDaoImpl implements TrackingDao {
 		query.setParameter("licensePlate", licensePlate);
 		List<Tracking> trackings = query.getResultList();
 
-		return trackings.get(0);
+		if (trackings != null && trackings.size() > 0) {
+			return trackings.get(0);
+		}
+		else return null;
 	}
 
 	@Override

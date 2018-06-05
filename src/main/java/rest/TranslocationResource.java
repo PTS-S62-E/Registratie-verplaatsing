@@ -24,11 +24,8 @@ public class TranslocationResource {
 			translocationService.createTranslocation(translocationDto);
 			return Response.ok().build();
 		}
-		catch(VehicleException ve){
-			throw new WebApplicationException(Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(ve.getMessage()).build());
-		}
 		catch(Exception e){
-			return Response.serverError().build();
+			throw new WebApplicationException(Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build());
 		}
 	}
 

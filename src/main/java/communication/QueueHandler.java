@@ -1,27 +1,22 @@
-package Communication;
+package communication;
 
-import Communication.GPSTracker.MQChannel;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pts62.common.finland.communication.CommunicationBuilder;
 import com.pts62.common.finland.communication.IQueueSubscribeCallback;
 import com.pts62.common.finland.communication.QueueConnector;
 import com.rabbitmq.client.*;
+import communication.GPSTracker.MQChannel;
 import dto.TrackingTranslocationDto;
 import dto.TranslocationDto;
 import exceptions.VehicleException;
 import io.sentry.Sentry;
-import io.sentry.event.Breadcrumb;
 import io.sentry.event.BreadcrumbBuilder;
-import org.apache.commons.lang3.SerializationUtils;
 import services.TranslocationService;
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectInputStream;
 import java.util.logging.Logger;
 
 @Startup
@@ -115,6 +110,7 @@ public class QueueHandler  {
 			public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
 				String messageString = new String(body);
 				try {
+					System.out.println("recieved");
 					ObjectMapper mapper = new ObjectMapper();
 					TrackingTranslocationDto ttdto = mapper.readValue(messageString, TrackingTranslocationDto.class);
 

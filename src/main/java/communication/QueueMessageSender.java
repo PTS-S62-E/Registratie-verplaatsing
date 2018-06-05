@@ -1,4 +1,4 @@
-package Communication;
+package communication;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

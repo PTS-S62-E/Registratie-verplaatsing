@@ -1,12 +1,13 @@
 package services;
 
-import Communication.QueueMessageSender;
+import com.sun.org.apache.xpath.internal.SourceTree;
+import communication.QueueMessageSender;
 import dao.TranslocationDao;
 import dao.VehicleDao;
 import dto.*;
 import entities.Translocation;
-import entities.Vehicle;
 import exceptions.VehicleException;
+import io.sentry.Sentry;
 import util.LocalDateTimeParser;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -37,27 +38,25 @@ public class TranslocationServiceImpl implements TranslocationService{
 
 	@Override
 	public void createTranslocation(TranslocationDto translocationDto) throws VehicleException {
-		System.out.println("---CREATING TRANSLOCATION---");
-		Translocation translocation = new Translocation(
-				vehicleDao.getVehicleBySerialNumber(translocationDto.getSerialNumber()),
-				translocationDto.getLatitude(),
-				translocationDto.getLongitude(),
-				LocalDateTimeParser.stringToLocalDateTime(translocationDto.getTimestamp()),
-				translocationDto.getCountryCode(),
-				shouldTranslocationbeFlagged(translocationDto.getLatitude(),
-						translocationDto.getLongitude(),
-						translocationDto.getSerialNumber()));
+			System.out.println("---CREATING TRANSLOCATION---");
+			Translocation translocation = new Translocation(
+					vehicleDao.getVehicleBySerialNumber(translocationDto.getSerialNumber()),
+					translocationDto.getLatitude(),
+					translocationDto.getLongitude(),
+					LocalDateTimeParser.stringToLocalDateTime(translocationDto.getTimestamp()),
+					translocationDto.getCountryCode(),
+					shouldTranslocationbeFlagged(translocationDto.getLatitude(),
+							translocationDto.getLongitude(),
+							translocationDto.getSerialNumber()));
 
-		translocationDao.createTranslocation(translocation);
+			translocationDao.createTranslocation(translocation);
 
-//		String licensePlate = vehicleDao.getVehicleBySerialNumber(translocationDto.getSerialNumber()).getLicensePlate();
-//		System.out.println("licensePlate =");
-//		System.out.println(licensePlate);
-//
-//		if(trackingService.findTrackings(licensePlate)) {
-//			System.out.println("---FOUND TRACKING---");
-//			sendTrackingsToPolice(licensePlate, translocation);
-//		}
+			String licensePlate = vehicleDao.getVehicleBySerialNumber(translocationDto.getSerialNumber()).getLicensePlate();
+
+			if (trackingService.findTrackings(licensePlate)) {
+				System.out.println("---FOUND TRACKING---");
+				sendTrackingsToPolice(licensePlate, translocation);
+			}
 	}
 
 	private void sendTrackingsToPolice(String licensePlate, Translocation translocation){

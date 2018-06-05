@@ -1,4 +1,4 @@
-package Communication.GPSTracker;
+package communication.GPSTracker;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
