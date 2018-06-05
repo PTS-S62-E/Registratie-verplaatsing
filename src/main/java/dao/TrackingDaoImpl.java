@@ -20,7 +20,6 @@ public class TrackingDaoImpl implements TrackingDao {
 		TypedQuery<Tracking> query =
 				em.createNamedQuery("Tracking.getTracking", Tracking.class);
 		query.setParameter("licensePlate", licensePlate);
-		query.setParameter("licensePlate", licensePlate);
 		List<Tracking> trackings = query.getResultList();
 
 		if (trackings != null && trackings.size() > 0) {
