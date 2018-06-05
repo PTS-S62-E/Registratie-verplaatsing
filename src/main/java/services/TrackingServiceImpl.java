@@ -28,6 +28,7 @@ public class TrackingServiceImpl implements TrackingService {
 			throw new TrackingException(builder.toString());
 		}
 
+		System.out.println("TRYING TO CREATE TRACKING");
 		Tracking tracking = new Tracking(licensePlate);
 		trackingDao.createTracking(tracking);
 	}
@@ -35,6 +36,15 @@ public class TrackingServiceImpl implements TrackingService {
 	@Override
 	public void deleteTracking(String licensePlate) throws TrackingException {
 		Tracking tracking = trackingDao.findTracking(licensePlate);
+
+		if (tracking == null){
+			StringBuilder builder = new StringBuilder();
+			builder.append("Tracking with: ");
+			builder.append(licensePlate);
+			builder.append(" doesn't exist.");
+			throw new TrackingException();
+		}
+
 		trackingDao.deleteTracking(tracking);
 	}
 
