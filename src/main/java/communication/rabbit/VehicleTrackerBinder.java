@@ -13,13 +13,13 @@ import javax.enterprise.context.Dependent;
 
 @Dependent
 public class VehicleTrackerBinder extends EventBinder {
-    private final String EXCHANGE = "REKENINGRIJDEN_EXCHANGE";
+    private final String EXCHANGE = "amq.default";
     private final String POLICE_TRACKING_UPDATE_ROUTING = "fi.police.trackingUpdate";
 
     @Override
     protected void bindEvents() {
         bind(TrackingInfoDto.class)
-                .toExchange(this.EXCHANGE)
+                .toExchange("")
                 .withRoutingKey(this.POLICE_TRACKING_UPDATE_ROUTING)
                 .withEncoder(new Encoder<TrackingInfoDto>() {
                     @Override

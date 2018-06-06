@@ -1,5 +1,6 @@
 package communication.rabbit;
 
+import com.rabbitmq.client.Address;
 import io.sentry.Sentry;
 import io.sentry.event.BreadcrumbBuilder;
 
@@ -38,17 +39,17 @@ public class RabbitBindingInitializer {
         /**
          * Setup binding for tracking a vehicle
          */
-        try {
-            vehicleTrackerBinder.configuration()
-                    .addHost("192.168.24.102")
-                    .setUsername("guest")
-                    .setPassword("guest");
-
-            vehicleTrackerBinder.initialize();
-        } catch (IOException e) {
-            Sentry.getContext().recordBreadcrumb(new BreadcrumbBuilder().setMessage("Unable to initialize connection for Vehicle Tracker").build());
-            Sentry.capture(e);
-        }
+//        try {
+//            vehicleTrackerBinder.configuration()
+//                    .addHost("proftaak@192.168.24.102")
+//                    .setUsername("proftaak")
+//                    .setPassword("proftaak");
+//
+//            vehicleTrackerBinder.initialize();
+//        } catch (IOException e) {
+//            Sentry.getContext().recordBreadcrumb(new BreadcrumbBuilder().setMessage("Unable to initialize connection for Vehicle Tracker").build());
+//            Sentry.capture(e);
+//        }
     }
 
 }

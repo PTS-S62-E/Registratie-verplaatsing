@@ -1,5 +1,6 @@
 package communication.handlers;
 
+import com.pts62.common.finland.communication.CommunicationBuilder;
 import dto.TrackingInfoDto;
 
 import javax.ejb.Stateless;

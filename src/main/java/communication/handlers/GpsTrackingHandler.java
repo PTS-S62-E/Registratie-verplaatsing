@@ -22,14 +22,7 @@ import java.util.logging.Logger;
 public class GpsTrackingHandler {
 
     @Inject
-    private Event<TrackingTranslocationDto> trackingTranslocationDtoEvent;
-
-    @Inject
     private TranslocationService translocationService;
-
-    public void submitEvent(TrackingTranslocationDto ttd) {
-        Sentry.getContext().recordBreadcrumb(new BreadcrumbBuilder().setMessage("TrackingTranslocationDto submitted, but no implementation for this method in any other applications at this time.").build());
-    }
 
     public void receiveEvent(@Observes TrackingTranslocationDto data) {
 
