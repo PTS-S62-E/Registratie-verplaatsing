@@ -54,7 +54,6 @@ public class TranslocationServiceImpl implements TranslocationService{
 			String licensePlate = vehicleDao.getVehicleBySerialNumber(translocationDto.getSerialNumber()).getLicensePlate();
 
 			if (trackingService.findTrackings(licensePlate)) {
-				System.out.println("---FOUND TRACKING---");
 				sendTrackingsToPolice(licensePlate, translocation);
 			}
 	}

@@ -18,9 +18,6 @@ public class RabbitBindingInitializer {
     @Inject
     private GpsTrackingBinder gpsTrackingBinder;
 
-    @Inject
-    private VehicleTrackerBinder vehicleTrackerBinder;
-
     @PostConstruct
     public void initialize() {
         /**
@@ -35,21 +32,6 @@ public class RabbitBindingInitializer {
             Sentry.getContext().recordBreadcrumb(new BreadcrumbBuilder().setMessage("Unable to initialize connection for GPS Tracking").build());
             Sentry.capture(e);
         }
-
-        /**
-         * Setup binding for tracking a vehicle
-         */
-//        try {
-//            vehicleTrackerBinder.configuration()
-//                    .addHost("proftaak@192.168.24.102")
-//                    .setUsername("proftaak")
-//                    .setPassword("proftaak");
-//
-//            vehicleTrackerBinder.initialize();
-//        } catch (IOException e) {
-//            Sentry.getContext().recordBreadcrumb(new BreadcrumbBuilder().setMessage("Unable to initialize connection for Vehicle Tracker").build());
-//            Sentry.capture(e);
-//        }
     }
 
 }
