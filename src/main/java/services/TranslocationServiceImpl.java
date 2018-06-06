@@ -1,6 +1,6 @@
 package services;
 
-import communication.QueueMessageSender;
+import communication.handlers.VehicleTrackingHandler;
 import dao.TranslocationDao;
 import dao.VehicleDao;
 import dto.*;
@@ -26,6 +26,9 @@ public class TranslocationServiceImpl implements TranslocationService{
 	@Inject
 	TrackingService trackingService;
 
+	@Inject
+	private VehicleTrackingHandler vehicleTrackingHandler;
+
 	//The amount of minutes that need to have passed since the previous Translocation,
 	//to consider the next translocation the start of a new journey.
 	private final int minuteThreshold = 20;
@@ -36,7 +39,6 @@ public class TranslocationServiceImpl implements TranslocationService{
 
 	@Override
 	public void createTranslocation(TranslocationDto translocationDto) throws VehicleException {
-			System.out.println("---CREATING TRANSLOCATION---");
 			Translocation translocation = new Translocation(
 					vehicleDao.getVehicleBySerialNumber(translocationDto.getSerialNumber()),
 					translocationDto.getLatitude(),
@@ -61,8 +63,7 @@ public class TranslocationServiceImpl implements TranslocationService{
 		try {
 			InternalTranslocationDto internalTranslocationDto = new InternalTranslocationDto(translocation);
 			TrackingInfoDto trackingInfoDto = new TrackingInfoDto(licensePlate, internalTranslocationDto);
-			QueueMessageSender queueMessageSender = QueueMessageSender.getInstance();
-			queueMessageSender.sendTrackersToPolice(trackingInfoDto);
+			this.vehicleTrackingHandler.publishTracking(trackingInfoDto);
 		}
 		catch(Exception e){
 			e.printStackTrace();

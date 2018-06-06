@@ -40,9 +40,9 @@ public class RabbitBindingInitializer {
          */
         try {
             vehicleTrackerBinder.configuration()
-                    .addHost("192.168.24.103")
-                    .setUsername("PTS-S62-E")
-                    .setPassword("proftaak");
+                    .addHost("192.168.24.102")
+                    .setUsername("guest")
+                    .setPassword("guest");
 
             vehicleTrackerBinder.initialize();
         } catch (IOException e) {
