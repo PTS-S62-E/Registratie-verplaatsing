@@ -6,7 +6,9 @@ import java.io.Serializable;
 @Entity
 @NamedQueries({
 		@NamedQuery(name="Tracking.getTracking",
-				query="SELECT DISTINCT(t) FROM Tracking t WHERE licensePlate = :licensePlate")
+				query="SELECT DISTINCT(t) FROM Tracking t WHERE licensePlate = :licensePlate"),
+		@NamedQuery(name="Tracking.deleteTracking",
+				query="DELETE FROM Tracking t WHERE t.licensePlate LIKE :licensePlate")
 })
 public class Tracking implements Serializable {
 
