@@ -1,14 +1,11 @@
 package services;
 
 import dao.CategoryDao;
-import dao.TranslocationDao;
 import dao.VehicleDao;
 import dto.AdministrationDto;
 import dto.ForeignVehicleDto;
-import dto.TranslocationDto;
 import dto.VehicleDto;
 import entities.Category;
-import entities.Translocation;
 import entities.Vehicle;
 import exceptions.CategoryException;
 import exceptions.DateException;
@@ -68,6 +65,11 @@ public class VehicleServiceImpl implements VehicleService {
 		return vehiclesThatHaveDriven;
 	}
 
+	@Override
+	public VehicleDto getVehicleBySerialNumber(String serialNumber) throws VehicleException {
+		return new VehicleDto(vehicleDao.getVehicleBySerialNumber(serialNumber));
+	}
+
 	private void checkForRequiredFields(VehicleDto vehicleDto) throws VehicleException, CategoryException {
 		if (vehicleDto == null){
 			throw new VehicleException("Vehicle is null, please provide a vehicle.");
@@ -81,7 +83,7 @@ public class VehicleServiceImpl implements VehicleService {
 		if (vehicleDto.getType() == null || vehicleDto.getType().equals("")){
 			throw new VehicleException("Type is empty, please provide a type.");
 		}
-		if (vehicleDto.getHardwareSn() == null || vehicleDto.getHardwareSn().equals("")){
+		if (vehicleDto.getSerialNumber() == null || vehicleDto.getSerialNumber().equals("")){
 			throw new VehicleException("Hardware serial number is empty, please provide a hardware serial number.");
 		}
 		if (vehicleDto.getLicensePlate() == null || vehicleDto.getLicensePlate().equals("")){
@@ -133,7 +135,7 @@ public class VehicleServiceImpl implements VehicleService {
 				vehicleDto.getType(),
 				category,
 				null,
-				vehicleDto.getHardwareSn(),
+				vehicleDto.getSerialNumber(),
 				vehicleDto.getCountryCode());
 
 		return vehicle;

@@ -24,7 +24,7 @@ public class ForeignVehicleDto implements Serializable {
 		this.brand = vehicle.getBrand();
 		this.type = vehicle.getType();
 		this.category = vehicle.getCategory().getName();
-		this.hardwareSn = vehicle.getHardwareSn();
+		this.hardwareSn = vehicle.getSerialNumber();
 		this.journeys = journeys;
 		this.countryCode = vehicle.getCountryCode();
 	}

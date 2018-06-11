@@ -14,6 +14,8 @@ import java.util.List;
 		 */
 		Translocation getLatestTranslocationByVehicleId(long vehicleId);
 
+		Translocation getLatestTranslocationBySerialNumber(String serialNumber);
+
 		/**
 		 * Get translocations by vehicleId, starting time, and end time.
 		 * @param vehicleId

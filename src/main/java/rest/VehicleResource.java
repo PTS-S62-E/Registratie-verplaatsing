@@ -1,10 +1,10 @@
 package rest;
 
+import com.pts62.common.finland.util.JsonExceptionMapper;
 import dto.VehicleDto;
 import exceptions.CategoryException;
 import exceptions.VehicleException;
 import services.VehicleService;
-import util.JsonExceptionMapper;
 import util.LocalDateTimeParser;
 
 import javax.inject.Inject;
@@ -54,6 +54,22 @@ public class VehicleResource {
 		try{
 			return Response.ok(
 					vehicleService.getVehicle(licensePlate)).build();
+		}
+		catch(VehicleException ve){
+			throw JsonExceptionMapper.mapException(Response.Status.INTERNAL_SERVER_ERROR, ve.getMessage());
+		}
+		catch(Exception e){
+			throw JsonExceptionMapper.mapException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
+		}
+	}
+
+	@GET
+	@Path("/serialNumber/{serialNumber}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getBySerialNumber(@PathParam("serialNumber") String serialNumber){
+		try{
+			return Response.ok(
+					vehicleService.getVehicleBySerialNumber(serialNumber)).build();
 		}
 		catch(VehicleException ve){
 			throw JsonExceptionMapper.mapException(Response.Status.INTERNAL_SERVER_ERROR, ve.getMessage());

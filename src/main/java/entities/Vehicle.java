@@ -15,6 +15,8 @@ import java.util.List;
 				query="SELECT v FROM Vehicle v WHERE licensePlate = :licensePlate AND id != :id"),
 		@NamedQuery(name="Vehicle.getAllVehiclesFromOtherCountries",
 				query="SELECT v FROM Vehicle v WHERE countryCode != :countryCode"),
+		@NamedQuery(name="Vehicle.getVehicleBySerialNumber",
+				query="SELECT v FROM Vehicle v WHERE serialNumber = :serialNumber"),
 })
 public class Vehicle implements Serializable {
 	@Id
@@ -28,9 +30,9 @@ public class Vehicle implements Serializable {
 	@Column(nullable = false)
 	@Size(min=1)
 	private String type;
-	@Column(nullable = false)
+	@Column(nullable = false, unique = true)
 	@Size(min=1)
-	private String hardwareSn;
+	private String serialNumber;
 	@OneToOne
 	private Category category;
 	@Column(nullable = false)
@@ -42,14 +44,14 @@ public class Vehicle implements Serializable {
 
 	public Vehicle(){}
 
-	public Vehicle(long id, String licensePlate, String brand, String type, Category category, List<Translocation> translocations, String hardwareSn, String countryCode){
+	public Vehicle(long id, String licensePlate, String brand, String type, Category category, List<Translocation> translocations, String serialNumber, String countryCode){
 		this.id = id;
 		this.licensePlate = licensePlate;
 		this.brand = brand;
 		this.type = type;
 		this.category = category;
 		this.translocations = translocations;
-		this.hardwareSn = hardwareSn;
+		this.serialNumber = serialNumber;
 		this.countryCode = countryCode;
 	}
 
@@ -109,11 +111,11 @@ public class Vehicle implements Serializable {
 		this.translocations = translocations;
 	}
 
-	public String getHardwareSn() {
-		return hardwareSn;
+	public String getSerialNumber() {
+		return serialNumber;
 	}
 
-	public void setHardwareSn(String hardwareSn) {
-		this.hardwareSn = hardwareSn;
+	public void setSerialNumber(String serialNumber) {
+		this.serialNumber = serialNumber;
 	}
 }

@@ -3,11 +3,9 @@ package dto;
 import entities.Translocation;
 import util.LocalDateTimeParser;
 
-import java.io.Serializable;
+public class TranslocationDto {
 
-public class TranslocationDto implements Serializable {
-
-	private long id;
+	private String serialNumber;
 	private double latitude;
 	private double longitude;
 	private String timestamp;
@@ -16,11 +14,20 @@ public class TranslocationDto implements Serializable {
 	public TranslocationDto(){}
 
 	public TranslocationDto(Translocation translocation){
-		this.id = translocation.getId();
+		this.serialNumber = translocation.getSerialNumber();
 		this.latitude = translocation.getLatitude();
 		this.longitude = translocation.getLongitude();
 		this.timestamp = LocalDateTimeParser.localDateTimeToString(translocation.getTimestamp());
 		this.countryCode = translocation.getCountryCode();
+		this.serialNumber = translocation.getVehicle().getSerialNumber();
+	}
+
+	public String getSerialNumber() {
+		return serialNumber;
+	}
+
+	public void setSerialNumber(String serialNumber) {
+		this.serialNumber = serialNumber;
 	}
 
 	public double getLatitude() {
@@ -53,13 +60,5 @@ public class TranslocationDto implements Serializable {
 
 	public void setCountryCode(String countryCode) {
 		this.countryCode = countryCode;
-	}
-
-	public long getTranslocationId() {
-		return id;
-	}
-
-	public void setTranslocationId(long id) {
-		this.id = id;
 	}
 }

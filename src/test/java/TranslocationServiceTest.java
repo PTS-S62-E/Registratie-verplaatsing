@@ -1,13 +1,14 @@
 import dao.TranslocationDaoImpl;
 import dto.AdministrationDto;
+import dto.InternalTranslocationDto;
+import entities.Category;
 import entities.Translocation;
-import org.junit.Assert;
+import entities.Vehicle;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
 import services.TranslocationServiceImpl;
 
@@ -23,8 +24,7 @@ public class TranslocationServiceTest {
 	@InjectMocks
 	TranslocationServiceImpl translocationService;
 
-	private static List<Translocation> translocationsToDivide;
-	private static Translocation translocationForFlagTest;
+	private static List<InternalTranslocationDto> translocationsToDivide;
 
 	@Before
 	public void setupBeforeMethod() {
@@ -35,42 +35,32 @@ public class TranslocationServiceTest {
 	public static void setup() {
 		LocalDateTime timestamp = LocalDateTime.now();
 
-		translocationForFlagTest = new Translocation(null, 1, 1, timestamp, "FI", false);
-
 		translocationsToDivide = new ArrayList<>();
+
+		Category category = new Category("DIESEL");
+		Vehicle vehicle = new Vehicle(0, "DA-NK-69", "BMW", "type", category, null, "1337-420-8008135", "FI");
 
 		for (int i = 0; i < 10; i++) {
 
 				Translocation translocation;
+				InternalTranslocationDto internalTranslocationDto;
 
 				if ( i == 5) {
 					timestamp = timestamp.plusMinutes(25);
-					translocation = new Translocation(null, 1, 1, timestamp, "FI", false);
+					translocation = new Translocation(vehicle, 1, 1, timestamp, "FI", false);
+					internalTranslocationDto = new InternalTranslocationDto(translocation);
 				}
 				else{
 					timestamp = timestamp.plusMinutes(10);
-					translocation = new Translocation(null, 1, 1, timestamp, "FI", false);
+					translocation = new Translocation(vehicle, 1, 1, timestamp, "FI", false);
+					internalTranslocationDto = new InternalTranslocationDto(translocation);
 				}
 
-				translocationsToDivide.add(translocation);
+				translocationsToDivide.add(internalTranslocationDto);
 		}
 	}
 
 	@Test
 	public void testGetAdministratorDto(){
-		//Check if works with values
-		when(translocationService.getTranslocations(1, null, null)).thenReturn(translocationsToDivide);
-		AdministrationDto administrationDto = translocationService.getAdministrationDto(1, null, null);
-		Assert.assertEquals(administrationDto.getJourneys().size(),2);
-
-		//Check if works when translocationsToDivide is empty
-		when(translocationService.getTranslocations(2, null, null)).thenReturn(new ArrayList<>());
-		administrationDto = translocationService.getAdministrationDto(2, null, null);
-		Assert.assertEquals(administrationDto.getJourneys().size(),0);
-	}
-
-	//Cannot test flagging without a test database.
-	@Test
-	public void testFlagging(){
 	}
 }

@@ -41,8 +41,8 @@ public class DataGeneratorImpl implements DataGenerator {
 			Category category = getCategory();
 			String licensePlate = getUniqueLicensePlate();
 
-			Vehicle vehicle = new Vehicle(0, licensePlate, "MERCEDES", "VRACHTWAGEN", category, translocations, "HARDWARESN", "NL");
-			Vehicle vehicle2 = new Vehicle(0, licensePlate + "2", "FERRARI", "VRACHTWAGEN", category, translocations, "HARDWARESN", "FI");
+			Vehicle vehicle = new Vehicle(0, licensePlate, "MERCEDES", "VRACHTWAGEN", category, translocations, "serialNumber", "NL");
+			Vehicle vehicle2 = new Vehicle(0, licensePlate + "2", "FERRARI", "VRACHTWAGEN", category, translocations, "serialNumber2", "FI");
 			vehicleDao.createVehicle(vehicle);
 			vehicleDao.createVehicle(vehicle2);
 
@@ -75,13 +75,14 @@ public class DataGeneratorImpl implements DataGenerator {
 		return licensePlate;
 	}
 
-	private Category getCategory(){
+	private Category getCategory() throws CategoryException {
 		Category category;
 
 		List<Category> categories = categoryService.getCategories();
 
 		if (categories == null || categories.size() == 0) {
 			category = new Category("TRUCK");
+			categoryService.createCategory(category);
 		}
 		else {
 			category = categories.get(0);

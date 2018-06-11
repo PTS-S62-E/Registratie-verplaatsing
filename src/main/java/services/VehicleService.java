@@ -2,6 +2,7 @@ package services;
 
 import dto.ForeignVehicleDto;
 import dto.VehicleDto;
+import entities.Vehicle;
 import exceptions.CategoryException;
 import exceptions.DateException;
 import exceptions.VehicleException;
@@ -29,6 +30,9 @@ public interface VehicleService {
 	 * create a new vehicle.
 	 * @param vehicleDto
 	 */
+
+	VehicleDto getVehicleBySerialNumber(String serialNumber) throws VehicleException;
+
 	void createVehicle(VehicleDto vehicleDto) throws VehicleException, CategoryException;
 
 	/**

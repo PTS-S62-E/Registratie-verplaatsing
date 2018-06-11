@@ -5,21 +5,21 @@ import java.util.List;
 
 public class JourneyDto {
 
-	List<TranslocationDto> translocationDtos;
+	List<InternalTranslocationDto> internalTranslocationDtos;
 
 	public JourneyDto(){
-		this.translocationDtos = new ArrayList<>();
+		this.internalTranslocationDtos = new ArrayList<>();
 	}
 
-	public List<TranslocationDto> getTranslocations() {
-		return translocationDtos;
+	public List<InternalTranslocationDto> getTranslocations() {
+		return internalTranslocationDtos;
 	}
 
-	public void setTranslocations(List<TranslocationDto> translocationDtos) {
-		this.translocationDtos = translocationDtos;
+	public void setTranslocations(List<InternalTranslocationDto> translocationDtos) {
+		this.internalTranslocationDtos = translocationDtos;
 	}
 
-	public void addTranslocation(TranslocationDto translocationDto){
-		this.translocationDtos.add(translocationDto);
+	public void addTranslocation(InternalTranslocationDto translocationDto){
+		this.internalTranslocationDtos.add(translocationDto);
 	}
 }

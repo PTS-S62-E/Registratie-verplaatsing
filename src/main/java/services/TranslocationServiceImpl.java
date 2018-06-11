@@ -1,17 +1,12 @@
 package services;
 
-import com.pts62.common.europe.facades.ITranslocationFacade;
+import communication.handlers.VehicleTrackingHandler;
 import dao.TranslocationDao;
 import dao.VehicleDao;
-import dto.AdministrationDto;
-import dto.CreateTranslocationDto;
-import dto.TranslocationDto;
+import dto.*;
 import entities.Translocation;
-import dto.JourneyDto;
-import exceptions.TranslocationException;
 import exceptions.VehicleException;
 import util.LocalDateTimeParser;
-
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.time.Duration;
@@ -28,6 +23,12 @@ public class TranslocationServiceImpl implements TranslocationService{
 	@Inject
 	VehicleDao vehicleDao;
 
+	@Inject
+	TrackingService trackingService;
+
+	@Inject
+	private VehicleTrackingHandler vehicleTrackingHandler;
+
 	//The amount of minutes that need to have passed since the previous Translocation,
 	//to consider the next translocation the start of a new journey.
 	private final int minuteThreshold = 20;
@@ -36,47 +37,56 @@ public class TranslocationServiceImpl implements TranslocationService{
 	//If the translocations are send every minute, this translates to 240 km/h
 	private final double flagDistance = 4000;
 
-	public List<Translocation> getTranslocations(long vehicleId, LocalDateTime startDate, LocalDateTime endDate) {
-		return translocationDao.getTranslocations(vehicleId, startDate, endDate);
+	@Override
+	public void createTranslocation(TranslocationDto translocationDto) throws VehicleException {
+			Translocation translocation = new Translocation(
+					vehicleDao.getVehicleBySerialNumber(translocationDto.getSerialNumber()),
+					translocationDto.getLatitude(),
+					translocationDto.getLongitude(),
+					LocalDateTimeParser.stringToLocalDateTime(translocationDto.getTimestamp()),
+					translocationDto.getCountryCode(),
+					shouldTranslocationbeFlagged(translocationDto.getLatitude(),
+							translocationDto.getLongitude(),
+							translocationDto.getSerialNumber()));
+
+			translocationDao.createTranslocation(translocation);
+
+			String licensePlate = vehicleDao.getVehicleBySerialNumber(translocationDto.getSerialNumber()).getLicensePlate();
+
+			if (trackingService.findTrackings(licensePlate)) {
+				sendTrackingsToPolice(licensePlate, translocation);
+			}
 	}
 
-	@Override
-	public TranslocationDto getTranslocation(long id) throws TranslocationException {
-		return new TranslocationDto(translocationDao.getTranslocation(id));
-	}
-
-	@Override
-	public void createTranslocation(CreateTranslocationDto createTranslocationDto) throws VehicleException {
-		Translocation translocation = new Translocation(
-				vehicleDao.getVehicle(createTranslocationDto.getVehicleId()),
-				createTranslocationDto.getLatitude(),
-				createTranslocationDto.getLongitude(),
-				LocalDateTimeParser.stringToLocalDateTime(createTranslocationDto.getTimestamp()),
-				createTranslocationDto.getCountryCode(),
-				shouldTranslocationbeFlagged(createTranslocationDto.getLatitude(),
-						createTranslocationDto.getLongitude(),
-						createTranslocationDto.getVehicleId()));
-
-		translocationDao.createTranslocation(translocation);
+	private void sendTrackingsToPolice(String licensePlate, Translocation translocation){
+		try {
+			InternalTranslocationDto internalTranslocationDto = new InternalTranslocationDto(translocation);
+			TrackingInfoDto trackingInfoDto = new TrackingInfoDto(licensePlate, internalTranslocationDto);
+			this.vehicleTrackingHandler.publishTracking(trackingInfoDto);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 
 	public AdministrationDto getAdministrationDto(long vehicleId, LocalDateTime startDate, LocalDateTime endDate){
 			List<Translocation> translocations = translocationDao.getTranslocations(vehicleId, startDate, endDate);
-			return divideTranslocationsIntoJourneys(translocations);
+			List<InternalTranslocationDto> internalTranslocationDtos = convertToInternalTranslocationDto(translocations);
+			return divideTranslocationsIntoJourneys(internalTranslocationDtos);
 	}
 
 	/**
 	 * Divides a list of translocations into Journeys.
 	 * This method uses the isTranslocationJourneyStart function to decide if a translocation is the start of a new JourneyDto.
 	 * NOTE: This method also converts your translocations into translocationDto Objects.
-	 * @param translocations
+	 * @param internalTranslocationDtos
 	 * @return an AdinistrationDto object that contains a list of Journeys.
 	 */
-	private AdministrationDto divideTranslocationsIntoJourneys(List<Translocation> translocations){
+	private AdministrationDto divideTranslocationsIntoJourneys(List<InternalTranslocationDto> internalTranslocationDtos){
 
 		List<JourneyDto> journeys = new ArrayList<>();
 
-		if (translocations == null || translocations.size() == 0) {
+		if (internalTranslocationDtos == null || internalTranslocationDtos.size() == 0) {
 			return new AdministrationDto(journeys);
 		}
 
@@ -85,24 +95,24 @@ public class TranslocationServiceImpl implements TranslocationService{
 		JourneyDto initialJourney = new JourneyDto();
 		journeys.add(initialJourney);
 
-		List<TranslocationDto> translocationDtos = convertTranslocationToDto(translocations);
+		//List<InternalTranslocationDto> internalTranslocationDtos = convertToInternalTranslocationDto(translocations);
 
 		//Set first journey as previous journey.
-		TranslocationDto previousTranslocationDto = translocationDtos.get(0);
+		InternalTranslocationDto previousTranslocationDto = internalTranslocationDtos.get(0);
 
-		for (TranslocationDto translocationDto : translocationDtos){
-			if (isTranslocationJourneyStart(translocationDto, previousTranslocationDto)){
+		for (InternalTranslocationDto internalTranslocationDto : internalTranslocationDtos){
+			if (isTranslocationJourneyStart(internalTranslocationDto, previousTranslocationDto)){
 				//New JourneyDto
 				JourneyDto journeyDto = new JourneyDto();
-				journeyDto.addTranslocation(translocationDto);
+				journeyDto.addTranslocation(internalTranslocationDto);
 				journeys.add(journeyDto);
 				currentJourney++;
 			}
 			else{
 				//Current journey
-				journeys.get(currentJourney).addTranslocation(translocationDto);
+				journeys.get(currentJourney).addTranslocation(internalTranslocationDto);
 			}
-			previousTranslocationDto = translocationDto;
+			previousTranslocationDto = internalTranslocationDto;
 		}
 
 		return new AdministrationDto(journeys);
@@ -113,15 +123,16 @@ public class TranslocationServiceImpl implements TranslocationService{
 	 * @param translocations
 	 * @return
 	 */
-	public List<TranslocationDto> convertTranslocationToDto(List<Translocation> translocations){
-		List<TranslocationDto> translocationDtos = new ArrayList<>();
+	public List<InternalTranslocationDto> convertToInternalTranslocationDto(List<Translocation> translocations){
+
+		List<InternalTranslocationDto> internalTranslocationDtos = new ArrayList<>();
 
 		for (Translocation translocation : translocations){
-			TranslocationDto translocationDto = new TranslocationDto(translocation);
-			translocationDtos.add(translocationDto);
+			InternalTranslocationDto internalTranslocationDto = new InternalTranslocationDto(translocation);
+			internalTranslocationDtos.add(internalTranslocationDto);
 		}
 
-		return translocationDtos;
+		return internalTranslocationDtos;
 	}
 
 	/**
@@ -145,11 +156,11 @@ public class TranslocationServiceImpl implements TranslocationService{
 	 * Flagdistance is defined as an int at the top of this class.
 	 * @param lat
 	 * @param lon
-	 * @param id
+	 * @param serialNumber
 	 * @return
 	 */
-	private boolean shouldTranslocationbeFlagged(double lat, double lon, long id){
-		Translocation previousTranslocation = translocationDao.getLatestTranslocationByVehicleId(id);
+	private boolean shouldTranslocationbeFlagged(double lat, double lon, String serialNumber){
+		Translocation previousTranslocation = translocationDao.getLatestTranslocationBySerialNumber(serialNumber);
 
 		//Maybe it's the first translocation ever.
 		if (previousTranslocation == null){
@@ -157,11 +168,6 @@ public class TranslocationServiceImpl implements TranslocationService{
 		}
 
 		double distance = calculateDistance(lat, previousTranslocation.getLat(), lon, previousTranslocation.getLon(), 0, 0);
-		System.out.println("Long, Lat, Id: " + Double.toString(lon) + ", " + Double.toString(lat) + ", " + Double.toString(id));
-		System.out.println("Prev Long, Lat, Id: " +
-				Double.toString(previousTranslocation.getLongitude()) + ", " +
-				Double.toString(previousTranslocation.getLatitude()) + ", " +
-				Double.toString(previousTranslocation.getId()));
 
 		if(distance > flagDistance){
 			return true;

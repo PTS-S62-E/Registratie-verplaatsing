@@ -2,10 +2,10 @@ package dao;
 
 import entities.Translocation;
 import exceptions.TranslocationException;
-
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -30,6 +30,19 @@ public class TranslocationDaoImpl implements TranslocationDao {
 		TypedQuery<Translocation> query =
 				em.createNamedQuery("Translocation.getTranslocationsByVehicleId", Translocation.class);
 		List<Translocation> translocations = query.setParameter("vehicleId", vehicleId).setMaxResults(1).getResultList();
+
+		if (translocations == null || translocations.size() == 0){
+			return null;
+		}
+
+		return translocations.get(0);
+	}
+
+	@Override
+	public Translocation getLatestTranslocationBySerialNumber(String serialNumber) {
+		//TODO: THIS
+		Query q = em.createQuery("SELECT t FROM Translocation t WHERE t.vehicle.serialNumber = :serialNumber");
+		List<Translocation> translocations = q.setParameter("serialNumber", serialNumber).setMaxResults(1).getResultList();
 
 		if (translocations == null || translocations.size() == 0){
 			return null;
