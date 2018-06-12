@@ -75,6 +75,12 @@ public class TranslocationServiceImpl implements TranslocationService{
 			return divideTranslocationsIntoJourneys(internalTranslocationDtos);
 	}
 
+	public AdministrationDto getAdministrationDto(String licensePlate, LocalDateTime startDate, LocalDateTime endDate){
+		List<Translocation> translocations = translocationDao.getTranslocations(licensePlate, startDate, endDate);
+		List<InternalTranslocationDto> internalTranslocationDtos = convertToInternalTranslocationDto(translocations);
+		return divideTranslocationsIntoJourneys(internalTranslocationDtos);
+	}
+
 	/**
 	 * Divides a list of translocations into Journeys.
 	 * This method uses the isTranslocationJourneyStart function to decide if a translocation is the start of a new JourneyDto.

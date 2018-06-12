@@ -26,6 +26,15 @@ import java.util.List;
 	List<Translocation> getTranslocations(long vehicleId, LocalDateTime startDate, LocalDateTime endDate);
 
 		/**
+		 * Get translocations by vehicleId, starting time, and end time.
+		 * @param licensePlate
+		 * @param startDate
+		 * @param endDate
+		 * @return list of translocations
+		 */
+		List<Translocation> getTranslocations(String licensePlate, LocalDateTime startDate, LocalDateTime endDate);
+
+		/**
 		 * get translocation by id
 		 * @param id
 		 * @return translocation

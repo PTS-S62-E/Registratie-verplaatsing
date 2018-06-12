@@ -32,13 +32,31 @@ public class TranslocationResource {
 	@GET
 	@Path("/{id}/{startdate}/{enddate}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getByLicensePlateAndTimePeriod(@PathParam("id") long id,
+	public Response getByIdAndTimePeriod(@PathParam("id") long id,
 												   @PathParam("startdate") String startDate,
 												   @PathParam("enddate") String endDate){
 		try{
 			return Response.ok(
 					translocationService.getAdministrationDto(
 							id,
+							LocalDateTimeParser.stringToLocalDateTime(startDate),
+							LocalDateTimeParser.stringToLocalDateTime(endDate))).build();
+		}
+		catch(Exception e){
+			throw JsonExceptionMapper.mapException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
+		}
+	}
+
+	@GET
+	@Path("/licensePlate/{licensePlate}/{startdate}/{enddate}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getByLicensePlateAndTimePeriod(@PathParam("licensePlate") String licensePlate,
+												   @PathParam("startdate") String startDate,
+												   @PathParam("enddate") String endDate){
+		try{
+			return Response.ok(
+					translocationService.getAdministrationDto(
+							licensePlate,
 							LocalDateTimeParser.stringToLocalDateTime(startDate),
 							LocalDateTimeParser.stringToLocalDateTime(endDate))).build();
 		}
