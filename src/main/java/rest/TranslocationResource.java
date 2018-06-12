@@ -3,6 +3,7 @@ package rest;
 import com.pts62.common.finland.util.JsonExceptionMapper;
 import dto.TranslocationDto;
 import exceptions.VehicleException;
+import io.sentry.Sentry;
 import services.TranslocationService;
 import util.LocalDateTimeParser;
 import javax.inject.Inject;
@@ -61,6 +62,7 @@ public class TranslocationResource {
 							LocalDateTimeParser.stringToLocalDateTime(endDate))).build();
 		}
 		catch(Exception e){
+			Sentry.capture(e.toString());
 			throw JsonExceptionMapper.mapException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
 		}
 	}
