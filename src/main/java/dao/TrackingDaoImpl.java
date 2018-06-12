@@ -6,6 +6,7 @@ import exceptions.TrackingException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
@@ -35,6 +36,9 @@ public class TrackingDaoImpl implements TrackingDao {
 
 	@Override
 	public void deleteTracking(Tracking tracking) {
-		em.remove(tracking);
+		Query q = em.createNamedQuery("Tracking.deleteTracking");
+		q.setParameter("licensePlate", tracking.getLicensePlate());
+
+		q.executeUpdate();
 	}
 }

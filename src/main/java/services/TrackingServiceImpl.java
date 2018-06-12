@@ -41,7 +41,7 @@ public class TrackingServiceImpl implements TrackingService {
 			builder.append("Tracking with: ");
 			builder.append(licensePlate);
 			builder.append(" doesn't exist.");
-			throw new TrackingException();
+			throw new TrackingException(builder.toString());
 		}
 
 		trackingDao.deleteTracking(tracking);
