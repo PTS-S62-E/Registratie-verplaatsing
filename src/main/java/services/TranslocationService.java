@@ -29,4 +29,13 @@ public interface TranslocationService {
 	 * @return a DTO object that contains Journeys, that contain Translocations.
 	 */
 	AdministrationDto getAdministrationDto(long vehicleId, LocalDateTime startDate, LocalDateTime endDate);
+
+	/**
+	 * Get AdministratorDTO object
+	 * @param licensePlate
+	 * @param startDate
+	 * @param endDate
+	 * @return a DTO object that contains Journeys, that contain Translocations.
+	 */
+	AdministrationDto getAdministrationDto(String licensePlate, LocalDateTime startDate, LocalDateTime endDate);
 }

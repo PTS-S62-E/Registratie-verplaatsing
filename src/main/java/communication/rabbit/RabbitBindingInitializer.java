@@ -1,6 +1,5 @@
 package communication.rabbit;
 
-import com.rabbitmq.client.Address;
 import io.sentry.Sentry;
 import io.sentry.event.BreadcrumbBuilder;
 
@@ -9,7 +8,6 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
 import java.io.IOException;
-import java.util.logging.Logger;
 
 @Singleton
 @Startup

@@ -39,8 +39,16 @@ public class TranslocationDaoImpl implements TranslocationDao {
 	}
 
 	@Override
+	public List<Translocation> getTranslocations(String licensePlate, LocalDateTime startTime, LocalDateTime endTime) {
+		Query q = em.createQuery("SELECT t FROM Translocation t WHERE t.vehicle.licensePlate = :licensePlate AND timestamp BETWEEN :startTime AND :endTime");
+		return q.setParameter("licensePlate", licensePlate)
+				.setParameter("startTime", startTime)
+				.setParameter("endTime", endTime)
+				.getResultList();
+	}
+
+	@Override
 	public Translocation getLatestTranslocationBySerialNumber(String serialNumber) {
-		//TODO: THIS
 		Query q = em.createQuery("SELECT t FROM Translocation t WHERE t.vehicle.serialNumber = :serialNumber");
 		List<Translocation> translocations = q.setParameter("serialNumber", serialNumber).setMaxResults(1).getResultList();
 
