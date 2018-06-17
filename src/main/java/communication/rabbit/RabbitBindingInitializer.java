@@ -16,6 +16,9 @@ public class RabbitBindingInitializer {
     @Inject
     private GpsTrackingBinder gpsTrackingBinder;
 
+    @Inject
+    private TranslocationRequesterBinder translocationRequesterBinder;
+
     @PostConstruct
     public void initialize() {
         /**
@@ -24,10 +27,20 @@ public class RabbitBindingInitializer {
         try {
             gpsTrackingBinder.configuration()
                     .addHost("192.168.24.100");
-
+            
             gpsTrackingBinder.initialize();
         } catch (IOException e) {
             Sentry.getContext().recordBreadcrumb(new BreadcrumbBuilder().setMessage("Unable to initialize connection for GPS Tracking").build());
+            Sentry.capture(e);
+        }
+
+        try {
+            translocationRequesterBinder.configuration()
+                    .addHost("192.168.24.100");
+
+            gpsTrackingBinder.initialize();
+        } catch (IOException e) {
+            Sentry.getContext().recordBreadcrumb(new BreadcrumbBuilder().setMessage("Unable to initialize connection for translocation requester").build());
             Sentry.capture(e);
         }
     }
