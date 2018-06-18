@@ -40,7 +40,7 @@ public class TranslocationDaoImpl implements TranslocationDao {
 
 	@Override
 	public List<Translocation> getTranslocations(String licensePlate, LocalDateTime startTime, LocalDateTime endTime) {
-		Query q = em.createQuery("SELECT t FROM Translocation t WHERE t.vehicle.licensePlate = :licensePlate AND timestamp BETWEEN :startTime AND :endTime");
+		Query q = em.createQuery("SELECT t FROM Translocation t WHERE t.vehicle.licensePlate = :licensePlate AND timestamp BETWEEN :startTime AND :endTime ORDER BY timestamp ASC");
 		return q.setParameter("licensePlate", licensePlate)
 				.setParameter("startTime", startTime)
 				.setParameter("endTime", endTime)

@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Entity
 @NamedQueries({
 		@NamedQuery(name="Translocation.getTranslocationsByVehicleIdAndTimePeriod",
-				query="SELECT t FROM Translocation t WHERE vehicle_id = :vehicleId AND timestamp BETWEEN :startDate AND :endDate"),
+				query="SELECT t FROM Translocation t WHERE vehicle_id = :vehicleId AND timestamp BETWEEN :startDate AND :endDate ORDER BY timestamp ASC"),
 		@NamedQuery(name="Translocation.getTranslocationsByVehicleId",
 				query="SELECT t FROM Translocation t WHERE vehicle_id = :vehicleId ORDER BY t.id DESC")
 })
