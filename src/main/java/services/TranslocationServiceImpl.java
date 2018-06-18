@@ -13,6 +13,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Stateless
 public class TranslocationServiceImpl implements TranslocationService{
@@ -52,8 +53,10 @@ public class TranslocationServiceImpl implements TranslocationService{
 			translocationDao.createTranslocation(translocation);
 
 			String licensePlate = vehicleDao.getVehicleBySerialNumber(translocationDto.getSerialNumber()).getLicensePlate();
+			Logger.getLogger(getClass().getName()).warning("Licenseplate found");
 
 			if (trackingService.findTrackings(licensePlate)) {
+				Logger.getLogger(getClass().getName()).warning("sending tdto");
 				sendTrackingsToPolice(licensePlate, translocation);
 			}
 	}
