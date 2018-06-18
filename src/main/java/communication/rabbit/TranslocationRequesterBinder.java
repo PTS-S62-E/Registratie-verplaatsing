@@ -13,6 +13,7 @@ import net.reini.rabbitmq.cdi.*;
 
 import javax.enterprise.context.Dependent;
 import java.io.IOException;
+import java.util.logging.Logger;
 
 @Dependent
 public class TranslocationRequesterBinder extends EventBinder {
@@ -24,11 +25,15 @@ public class TranslocationRequesterBinder extends EventBinder {
                     @Override
                     public TranslocationRequesterDto decode(byte[] bytes) throws DecodeException {
                         String data = new String(bytes);
+                        Logger.getLogger(getClass().getName()).warning(data);
                         ObjectMapper mapper = new ObjectMapper();
 
                         try {
-                            return mapper.readValue(data, TranslocationRequesterDto.class);
-                        } catch (IOException e) {
+                            Logger.getLogger(getClass().getName()).warning("Will decode now");
+                            TranslocationRequesterDto dto =  mapper.readValue(data, TranslocationRequesterDto.class);
+                            Logger.getLogger(getClass().getName()).warning("Data decoded into dto");
+                            return dto;
+                        } catch (Exception e) {
                             Sentry.getContext().recordBreadcrumb(new BreadcrumbBuilder().setMessage("Couldn't parse request to send translocations").build());
                             Sentry.capture(e);
                         }
@@ -38,8 +43,9 @@ public class TranslocationRequesterBinder extends EventBinder {
 
                     @Override
                     public boolean willDecode(String s) {
-                        return s.equals("text/plain");
+                        Logger.getLogger(getClass().getName()).warning(s);
+                        return true;
                     }
-                });
+                }).autoAck();
     }
 }

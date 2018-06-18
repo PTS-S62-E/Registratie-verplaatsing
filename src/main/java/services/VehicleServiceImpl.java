@@ -15,6 +15,7 @@ import javax.inject.Inject;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Stateless
 public class VehicleServiceImpl implements VehicleService {
@@ -52,6 +53,7 @@ public class VehicleServiceImpl implements VehicleService {
 		}
 
 		List<Vehicle> vehicles = vehicleDao.getAllVehiclesFromOtherCountry();
+		Logger.getLogger(getClass().getName()).warning("Fetched foreign vehicles (" + vehicles.size() + ")");
 		List<ForeignVehicleDto> vehiclesThatHaveDriven = new ArrayList<>();
 
 		for(Vehicle vehicle : vehicles){

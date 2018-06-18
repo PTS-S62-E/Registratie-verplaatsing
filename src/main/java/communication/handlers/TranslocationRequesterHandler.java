@@ -13,12 +13,15 @@ import exceptions.TranslocationException;
 import io.sentry.Sentry;
 import services.TranslocationService;
 import services.VehicleService;
+import util.LocalDateTimeParser;
 
 import javax.ejb.Stateless;
 import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import java.nio.charset.Charset;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -38,13 +41,24 @@ public class TranslocationRequesterHandler {
         Logger.getLogger(getClass().getName()).warning("Will start generating invoices...");
         if(data.isForeign()) {
             // Handle all translocations for foreign
+            Logger.getLogger(getClass().getName()).warning("IsForeign");
             try {
-                List<ForeignVehicleDto> result = vehicleService.getForeignVehiclesAndTranslocations(data.getStartDate().atTime(0,0), data.getEndDate().atTime(23, 59));
-                for(ForeignVehicleDto dto : result) {
+                LocalDateTime startDate = LocalDateTimeParser.stringToLocalDateTime(data.getStartDate());
+                LocalDateTime endDate = LocalDateTimeParser.stringToLocalDateTime(data.getEndDate());
 
-                    this.submitEvent(dto);
+                for(LocalDateTime date = startDate; date.isBefore(endDate); date = date.plusDays(2)) {
+                    Logger.getLogger(getClass().getName()).warning(date.toString());
+                    LocalDateTime tempDate = date.plusDays(2);
+                    Logger.getLogger(getClass().getName()).warning(tempDate.toString());
+                    List<ForeignVehicleDto> result = vehicleService.getForeignVehiclesAndTranslocations(startDate, tempDate);
+                    Logger.getLogger(getClass().getName()).warning("Got an amount of " + result.size() + " dtos");
+                    for (ForeignVehicleDto dto : result) {
+                        Logger.getLogger("Sending dto's to antaminen");
+                        this.submitEvent(dto);
+                    }
                 }
             } catch (DateException e) {
+                Logger.getLogger(getClass().getName()).warning("DateException");
                 Sentry.capture(e);
             }
         } else {
@@ -52,14 +66,14 @@ public class TranslocationRequesterHandler {
             if(data.getVehicleId() < 1) {
                 Sentry.capture(new TranslocationException("No valid vehicleId provided"));
             } else {
-                AdministrationDto result = translocationService.getAdministrationDto(data.getVehicleId(), data.getStartDate().atTime(0, 0), data.getEndDate().atTime(23, 59));
+                AdministrationDto result = translocationService.getAdministrationDto(data.getVehicleId(), LocalDateTimeParser.stringToLocalDateTime(data.getStartDate()), LocalDateTimeParser.stringToLocalDateTime(data.getEndDate()));
                 this.submitEvent(result);
             }
         }
     }
 
     public void submitEvent(AdministrationDto dto) {
-        QueueConnector connector = new QueueConnector(new QueueConfig("192.168.24.100", "", Charset.defaultCharset()));
+        QueueConnector connector = new QueueConnector(new QueueConfig("192.168.24.100", "REKENINGRIJDEN_EXCHANGE", Charset.defaultCharset()));
         CommunicationBuilder builder = new CommunicationBuilder();
         builder.setCountry("fi");
         builder.setApplication("antaminen");
@@ -77,7 +91,7 @@ public class TranslocationRequesterHandler {
     }
 
     public void submitEvent(ForeignVehicleDto dto) {
-        QueueConnector connector = new QueueConnector(new QueueConfig("192.168.24.100", "", Charset.defaultCharset()));
+        QueueConnector connector = new QueueConnector(new QueueConfig("192.168.24.100", "REKENINGRIJDEN_EXCHANGE", Charset.defaultCharset()));
         CommunicationBuilder builder = new CommunicationBuilder();
         builder.setCountry("fi");
         builder.setApplication("antaminen");
