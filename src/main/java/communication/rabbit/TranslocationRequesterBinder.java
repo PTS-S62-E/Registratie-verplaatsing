@@ -41,54 +41,5 @@ public class TranslocationRequesterBinder extends EventBinder {
                         return s.equals("text/plain");
                     }
                 });
-
-        bind(AdministrationDto.class)
-                .toExchange("")
-                .withRoutingKey("fi.antaminen.translocations.receive.internal")
-                .withEncoder(new Encoder<AdministrationDto>() {
-                    @Override
-                    public byte[] encode(AdministrationDto administrationDto) throws EncodeException {
-                        ObjectMapper mapper = new ObjectMapper();
-
-                        try {
-                            String data = mapper.writeValueAsString(administrationDto);
-                            return data.getBytes();
-                        } catch (JsonProcessingException e) {
-                            Sentry.capture(e);
-                        }
-
-                        return null;
-                    }
-
-                    @Override
-                    public String contentType() {
-                        return "text/plain";
-                    }
-                });
-
-        bind(ForeignVehicleDto.class)
-                .toExchange("")
-                .withRoutingKey("fi.antaminen.translocations.receive.foreign")
-                .withEncoder(new Encoder<ForeignVehicleDto>() {
-                    @Override
-                    public byte[] encode(ForeignVehicleDto foreignVehicleDto) throws EncodeException {
-                        ObjectMapper mapper = new ObjectMapper();
-
-                        try {
-                            String data = mapper.writeValueAsString(foreignVehicleDto);
-                            return data.getBytes();
-                        } catch (JsonProcessingException e) {
-                            Sentry.capture(e);
-                        }
-
-                        return null;
-                    }
-
-                    @Override
-                    public String contentType() {
-                        return "text/plain";
-                    }
-                });
-
     }
 }
