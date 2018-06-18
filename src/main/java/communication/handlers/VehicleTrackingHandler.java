@@ -21,7 +21,8 @@ public class VehicleTrackingHandler {
     private Event<TrackingInfoDto> vehicleTrackingEvent;
 
     public void publishTracking(TrackingInfoDto dto) {
-        QueueConnector connector = new QueueConnector();
+        Logger.getLogger(getClass().getName()).warning("Will send trackinginfo dto");
+        QueueConnector connector = new QueueConnector(new QueueConfig("teunwillems.nl", "REKENINGRIJDEN_EXCHANGE", Charset.defaultCharset()));
         CommunicationBuilder builder = new CommunicationBuilder();
         builder.setCountry("fi");
         builder.setApplication("police");
